@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 /**
- *
- * @author mateu
+ * Klasa reprezentująca model danych dotyczący pracowników
+ * @author Mateusz Gojny
  */
 public class Workers {
     
@@ -21,6 +21,14 @@ public class Workers {
     private String login;
     private String password;
 
+    /**
+     * Podstawowy konstruktor obiektów klasy Workers przyjmujący parametry
+     * @param name imię pracownika
+     * @param surname nazwisko pracownika
+     * @param id numer identyfikacyjny pracownika
+     * @param login login do aplikacji pracownika
+     * @param password hasło do aplikacji pracownika
+     */
     public Workers(String name, String surname, int id, String login, String password) {
         this.name = name;
         this.surname = surname;
@@ -29,54 +37,106 @@ public class Workers {
         this.password = password;
     }
 
+    /**
+     * Pusty konstruktor klasy Workers
+     */
     public Workers() {
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSurname() {
         return surname;
     }
 
+    /**
+     *
+     * @param surname
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     *
+     * @param login
+     */
     public void setLogin(String login) {
         this.login = login;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Workers{" + "name=" + name + ", surname=" + surname + ", id=" + id + ", login=" + login + ", password=" + password + '}';
     }
     
+    /**
+     * Testowa metoda tworząca przykładowych pracowników firmy i zapisująca
+     * ich do listy.
+     * @return zwraca listę pracowników
+     */
     public List<Workers> createExampleWorkers(){
         
         List<Workers> list = new ArrayList<>();

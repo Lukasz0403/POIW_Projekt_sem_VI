@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author mateu
+ * Klasa reprezentująca model danych przedmiotów sprzedawanych w sklepie
+ * 
+ * 
+ * @author Mateusz Gojny
  */
 public class Product {
     
@@ -18,6 +20,15 @@ public class Product {
     private double price;
     private int amount;
 
+    /**
+     * Konstruktor obiektu klasy Product przyjmujący parametry 
+     * 
+     * 
+     * @param category nazwa kategorii
+     * @param name  nazwa produktu
+     * @param price cena produktu
+     * @param amount liczba dostępnych sztuk
+     */
     public Product(String category, String name, double price, int amount) {
         this.category = category;
         this.name = name;
@@ -25,46 +36,89 @@ public class Product {
         this.amount = amount;
     }
 
+    /**
+     * Pusty konstruktor obiketu klasy Product wykorzystywany np. przy tworzeniu obiektu do którego odczytana zostanie lista w pętli foreach
+     */
     public Product() {
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     *
+     * @param category
+     */
     public void setCategory(String category) {
         this.category = category;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     *
+     * @param price
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAmount() {
         return amount;
     }
 
+    /**
+     *
+     * @param amount
+     */
     public void setAmount(int amount) {
         this.amount = amount;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Product{" + "category=" + category + ", name=" + name + ", price=" + price + ", amount=" + amount + '}';
     }
     
+    /**
+     * Metoda tworząca przykładową listę dostępnych produktów, wykorzystywana do testów
+     * @return zwraca listę z produtkami 
+     */
     public List<Product> createSampleListOfProduct(){
         
         List<Product> lista = new ArrayList<>();

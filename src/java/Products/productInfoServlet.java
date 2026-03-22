@@ -14,13 +14,45 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
+ * Servlet odpowiedzialny za wyświetlanie szczegółowych informacji
+ * o wybranym produkcie.
  *
- * @author mateu
+ * 
+ * Na podstawie parametru {@code id} przekazanego w żądaniu HTTP GET,
+ * servlet wyszukuje odpowiedni produkt z listy i generuje widok HTML
+ * zawierający jego szczegóły, takie jak:
+ * 
+ *   kategoria,
+ *   nazwa,
+ *   cena,
+ *   ilość dostępnych sztuk.
+ * 
+ *
+ *
+ * Jeśli parametr {@code id} nie zostanie przekazany, servlet zwraca
+ * komunikat o błędzie.
+ *
+ * 
+ * Wygenerowany HTML jest przeznaczony do dynamicznego wstawienia
+ * w interfejsie użytkownika (np. przy użyciu fetch API).
+ *
+ * @author Mateusz Gojny
  */
 @WebServlet(name = "productInfoServlet", urlPatterns = {"/productInfoServlet"})
 public class productInfoServlet extends HttpServlet {
     
-     @Override
+    /**
+     * Obsługuje żądanie HTTP GET.
+     *
+     * Pobiera parametr {@code id} z requestu, konwertuje go na liczbę,
+     * a następnie wykorzystuje go do pobrania konkretnego produktu z listy.
+     * Generuje dynamiczny HTML zawierający szczegóły produktu.
+     *
+     * @param request obiekt żądania HTTP zawierający parametr {@code id}
+     * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest HTML
+     * @throws IOException w przypadku błędu zapisu odpowiedzi
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 

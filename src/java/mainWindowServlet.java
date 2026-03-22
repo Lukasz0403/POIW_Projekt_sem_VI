@@ -15,12 +15,43 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 
 /**
+ * Servlet odpowiedzialny za wyświetlanie głównego widoku aplikacji (dashboardu)
+ * po zalogowaniu użytkownika.
  *
- * @author mateu
+ * 
+ * Servlet pobiera dane aktualnie zalogowanego użytkownika z sesji HTTP
+ * i generuje dynamiczny widok HTML zawierający:
+ * 
+ *   powitanie użytkownika,
+ *   dane użytkownika (imię, nazwisko, ID, login),
+ *   datę logowania,
+ *   informację o zakresie uprawnień.
+ * 
+ *
+ *
+ * Jeśli w sesji nie znajduje się obiekt użytkownika (brak zalogowania),
+ * servlet zwraca komunikat informujący o braku autoryzacji.
+ *
+ * 
+ * Wygenerowany HTML jest przeznaczony do dynamicznego wstawienia
+ * w głównym kontenerze aplikacji (np. przy użyciu fetch API).
+ *
+ * @author Mateusz Gojny
  */
 @WebServlet(urlPatterns = {"/mainWindowServlet"})
 public class mainWindowServlet extends HttpServlet {
 
+    /**
+     * Obsługuje żądanie HTTP GET.
+     * 
+     * Pobiera obiekt użytkownika z sesji ({@link HttpSession}),
+     * a następnie generuje widok dashboardu zawierający jego dane
+     * oraz bieżącą datę logowania.
+     *
+     * @param request obiekt żądania HTTP, zawierający sesję użytkownika
+     * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest HTML
+     * @throws IOException w przypadku błędu zapisu odpowiedzi
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

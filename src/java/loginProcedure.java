@@ -15,16 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author mateu
+ * Servlet odpowiadający na procedurę logowania 
+ * Przyjmuje wprowadzone przez użytkownika login i hasło i proównuje je z dostepnymi
+ * danymi w bazie pracowników którą jest lista
+ * @author Mateusz Gojny
  */
 
 
 @WebServlet(urlPatterns = {"/loginProcedure"})
 public class loginProcedure extends HttpServlet {
     
-    
-    
+    /**
+     * Servlet wykonuje metodę doPOST (wykonujemy zmiany więc nie może być GET).
+     * Metod doPOST przyjmuje 2 argumenty. Tworzony jest nowy pracownik oraz lista. Wywołana zostaje metoda tworząca
+     * przykładowych pracowników. Nastepnie korzystając z paraemtru request odczytywana jest zawartość
+     * parametrów login i pass do zmiennych String. W pętli foreach porównywane są te dane z dostepnymi danymi na liście.
+     * Jeśli dane będą sobie równe ustawiany jest atrybut dla tej sesji o dowolnej nazwie ale z określonym obiektem, tutaj tym obiektem
+     * jest pracownik któremu udało się zalogować. Następnie do parametru respone, dla Writera ustawiana jest wartość "OK"
+     * jako potwierdzenie logowania. Pomocnicza zmienna find umożliwia wykrycie błędu i zwrócenie takiej informacji.
+     * @param request dane przyjmowane
+     * @param response dane zwracane
+     * @throws IOException
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         
         Workers w1 = new Workers(); 
@@ -39,7 +51,7 @@ public class loginProcedure extends HttpServlet {
         
         for(Workers w2 : list){
             
-            System.out.println(w2);
+            //System.out.println(w2);
             
             if(w2.getLogin().equals(login) && w2.getPassword().equals(password)){
     

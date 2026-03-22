@@ -17,12 +17,47 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Servlet odpowiedzialny za wyświetlanie listy produktów w aplikacji.
+ * 
+ * Generuje dynamiczny widok HTML zawierający:
+ * 
+ *panel filtrów (kategoria, maksymalna cena),
+ *tabelę produktów,
+ *linki do szczegółów produktu.
+ * 
  *
- * @author mateu
+ * 
+ * Dane produktów są generowane na podstawie przykładowej listy
+ * zwracanej przez metodę {@code createSampleListOfProduct()} klasy {@link Product}.
+ *
+ * 
+ * Servlet obsługuje filtrowanie danych na podstawie parametrów zapytania:
+ *
+ *{@code kategoria} – filtruje produkty po kategorii (case-insensitive),
+ *{@code cena} – filtruje produkty o cenie mniejszej lub równej podanej wartości.
+ * 
+ *
+ * 
+ * Wynikowy HTML jest zwracany jako odpowiedź typu {@code text/html}
+ * i przeznaczony do dynamicznego wstawienia do elementu DOM po stronie klienta (np. przez fetch API).
+ *
+ * @author Mateusz Gojny
  */
 @WebServlet(name = "productListWindowServlet", urlPatterns = {"/productListWindowServlet"})
 public class productListWindowServlet extends HttpServlet {
     
+     /**
+     * Obsługuje żądanie HTTP GET.
+     * 
+     * Pobiera parametry filtrowania z requestu, generuje listę produktów,
+     * filtruje ją zgodnie z parametrami oraz buduje dynamiczny HTML zawierający:
+     * panel filtrów i tabelę wyników.
+     *
+     * @param request obiekt zawierający dane żądania HTTP, w tym parametry:
+     *                {@code kategoria} oraz {@code cena}
+     * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest wygenerowany HTML
+     * @throws IOException w przypadku błędu zapisu odpowiedzi
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -76,7 +111,7 @@ public class productListWindowServlet extends HttpServlet {
         out.println("<th>Szczegóły</th>");
         out.println("</tr>");
 
-        
+        int i =0;
         for (Product prod : lista) {
 
             boolean show = true;
@@ -94,7 +129,7 @@ public class productListWindowServlet extends HttpServlet {
                 }
             }
             
-            int i =1;
+            
             if (show) {
                 out.println("<tr>");
                 out.println("<td>" + prod.getCategory() + "</td>");
