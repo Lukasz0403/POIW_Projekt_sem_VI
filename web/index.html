@@ -2,87 +2,40 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    
+    <!-- Tytuł strony wyświetlany w zakładce przeglądarki -->
     <title>MyParts - Logowanie</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            width: 320px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(45deg, #ff0000, #cc0000);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #ff0000;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #cc0000;
-        }
-        .hint {
-             margin-top: 12px;
-             font-size: 12px;
-             color: #777;
-        }
-    </style>
+    
+    <!-- Podłączenie zewnętrznego pliku CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<!-- Klasa login-body odpowiada za styl tła strony logowania -->
+<body class="login-body">
+
+<!-- Główny kontener formularza logowania -->
 <div class="login-container">
+    
+    <!-- Logo aplikacji -->
     <div class="logo">MyParts</div>
 
+    <!-- Pole do wprowadzenia loginu -->
     <input type="text" placeholder="Login" id="login">
+    
+    <!-- Pole do wprowadzenia hasła -->
     <input type="password" placeholder="Hasło" id="password">
 
+    <!-- Przycisk logowania wywołujący funkcję JS -->
     <button onclick="login()">Zaloguj się</button>
 </div>
     
+<!-- Informacja testowa dla użytkownika -->
 <div class="hint">
     Do testowania: Login=Admin, Hasło=Admin
 </div>
 
+<!-- Podłączenie pliku JavaScript z logiką aplikacji -->
 <script src="scripts.js">
- 
 </script>
 
 </body>
