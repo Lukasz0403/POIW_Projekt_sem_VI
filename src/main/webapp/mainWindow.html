@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    
+    <!-- Tytuł strony panelu głównego -->
+    <title>MyParts - Panel</title>
+    
+    <!-- Podłączenie stylów CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- Górny pasek nawigacyjny -->
+<div class="navbar">
+    
+    <!-- Lewa część nawigacji (przejścia między widokami) -->
+    <div class="nav-left">
+        <a onclick="go('dashboard')">Dashboard</a>
+        <a onclick="go('products')">Produkty</a>
+        <a onclick="go('orders')">Przyjęcie Zamówienia</a>
+        <a onclick="go('sale')">Kasa fiskalna</a>
+        <a onclick="go('raport')">Raport sprzedażowy</a>
+    </div>
+
+    <!-- Przycisk wylogowania -->
+    <div class="logout" onclick="logout()">
+        Wyloguj
+    </div>
+</div>
+
+<!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
+<div class="content" id="content">
+    
+    <!-- Domyślny widok (przed załadowaniem dashboardu) -->
+    <div class="card">
+        <h2>Witaj w MyParts 🚗</h2>
+        <p>Jeśli to widzisz, nie wyświetliło się poprawnie okno dashboardu.</p>
+    </div>
+</div>
+
+<!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+<script src="scripts.js"></script>
+
+<script>
+    // Po załadowaniu strony automatycznie ładujemy dashboard
+    window.onload = function() {
+        go("dashboard");
+    }
+</script>
+
+</body>
+</html>
