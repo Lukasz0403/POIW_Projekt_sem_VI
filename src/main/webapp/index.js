@@ -75,9 +75,17 @@ function filtr() {
  */
 
 function logout() {
-    
-    window.location.href = "index.html";
-    
+
+    fetch("/MyParts/destroySession", {
+        method: "POST"
+    })
+        .then(data => {
+            console.log(data)
+            if (data.status == 202) {
+                window.location.href = "loginform.html";
+            }
+        })
+        .catch(err => console.error(err))
 }
 
 /**
