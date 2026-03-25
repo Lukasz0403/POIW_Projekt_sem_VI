@@ -41,25 +41,30 @@ function go(section){
  */
 function login(){
     
-    const login = document.getElementById('login').value;
-    const pass =  document.getElementById('password').value;
+    let login = document.getElementById('login').value;
+    let pass =  document.getElementById('password').value;
+
+    const params = new URLSearchParams();
+    params.append("login", login);
+    params.append("pass", pass);
     
-  fetch("/MyParts/loginProcedureServlet", {
+    //fetch(`/MyParts/loginProcedureServlet?${params}`)
+    fetch("/MyParts_DEMO/loginProcedureServlet", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         body: "login=" + login + "&pass=" + pass
     })
-    .then(res => res.text())
-    .then(data => {
-        if (data === "OK") {
-            window.location.href = "mainWindow.html";
-        } else {
-            alert("Błędny login lub hasło");
-        }
-    })
-    .catch(err => console.error(err));
+        .then(data => {
+            console.log(data)
+            if (data.status == 202) {
+                window.location.href = "mainWindow.html";
+            } else {
+                alert("Błędny login lub hasło");
+            }
+        })
+        .catch(err => console.error(err));
 }
 
 /**

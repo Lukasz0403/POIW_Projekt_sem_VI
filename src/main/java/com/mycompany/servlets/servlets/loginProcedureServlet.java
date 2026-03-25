@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.login;
+package com.mycompany.servlets.servlets;
 
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import workers.Workers;
+
 
 /**
  *
@@ -35,35 +35,38 @@ public class loginProcedureServlet extends HttpServlet {
      * @param response dane zwracane
      * @throws IOException
      */
+    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         
-        Workers w1 = new Workers(); 
-        List<Workers> list = new ArrayList<>();
-        boolean find = false;
-        
-        list = w1.createExampleWorkers();
-        
-        
+
+        JPAController jpa = new JPAController();
+
+        jpa.start();
+
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
         
-        for(Workers w2 : list){
-            
-            //System.out.println(w2);
-            
-            if(w2.getLogin().equals(login) && w2.getPassword().equals(password)){
-    
-                request.getSession().setAttribute("user", w2);
-                response.getWriter().write("OK");
-                find = true;
-                break;
-            }
-    }
-       
-        if(find == false){
-            response.getWriter().write("ERROR");
-        } 
+        System.out.println(login);
+        System.out.println(password);
 
-    }
+        Users u = jpa.getUserByName(login);
+
+        if(u == null) {
+            response.sendError(404);
+        }
+        
+        System.out.println(u.getUsername());
+        System.out.println(u.getPassword());
+            
+        if(u.getUsername().equals(login) && u.getPassword().equals(password)){
+
+            request.getSession().setAttribute("user", u);
+            response.setStatus(202);
+        } else {
+                response.sendError(401);
+            } 
+
+        }
 
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    
+    <!-- Tytuł strony panelu głównego -->
+    <title>MyParts - Panel</title>
+    
+    <!-- Podłączenie stylów CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- Górny pasek nawigacyjny -->
+<div class="navbar">
+    
+    <!-- Lewa część nawigacji (przejścia między widokami) -->
+    <div class="nav-left">
+        <a href="/MyParts/mainWindow.html">Dashboard</a>
+        <a href="/MyParts/products.html">Produkty</a>
+        <a href="/MyParts/mainWindow.html">Przyjęcie Zamówienia</a>
+        <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
+        <a href="/MyParts/mainWindow.html">Raport sprzedażowy</a>
+    </div>
+
+    <!-- Przycisk wylogowania -->
+    <div class="logout" onclick="logout()">
+        Wyloguj
+    </div>
+</div>
+
+<!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
+<div class="content" id="content">
+
+    <div style='display:flex;'>      
+        <div style='width:250px; background:#e0e0e0; padding:15px;'>
+            <h3>Filtry</h3>
+            Kategoria:<br>
+            <select id='kategoria'>
+                <option value=''>-- wszystkie --</option>
+                <option value=''>" + cat + "</option>
+            </select><br><br><br>
+            <input id='cena' type='number'><br><br>
+            <button onclick='filtr()'>Filtruj</button>
+        </div>
+        <div style='flex:1; padding:20px;'>
+            <h2>Produkty</h2>
+            <table style='width:100%; border-collapse:collapse;'>  
+                <tr>
+                    <th>Kategoria</th>
+                    <th>Nazwa</th>
+                    <th>Cena</th>
+                    <th>Ilość</th>
+                    <th>Szczegóły</th>
+                </tr>
+                <tr>
+                    <td>" + prod.getCategory() + "</td>
+                    <td>" + prod.getName() + "</td>
+                    <td>" + prod.getPrice() + " zł</td>
+                    <td>" + prod.getAmount() + "</td>
+                    <td><a href='#' onclick='productInfo(" + i + ")'>Szczegóły produktu</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Domyślny widok (przed załadowaniem dashboardu) -->
+    <div class="card">
+        <h2>Witaj w MyParts 🚗</h2>
+        <p>Jeśli to widzisz, nie wyświetliło się poprawnie okno dashboardu.</p>
+    </div>
+</div>
+
+<!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+<script src="scripts.js"></script>
+
+<script>
+    // Po załadowaniu strony automatycznie ładujemy dashboard
+    window.onload = function() {
+        //go("dashboard");
+    }
+</script>
+
+</body>
+</html>

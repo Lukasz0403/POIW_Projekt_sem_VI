@@ -17,11 +17,11 @@
     
     <!-- Lewa część nawigacji (przejścia między widokami) -->
     <div class="nav-left">
-        <a onclick="go('dashboard')">Dashboard</a>
-        <a onclick="go('products')">Produkty</a>
-        <a onclick="go('orders')">Przyjęcie Zamówienia</a>
-        <a onclick="go('sale')">Kasa fiskalna</a>
-        <a onclick="go('raport')">Raport sprzedażowy</a>
+        <a href="/MyParts/mainWindow.html">Dashboard</a>
+        <a href="/MyParts/products.html">Produkty</a>
+        <a href="/MyParts/mainWindow.html">Przyjęcie Zamówienia</a>
+        <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
+        <a href="/MyParts/mainWindow.html">Raport sprzedażowy</a>
     </div>
 
     <!-- Przycisk wylogowania -->
@@ -46,7 +46,7 @@
 <script>
     // Po załadowaniu strony automatycznie ładujemy dashboard
     window.onload = function() {
-        go("dashboard");
+        //go("dashboard");
     }
 </script>
 
