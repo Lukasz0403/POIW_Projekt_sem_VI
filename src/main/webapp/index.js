@@ -106,14 +106,25 @@ function productInfo(id) {
 }
 
 function checkSession() {
+
+    let status
+
     fetch("/MyParts/checkSession", {
         method: "POST"
     })
-        .then(data => {
-            console.log(data)
-            if (data.status == 401) {
-                window.location.href = "loginform.html";
-            }
-        })
-        .catch(err => console.error(err));
+    .then(data => {
+        if (data.status == 401) {
+            window.location.href = "loginform.html";
+        } else {
+            getLoginInfo()
+        }
+    })
+    .catch(err => console.error(err));
+
+    return status
 }
+
+    window.onload = function() {
+
+        checkSession()
+    }

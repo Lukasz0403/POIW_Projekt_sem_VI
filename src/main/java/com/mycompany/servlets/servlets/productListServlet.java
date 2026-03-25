@@ -67,7 +67,7 @@ public class productListServlet extends HttpServlet {
 //
 //        response.setContentType("text/html;charset=UTF-8");
 //
-//        Product p = new Product();
+//        Product p = new Product()
 //        List<Product> lista = p.createSampleListOfProduct();
 //        
 //        Set<String> l1 = new HashSet<>();
