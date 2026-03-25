@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    
+    <!-- Tytuł strony wyświetlany w zakładce przeglądarki -->
+    <title>MyParts - Logowanie</title>
+    
+    <!-- Podłączenie zewnętrznego pliku CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!-- Klasa login-body odpowiada za styl tła strony logowania -->
+<body class="login-body">
+
+<!-- Główny kontener formularza logowania -->
+<div class="login-container">
+    
+    <!-- Logo aplikacji -->
+    <div class="logo">MyParts</div>
+
+    <!-- Pole do wprowadzenia loginu -->
+    <input type="text" placeholder="Login" id="login">
+    
+    <!-- Pole do wprowadzenia hasła -->
+    <input type="password" placeholder="Hasło" id="password">
+
+    <!-- Przycisk logowania wywołujący funkcję JS -->
+    <button onclick="login()">Zaloguj się</button>
+</div>
+
+<!-- Podłączenie pliku JavaScript z logiką aplikacji -->
+<script src="loginform.js">
+</script>
+
+</body>
+</html>

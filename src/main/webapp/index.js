@@ -14,58 +14,40 @@ function go(section){
     if(section === "products"){
         
          fetch("/MyParts/productListServlet")
-            .then(res => res.text())
+            .then(res => res.json())
             .then(html => {
                 document.getElementById("content").innerHTML = html;
             });
     }
     
     if(section === "dashboard"){
-        fetch("/MyParts/dashboardServlet")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("content").innerHTML = html;
-            });
+
          }
     
 }
 
-/**
- * Funkcja JavaScript odpowiadająca za logowanie. Funkcja wywoływana jest po wciśnięciu przycisku "zaloguj sie".
- * Odczytuje ona zawartość pól do logowania i przypisuje do zmiennym login i pass.
- * Wywoływana jest funkcja fetch która odwołuje się do servleta loginProcedure przekazując mu parametry metody jaką
- * ma wykonać oraz wartość argumentów. Zwrócone dane przez servlet są sprawdzane i wrazie poprawności
- * wyświetlane jest okno główne aplikacji.
- * @author Mateusz Gojny
- * @type null.value|Element.value
- */
-function login(){
-    
-    let login = document.getElementById('login').value;
-    let pass =  document.getElementById('password').value;
+function getLoginInfo() {
 
-    const params = new URLSearchParams();
-    params.append("login", login);
-    params.append("pass", pass);
-    
-    //fetch(`/MyParts/loginProcedureServlet?${params}`)
-    fetch("/MyParts_DEMO/loginProcedureServlet", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: "login=" + login + "&pass=" + pass
-    })
-        .then(data => {
-            console.log(data)
-            if (data.status == 202) {
-                window.location.href = "mainWindow.html";
-            } else {
-                alert("Błędny login lub hasło");
-            }
-        })
-        .catch(err => console.error(err));
+    const imie = document.getElementById("imie")
+    const nazwisko = document.getElementById("nazwisko")
+    const id = document.getElementById("ident")
+    const login = document.getElementById("login")
+    const rola = document.getElementById("rola")
+
+    fetch("/MyParts/dashboardServlet")
+    .then(res => res.json())
+    .then(json => {
+        console.log(" "+json)
+        imie.append(" "+json.username)
+        nazwisko.append(" "+json.username)
+        id.append(" "+json.userId)
+        login.append(" "+json.username)
+        rola.append(" "+json.role.roleName)
+    });
 }
+
+
+
 
 /**
  * Funkcja JavaScript odpowiadająca za odczyt danych z pól sortujących/filtrujących w zakładce produkty.
@@ -113,4 +95,17 @@ function productInfo(id) {
         .then(html => {
             document.getElementById("content").innerHTML = html;
         });
+}
+
+function checkSession() {
+    fetch("/MyParts/checkSession", {
+        method: "POST"
+    })
+        .then(data => {
+            console.log(data)
+            if (data.status == 401) {
+                window.location.href = "loginform.html";
+            }
+        })
+        .catch(err => console.error(err));
 }

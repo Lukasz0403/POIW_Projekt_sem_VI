@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,22 +47,17 @@ public class loginProcedureServlet extends HttpServlet {
 
         String login = request.getParameter("login");
         String password = request.getParameter("pass");
-        
-        System.out.println(login);
-        System.out.println(password);
 
         Users u = jpa.getUserByName(login);
 
         if(u == null) {
             response.sendError(404);
         }
-        
-        System.out.println(u.getUsername());
-        System.out.println(u.getPassword());
             
         if(u.getUsername().equals(login) && u.getPassword().equals(password)){
 
             request.getSession().setAttribute("user", u);
+            request.getSession().setAttribute("loginDate", LocalDate.now().toString());
             response.setStatus(202);
         } else {
                 response.sendError(401);

@@ -13,6 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.Date;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 
 /**
  * Servlet odpowiedzialny za wyświetlanie głównego widoku aplikacji (dashboardu)
@@ -56,43 +64,32 @@ public class dashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-//        response.setContentType("text/html;charset=UTF-8");
-//
-//        var out = response.getWriter();
-//
-//       
-//        HttpSession session = request.getSession();
-//        Workers user = (Workers) session.getAttribute("user");
-//
-//       
-//        if (user == null) {
-//            out.println("<h2>Brak zalogowanego użytkownika</h2>");
-//            return;
-//        }
-//
-//        String today = LocalDate.now().toString();
-//
-//  
-//        out.println("<div style='padding:30px;'>");
-//
-//        out.println("<h1 style='margin-bottom:20px;'>Witamy w aplikacji 👋</h1>");
-//
-//        out.println("<div style='background:white; padding:20px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); max-width:600px;'>");
-//
-//        out.println("<h3>Dane użytkownika:</h3>");
-//
-//        out.println("<p><b>Imię:</b> " + user.getName() + "</p>");
-//        out.println("<p><b>Nazwisko:</b> " + user.getSurname() + "</p>");
-//        out.println("<p><b>ID:</b> " + user.getId() + "</p>");
-//        out.println("<p><b>Login:</b> " + user.getLogin() + "</p>");
-//
-//        out.println("<hr>");
-//
-//        out.println("<p><b>Data logowania:</b> " + today + "</p>");
-//        out.println("<p><b>Zakres uprawnień:</b> test</p>");
-//
-//        out.println("</div>");
-//        out.println("</div>");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        HttpSession session = request.getSession();
+        
+        Users user = (Users) session.getAttribute("user");
+        
+        
+        ObjectMapper mapper = new ObjectMapper();
+        
+        String u = "";
+        String d = "";
+        
+        try {
+            u = mapper.writeValueAsString(user);
+        }
+        catch (JsonGenerationException | JsonMappingException  e) {
+            // catch various errors
+            e.printStackTrace();
+        }
+        
+        System.out.println(u);
+        
+        
+        response.getWriter().write(u);
+
     }
 
 }
