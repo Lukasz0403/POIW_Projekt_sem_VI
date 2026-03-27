@@ -12,17 +12,25 @@
 function go(section){
     
     if(section === "products"){
-        
-         fetch("/MyParts/productListServlet")
-            .then(res => res.json())
-            .then(html => {
-                document.getElementById("content").innerHTML = html;
-            });
+            loadProducts();
     }
     
     if(section === "dashboard"){
+    document.getElementById("content").innerHTML = `
+        <h1>Witamy w aplikacji 👋</h1>
+        <div class="card">
+            <h3>Dane użytkownika:</h3>
+            <p id="imie"><b>Imię:</b></p>
+            <p id="nazwisko"><b>Nazwisko:</b></p>
+            <p id="ident"><b>ID:</b></p>
+            <p id="login"><b>Login:</b></p>
+            <hr>
+            <p id="rola"><b>Zakres uprawnień:</b></p>
+        </div>
+    `;
 
-         }
+    getLoginInfo();
+}
     
 }
 
@@ -49,23 +57,7 @@ function getLoginInfo() {
 
 
 
-/**
- * Funkcja JavaScript odpowiadająca za odczyt danych z pól sortujących/filtrujących w zakładce produkty.
- * Po wciśnęciu przycisku "filtruj" odczytywane są wartości pól i zapisywane są one do zmiennych.
- * funkcja fetch przekazuje te zmienne jako parametry do servleta productListWindowServlet.
- * @author Mateusz Gojny
- * @returns {undefined}
- */
-function filtr() {
-    const kategoria = document.getElementById("kategoria").value;
-    const cena = document.getElementById("cena").value;
 
-    fetch(`/MyParts/productListServlet?kategoria=${kategoria}&cena=${cena}`)
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("content").innerHTML = html;
-        });
-}
 
 /**
  * Funkcja JavaScript wywoływana jest po kliknięciu przycisku "wyloguj sie" w oknie głównym, powoduje przełączenia okna
@@ -88,22 +80,7 @@ function logout() {
         .catch(err => console.error(err))
 }
 
-/**
- * Funkcja JavaScript odpowiadająca za wywołanie servleta odpowiadjące za wyświetlanie zawartości
- * okna ze szczegółami danego produktu. Funkcja przyjmuje id produktu. Id produktu określane jest na ten moment 
- * poprzez numer na liście 
- * @author Mateusz Gojny
- * @param {type} id
- * @returns {undefined}
- */
 
-function productInfo(id) {
-    fetch("/MyParts/prodInfoServlet?id=" + id)
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("content").innerHTML = html;
-        });
-}
 
 function checkSession() {
 

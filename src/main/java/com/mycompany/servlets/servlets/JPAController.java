@@ -23,7 +23,9 @@ public class JPAController {
     public void start() {
         
         Properties prop = new Properties();
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
+        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -70,5 +72,12 @@ public class JPAController {
         }
         session.close();
     }
+    
+    public List<Products> getProducts() {
+    Session session = sessionFactory.openSession();
+    List<Products> list = session.createQuery("from Products", Products.class).list();
+    session.close();
+    return list;
+}
     
 }

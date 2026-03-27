@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Servlet odpowiedzialny za wyświetlanie listy produktów w aplikacji.
@@ -58,93 +59,21 @@ public class productListServlet extends HttpServlet {
      * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest wygenerowany HTML
      * @throws IOException w przypadku błędu zapisu odpowiedzi
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        
-//        String kategoria = request.getParameter("kategoria");
-//        String cenaParam = request.getParameter("cena");
-//
-//        response.setContentType("text/html;charset=UTF-8");
-//
-//        Product p = new Product()
-//        List<Product> lista = p.createSampleListOfProduct();
-//        
-//        Set<String> l1 = new HashSet<>();
-//
-//        for (Product p1 : lista) {
-//            l1.add(p1.getCategory());
-//        }
-//
-//        var out = response.getWriter();
-//
-//        out.println("<div style='display:flex;'>");
-//
-//        
-//        out.println("<div style='width:250px; background:#e0e0e0; padding:15px;'>");
-//        out.println("<h3>Filtry</h3>");
-//        out.println("Kategoria:<br>");
-//        out.println("<select id='kategoria'>");
-//        out.println("<option value=''>-- wszystkie --</option>");
-//
-//        for (String cat : l1) {
-//            out.println("<option value='" + cat + "'>" + cat + "</option>");
-//        }
-//
-//        out.println("</select><br><br>");
-//        out.println("Cena max:<br><input id='cena' type='number'><br><br>");
-//        out.println("<button onclick='filtr()'>Filtruj</button>");
-//        out.println("</div>");
-//
-//        
-//        out.println("<div style='flex:1; padding:20px;'>");
-//        out.println("<h2>Produkty</h2>");
-//
-//        out.println("<table style='width:100%; border-collapse:collapse;'>");
-//
-//       
-//        out.println("<tr>");
-//        out.println("<th>Kategoria</th>");
-//        out.println("<th>Nazwa</th>");
-//        out.println("<th>Cena</th>");
-//        out.println("<th>Ilość</th>");
-//        out.println("<th>Szczegóły</th>");
-//        out.println("</tr>");
-//
-//        int i =0;
-//        for (Product prod : lista) {
-//
-//            boolean show = true;
-//
-//            if (kategoria != null && !kategoria.isEmpty()) {
-//                if (!prod.getCategory().toLowerCase().contains(kategoria.toLowerCase())) {
-//                    show = false;
-//                }
-//            }
-//
-//            if (cenaParam != null && !cenaParam.isEmpty()) {
-//                double cenaMax = Double.parseDouble(cenaParam);
-//                if (prod.getPrice() > cenaMax) {
-//                    show = false;
-//                }
-//            }
-//            
-//            
-//            if (show) {
-//                out.println("<tr>");
-//                out.println("<td>" + prod.getCategory() + "</td>");
-//                out.println("<td>" + prod.getName() + "</td>");
-//                out.println("<td>" + prod.getPrice() + " zł</td>");
-//                out.println("<td>" + prod.getAmount() + "</td>");
-//                out.println("<td><a href='#' onclick='productInfo(" + i + ")'>Szczegóły produktu</a></td>");
-//                i++;
-//                out.println("</tr>");
-//            }
-//        }
-//
-//        out.println("</table>");
-//        out.println("</div>");
-//        out.println("</div>");
-    }
+   @Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        JPAController jpa = new JPAController();
+        jpa.start();
+
+        List<Products> products = jpa.getProducts();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(products);
+
+        response.getWriter().write(json);
+    }
 }
