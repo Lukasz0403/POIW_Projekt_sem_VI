@@ -28,6 +28,11 @@ nav > .nav-left {
     gap: 20px;
 }
 
+nav > .nav-right {
+    display: flex;
+    gap: 20px;
+}
+
 nav a {
     color: white;
     text-decoration: none;
@@ -39,15 +44,15 @@ nav a:hover {
     text-decoration: underline;
 }
 
-.logout {
-    cursor: pointer;
-}
 
 /* CONTENT */
 main {
-    padding: 30px;
+    width: 80%;
     height: 100%;
     padding-top: 60px;
+    padding-left: 30px;
+    padding-right: 30px;
+    float: left;
 }
 
 aside {

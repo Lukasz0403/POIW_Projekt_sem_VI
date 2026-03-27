@@ -57,7 +57,7 @@ public class loginProcedureServlet extends HttpServlet {
         if(u.getUsername().equals(login) && u.getPassword().equals(password)){
 
             request.getSession().setAttribute("user", u);
-            request.getSession().setAttribute("loginDate", LocalDate.now().toString());
+            request.getSession().setAttribute("loginDate", LocalDate.now());
             response.setStatus(202);
         } else {
                 response.sendError(401);

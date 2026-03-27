@@ -13,7 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -71,24 +72,24 @@ public class dashboardServlet extends HttpServlet {
         
         Users user = (Users) session.getAttribute("user");
         
+        LocalDate date = (LocalDate) session.getAttribute("loginDate");
         
         ObjectMapper mapper = new ObjectMapper();
         
-        String u = "";
-        String d = "";
+        List<Object> l1 = new ArrayList<>();
+        l1.add(user);
+        l1.add(date);
+        
+        String a = "";
         
         try {
-            u = mapper.writeValueAsString(user);
+            a = mapper.writeValueAsString(l1);
         }
         catch (JsonGenerationException | JsonMappingException  e) {
-            // catch various errors
             e.printStackTrace();
         }
         
-        System.out.println(u);
-        
-        
-        response.getWriter().write(u);
+        response.getWriter().write(a);
 
     }
 

@@ -57,9 +57,7 @@ public class JPAController {
         Query q = session.createNamedQuery("Users.findByUsername", Users.class);
         q.setParameter("username", name);
         Users u = (Users) q.getSingleResult();
-        
-        System.out.println(u);
-        
+      
         return u;
     }
     

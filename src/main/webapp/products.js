@@ -35,6 +35,12 @@ function filtr() {
 
 window.onload = async function() {
 
-     await checkSession()
-     drawNavbar()
+    let status = await checkSession()
+
+    if(status) {
+
+        drawNavbar()
+        checkRole()
+    }
+
 }

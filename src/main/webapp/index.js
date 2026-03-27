@@ -3,18 +3,32 @@ async function drawDashboard () {
     const id = document.getElementById("ident")
     const login = document.getElementById("login")
     const rola = document.getElementById("rola")
+    const data = document.getElementById("data")
 
     let json = await getLoginInfo()
+    let formatMonth;
 
-    id.append(" "+json.userId)
-    login.append(" "+json.username)
-    rola.append(" "+json.role.roleName)
+    if(json[1].monthValue < 10) {
+        formatMonth = "0"+json[1].monthValue
+    }
 
+    id.append(" "+json[0].userId)
+    login.append(" "+json[0].username)
+    rola.append(" "+json[0].role.roleName)
+    data.append(" "+json[1].dayOfMonth+"-"+formatMonth+"-"+json[1].year)
 }
 
 window.onload = async function() {
 
-    await checkSession()
-    drawNavbar()
-    drawDashboard()
+    let status = await checkSession()
+
+    if(status) {
+
+        drawNavbar()
+        checkRole()
+        drawDashboard()
+    }
+
 }
+
+

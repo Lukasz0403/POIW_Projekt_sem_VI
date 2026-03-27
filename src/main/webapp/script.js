@@ -20,21 +20,26 @@ async function logout() {
 
 async function checkSession() {
 
-    let status
+    return new Promise((resolve) => {
 
-    fetch("/MyParts/checkSession", {
-        method: "POST"
-    })
-    .then(data => {
-        if (data.status == 401) {
-            window.location.href = "loginform.html";
-        } else {
-            
-        }
-    })
-    .catch(err => console.error(err));
+        let status = null
 
-    return status
+        fetch("/MyParts/checkSession", {
+            method: "POST"
+        })
+        .then(data => {
+            if (data.status == 401) {
+                status = false
+                window.location.href = "loginform.html";
+            } else {
+                status = true
+            }
+            resolve(status)
+        })
+        .catch(err => console.error(err))
+
+        
+    })
 }
 
 function drawNavbar() {
@@ -69,17 +74,33 @@ async function getLoginInfo() {
     })
 }
 
-async function checkAdmin() {
+async function checkRole() {
 
     const navRight = document.querySelector(".nav-right")
 
     let json = await getLoginInfo()
 
-    if(json.role.roleId == 3) {
+    if(json[0].role.roleId == 3) {
 
-        let nav = document.createElement("a").innerText("Administracja")
+        let nav = document.createElement("a")
+        nav.setAttribute("href", "workerTab.html")
+        nav.innerText = "Pracownicy"
 
-        navRight.insertAdjacentHTML("afterbegin", )
+        navRight.insertAdjacentElement("afterbegin", nav)
+
+        nav = document.createElement("a")
+        nav.setAttribute("href", "adminTab.html")
+        nav.innerText = "Administracja"
+
+        navRight.insertAdjacentElement("afterbegin", nav)
+    }
+    else if(json.role.roleId == 2) {
+
+        let nav = document.createElement("a")
+        nav.setAttribute("href", "workerTab.html")
+        nav.innerText = "Pracownicy"
+
+        navRight.insertAdjacentElement("afterbegin", nav)
     }
 
 }
