@@ -1,5 +1,6 @@
 package com.mycompany.myparts;
 
+import com.mycompany.servlets.servlets.JPAController;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 

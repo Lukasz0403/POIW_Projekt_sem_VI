@@ -15,38 +15,11 @@ body {
     padding-top: 100px;
 }
 
-.content {
-    flex: 1;
-    padding: 20px;
-    padding-top: 100px;
-    background: #fafafa;
-}
-
 .products-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-}
-
-input, select {
-    width: 100%;
-    padding: 6px;
-    margin-top: 4px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-
-button {
-    width: 100%;
-    padding: 8px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
 }
 
 button:hover {

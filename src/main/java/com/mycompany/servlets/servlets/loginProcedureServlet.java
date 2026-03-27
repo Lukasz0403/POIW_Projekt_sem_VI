@@ -42,7 +42,6 @@ public class loginProcedureServlet extends HttpServlet {
         
 
         JPAController jpa = new JPAController();
-
         jpa.start();
 
         String login = request.getParameter("login");

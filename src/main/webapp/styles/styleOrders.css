@@ -1,34 +1,6 @@
 /* layout */
-.orders-container {
-    padding: 20px;
-    margin-top: 30px;
-}
-
 .orders-grid {
     display: flex;
-    gap: 30px;
-    margin-top: 20px;
-   
-}
-
-/* card */
-.card {
-    flex: 1;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding-top: 100px;
-}
-
-/* inputs */
-input, select {
-    width: 100%;
-    padding: 6px;
-    margin-top: 5px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 /* button */
