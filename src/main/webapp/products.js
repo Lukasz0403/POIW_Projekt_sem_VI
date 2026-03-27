@@ -13,9 +13,14 @@ function loadProducts() {
                     <select id="kategoria">
                         <option value="">-- wszystkie --</option>
                     </select><br><br>
+        
+                    Nazwa produktu:<br>
+                    <input type="text" id="search_name"><br><br>
 
                     Cena maks:<br>
                     <input id="cena" type="number"><br><br>
+        
+                    
 
                     <button onclick="filtr()">Filtruj</button>
                 </div>
@@ -54,6 +59,7 @@ function loadProducts() {
             document.getElementById("content").innerHTML = html;
 
             loadCategories(products); 
+            document.getElementById("search_name").addEventListener("input", filtr);
         });
 }
 
@@ -78,6 +84,7 @@ function loadCategories(products) {
 function filtr() {
     const kategoria = document.getElementById("kategoria").value;
     const cena = document.getElementById("cena").value;
+    const nazwa = document.getElementById("search_name").value.toLowerCase();
 
     fetch("/MyParts/productListServlet")
         .then(res => res.json())
@@ -87,10 +94,9 @@ function filtr() {
 
                 let matchCategory = !kategoria || p.categoryId.name === kategoria;
                 let matchPrice = !cena || p.price <= cena;
-
-                return matchCategory && matchPrice;
-            });
-
+                let matchName = !nazwa || p.name.toLowerCase().includes(nazwa);
+                return matchCategory && matchPrice && matchName;
+                });
             renderFiltered(filtered);
         });
 }

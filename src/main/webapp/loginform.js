@@ -14,7 +14,7 @@ function login(){
         .then(data => {
             console.log(data)
             if (data.status == 202) {
-                window.location.href = "/MyParts/";
+                window.location.replace("/MyParts/");;
             } else {
                 alert("Błędny login lub hasło");
             }

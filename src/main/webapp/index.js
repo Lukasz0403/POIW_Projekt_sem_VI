@@ -11,26 +11,26 @@
 
 function go(section){
     
+    
     if(section === "products"){
             loadProducts();
     }
     
-    if(section === "dashboard"){
-    document.getElementById("content").innerHTML = `
-        <h1>Witamy w aplikacji 👋</h1>
-        <div class="card">
-            <h3>Dane użytkownika:</h3>
-            <p id="imie"><b>Imię:</b></p>
-            <p id="nazwisko"><b>Nazwisko:</b></p>
-            <p id="ident"><b>ID:</b></p>
-            <p id="login"><b>Login:</b></p>
-            <hr>
-            <p id="rola"><b>Zakres uprawnień:</b></p>
-        </div>
-    `;
+     if(section === "dashboard"){
+        loadDashboard();
+    }
+    
+    if(section === "order"){
+        loadOrder();
+    }
 
-    getLoginInfo();
-}
+    if(section === "sales"){
+        loadCash();
+    }
+
+    if(section === "report"){
+        loadReport();
+    }
     
 }
 
@@ -41,6 +41,7 @@ function getLoginInfo() {
     const id = document.getElementById("ident")
     const login = document.getElementById("login")
     const rola = document.getElementById("rola")
+    const data = document.getElementById("data")
 
     fetch("/MyParts/dashboardServlet")
     .then(res => res.json())
@@ -105,3 +106,22 @@ function checkSession() {
 
         checkSession()
     }
+    
+    
+    
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Backspace") {
+
+        const target = e.target;
+
+        // pozwól działać tylko w inputach
+        if (
+                target.tagName === "INPUT" ||
+                target.tagName === "TEXTAREA"
+                ) {
+            return;
+        }
+
+        e.preventDefault();
+    }
+});
