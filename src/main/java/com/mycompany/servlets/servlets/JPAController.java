@@ -78,6 +78,25 @@ public class JPAController {
     List<Products> list = session.createQuery("from Products", Products.class).list();
     session.close();
     return list;
-}
+    }
+    
+    public Categories getCategoryByName(String name) {
+        Session session = sessionFactory.openSession();
+        Query q = session.createNamedQuery("Categories.findByName", Categories.class);
+        q.setParameter("name", name);
+        Categories c = (Categories) q.getSingleResult();
+        session.close();
+        return c;
+    }
+    
+    public void saveProduct(Products p) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.persist(p);
+
+        session.getTransaction().commit();
+        session.close();
+    }
     
 }
