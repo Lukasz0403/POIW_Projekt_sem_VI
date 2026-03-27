@@ -97,4 +97,61 @@ public class JPAController {
         session.close();
     }
     
+    public Products findProduct(String name, String brand, String categoryName) {
+
+        Session session = sessionFactory.openSession();
+
+        try {
+            Query<Products> q = session.createQuery(
+                    "SELECT p FROM Products p WHERE p.name = :name AND p.brand = :brand AND p.categoryId.name = :cat",
+                    Products.class
+            );
+
+            q.setParameter("name", name);
+            q.setParameter("brand", brand);
+            q.setParameter("cat", categoryName);
+
+            List<Products> list = q.getResultList();
+
+            if (list.isEmpty()) {
+                return null;
+            }
+
+            return list.get(0);
+
+        } finally {
+            session.close();
+        }
+    }
+    
+    public void saveOrUpdateProduct(Products product) {
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.saveOrUpdate(product);
+
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    public Categories findCategoryByName(String name) {
+
+        Session session = sessionFactory.openSession();
+
+        try {
+            Query<Categories> q = session.createQuery(
+                    "FROM Categories c WHERE c.name = :name",
+                    Categories.class
+            );
+
+            q.setParameter("name", name);
+
+            return q.getSingleResult();
+
+        } finally {
+            session.close();
+        }
+    }
+    
 }

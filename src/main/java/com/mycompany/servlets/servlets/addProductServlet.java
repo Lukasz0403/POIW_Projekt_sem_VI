@@ -29,41 +29,40 @@ public class addProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         String brand = request.getParameter("brand");
         String categoryName = request.getParameter("category");
-        float price;
-        int quantity;
-        try {
-             price = Float.parseFloat(request.getParameter("price"));
-             quantity = Integer.parseInt(request.getParameter("quantity"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-            if (price < 0 || quantity <= 0) {
-                response.sendError(400);
-                return;
+        
+        Products existing = jpa.findProduct(name, brand, categoryName);
+
+        if (existing != null) {
+
+            
+            existing.setQuantity(existing.getQuantity() + quantity);
+
+            if (existing.getPrice() != price) {
+                existing.setPrice(price);
             }
 
-        } catch (Exception e) {
-            response.sendError(400);
-            return;
+            jpa.saveOrUpdateProduct(existing);
+
+        } else {
+
+            
+            Products p = new Products();
+            p.setName(name);
+            p.setBrand(brand);
+            p.setPrice(price);
+            p.setQuantity(quantity);
+
+            
+            Categories cat = jpa.findCategoryByName(categoryName);
+            p.setCategoryId(cat);
+
+            jpa.saveOrUpdateProduct(p);
         }
 
-        try {
-
-            Categories category = jpa.getCategoryByName(categoryName);
-
-            Products product = new Products();
-            product.setName(name);
-            product.setBrand(brand);
-            product.setPrice(price);
-            product.setQuantity(quantity);
-            product.setCategoryId(category);
-
-            jpa.saveProduct(product);
-
-            response.setStatus(202);
-
-        } catch(Exception e){
-            e.printStackTrace();
-            response.sendError(500);
-        }
+        response.setStatus(202);
     }
 
 }

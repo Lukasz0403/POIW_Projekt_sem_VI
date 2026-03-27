@@ -51,7 +51,7 @@ function drawNavbar() {
         <div class="nav-left">
             <a href="/MyParts/">Dashboard</a>
             <a href="/MyParts/products.html">Produkty</a>
-            <a href="/MyParts/mainWindow.html">Przyjęcie Zamówienia</a>
+            <a href="/MyParts/orders.html">Przyjęcie Zamówienia</a>
             <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
             <a href="/MyParts/mainWindow.html">Raport sprzedażowy</a>
         </div>

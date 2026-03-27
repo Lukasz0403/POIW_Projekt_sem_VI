@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>MyParts - Przyjęcie zamówienia</title>
+
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/styleOrders.css">
+</head>
+
+<body>
+padding-top: 60px;
+<main class="orders-container">
+
+    <h1>Przyjęcie zamówienia</h1>
+
+    <div class="orders-grid">
+
+        <!-- 🔹 FORMULARZ POJEDYNCZY -->
+        <div class="card">
+
+            <h3>Dodaj produkt</h3>
+
+            Nazwa:<br>
+            <input type="text" id="prod_name"><br>
+
+            Marka:<br>
+            <input type="text" id="prod_brand"><br>
+
+            Kategoria:<br>
+            <select id="prod_category">
+                <option value="">-- wybierz --</option>
+            </select><br>
+
+            Cena:<br>
+            <input type="number" id="prod_price" min="0" step="0.01"><br>
+
+            Ilość:<br>
+            <input type="number" id="prod_quantity" min="1"><br>
+
+            <button onclick="addProduct()">Dodaj produkt</button>
+
+        </div>
+
+        <!-- 🔹 IMPORT CSV -->
+        <div class="card">
+
+            <h3>Import z pliku CSV</h3>
+
+            <label class="file-label">
+                Wybierz plik CSV:
+                <input type="file" id="csv_file" accept=".csv">
+            </label>
+
+            <button onclick="uploadCSV()">Importuj</button>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="script.js"></script>
+<script src="orders.js"></script>
+
+</body>
+</html>
