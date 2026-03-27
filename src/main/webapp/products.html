@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <!-- Tytuł strony panelu głównego -->
+    <title>MyParts - Panel</title>
+    <!-- Podłączenie stylów CSS -->
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/styleProduct.css">
+</head>
+<body>
+    <!-- Górny pasek nawigacyjny -->
+    <nav>
+        <!-- Lewa część nawigacji (przejścia między widokami) -->
+        <div class="nav-left">
+            <a href="/MyParts/">Dashboard</a>
+            <a href="/MyParts/products.html">Produkty</a>
+            <a href="/MyParts/mainWindow.html">Przyjęcie Zamówienia</a>
+            <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
+            <a href="/MyParts/mainWindow.html">Raport sprzedażowy</a>
+        </div>
+
+        <!-- Przycisk wylogowania -->
+        <div class="logout" onclick="await logout()">
+            Wyloguj
+        </div>
+    </nav>
+
+    <aside>
+        <h3>Filtry</h3>
+        Kategoria:<br>
+        <select id='kategoria'>
+            <option value=''>-- wszystkie --</option>
+            <option value=''>" + cat + "</option>
+        </select><br><br><br>
+        <input id='cena' type='number'><br><br>
+        <button onclick='filtr()'>Filtruj</button>
+    </aside>
+<!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
+    <main>             
+        <h2>Produkty</h2>
+        <table id="tabelaProduktow" style='width:100%; border-collapse:collapse;'>  
+            <tr>
+                <th>Kategoria</th>
+                <th>Nazwa</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Szczegóły</th>
+            </tr>
+            <tr>
+                <td>" + prod.getCategory() + "</td>
+                <td>" + prod.getName() + "</td>
+                <td>" + prod.getPrice() + " zł</td>
+                <td>" + prod.getAmount() + "</td>
+                <td><a href='#' onclick='productInfo(" + i + ")'>Szczegóły produktu</a></td>
+            </tr>
+        </table>
+    </main>
+    <!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+    <script src="script.js"></script>
+    <script src="products.js"></script>
+</body>
+</html>

@@ -7,55 +7,23 @@
     <title>MyParts - Panel</title>
     
     <!-- Podłączenie stylów CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
-
 <body>
-
-<!-- Górny pasek nawigacyjny -->
-<div class="navbar">
-    
-    <!-- Lewa część nawigacji (przejścia między widokami) -->
-    <div class="nav-left">
-        <a href="#" onclick="go('dashboard'); return false;">Dashboard</a>
-        <a href="#" onclick="go('products'); return false;">Produkty</a>
-        <a href="#" onclick="go('order'); return false;">Przyjęcie Zamówienia</a>
-        <a href="#" onclick="go('sales'); return false;">Kasa fiskalna</a>
-        <a href="#" onclick="go('report'); return false;">Raport sprzedażowy</a>
-    </div>
-
-    <!-- Przycisk wylogowania -->
-    <div class="logout" onclick="logout()">
-        Wyloguj
-    </div>
-</div>
-
 <!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
-<div class="content" id="content">
-    <div>
+    <main>
         <h1>Witamy w aplikacji 👋</h1>
         <div class="card">
             <h3>Dane użytkownika:</h3>
-            <p id="imie"><b>Imię:</b></p>
-            <p id="nazwisko"><b>Nazwisko:</b></p>
             <p id="ident"><b>ID:</b></p>
             <p id="login"><b>Login:</b></p>
             <hr>
             <p id="data"><b>Data logowania:</b></p>
             <p id="rola"><b>Zakres uprawnień:</b></p>
         </div>
-    </div>
-</div>
-
-<!-- Podłączenie pliku JavaScript (logika aplikacji) -->
-<script src="products.js"></script>
-<script src="index.js"></script>
-<script src="sales.js"></script>
-<script src="raport.js"></script>
-<script src="order.js"></script>
-<script src="dashboard.js"></script>
-<script src="archiveSales.js"></script>
-
-
+    </main>
+    <!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

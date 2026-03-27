@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <!-- Tytuł strony panelu głównego -->
+    <title>MyParts - Panel</title>
+    <!-- Podłączenie stylów CSS -->
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+    <!-- Górny pasek nawigacyjny -->
+    <nav>
+        <!-- Lewa część nawigacji (przejścia między widokami) -->
+        <div class="nav-left">
+            <a href="/MyParts/mainWindow.html">Dashboard</a>
+            <a href="/MyParts/products.html">Produkty</a>
+            <a href="/MyParts/mainWindow.html">Przyjęcie Zamówienia</a>
+            <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
+            <a href="/MyParts/mainWindow.html">Raport sprzedażowy</a>
+        </div>
+
+        <!-- Przycisk wylogowania -->
+        <div class="nav-right" onclick="logout()">
+            <a href="#">Wyloguj</a>
+        </div>
+    </nav>
+
+<!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
+    <main>
+        <h1></h1>
+        <div class="card">
+ 
+        </div>
+    </main>
+    <!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+    <script src="script.js"></script>
+</body>
+</html>
