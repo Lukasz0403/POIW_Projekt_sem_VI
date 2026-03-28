@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyParts - Raport sprzedażowy</title>
+
+        <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/styleReport.css">
+    </head>
+
+    <body>
+
+        <!-- filtry po lwej stronie okna-->
+        <aside class="sidebar">
+            <h3>Filtry</h3>
+
+            <label for="kategoria">Kategoria:</label>
+            <select id="kategoria">
+                <option value="">-- wszystkie --</option>
+            </select><br><br>
+
+            <label for="search_name">Nazwa produktu:</label>
+            <input type="text" id="search_name"><br><br>
+
+            <label for="cena">Cena maks:</label>
+            <input id="cena" type="number"><br><br>
+
+        </aside>
+
+        <!-- okno z tabelką i sortowaniem -->
+        <main class="content">
+            <!-- HEADER -->
+            <div class="products-header">
+                <h2>Produkty</h2>
+
+                <div class="sort-box">
+                    <label for="sort_select">Sortuj po:</label><br>
+                    <select id="sort_select">
+                        <option value="">-- brak --</option>
+                        <option value="name_asc">Nazwa A-Z</option>
+                        <option value="name_desc">Nazwa Z-A</option>
+                        <option value="price_asc">Cena rosnąco</option>
+                        <option value="price_desc">Cena malejąco</option>
+                        <option value="quantity_desc">Największa dostępność</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- tabela-->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kategoria</th>
+                        <th>Nazwa</th>
+                        <th>Marka</th>
+                        <th>Cena</th>
+                        <th>Ilość</th>
+                        <th>Data Sprzedaży</th>
+                    </tr>
+                </thead>
+
+                <tbody id="products_table">
+                    
+                </tbody>
+            </table>
+
+        </main>
+
+        <script src="script.js"></script>
+        <script src="salesReport.js"></script>
+
+    </body>
+</html>
