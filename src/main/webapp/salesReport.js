@@ -1,18 +1,55 @@
-function renderProducts(products){
+function renderSales(sales){
 
     const table = document.getElementById("products_table");
     table.innerHTML = "";
 
-    products.forEach((p, i) => {
+    sales.forEach((p, i) => {
+
+        let date = new Date(p.saleDate)
+
+        let hour
+        let minute
+        let second
+        let year
+        let month
+        let day
+
+        if(date.getHours() < 10) {
+            hour = "0" + date.getHours()
+        } else {
+            hour = date.getHours()
+        }
+        if(date.getMinutes() < 10) {
+            minute = "0" + date.getMinutes()
+        } else {
+            minute = date.getMinutes()
+        }
+        if(date.getSeconds() < 10) {
+            second = "0" + date.getSeconds()
+        } else {
+            second = date.getSeconds()
+        }
+        if(date.getMonth() < 10) {
+            month = "0" + date.getMonth()
+        } else {
+            month = date.getMonth()
+        }
+        if(date.getDay() < 10) {
+            day = "0" + date.getDay()
+        } else {
+            day = date.getDay()
+        }
+
+        year = date.getFullYear()
         
         table.innerHTML += `
             <tr>
-                <td>${p.categoryId.name}</td>
-                <td>${p.name}</td>
-                <td>${p.brand}</td>
-                <td>${p.price} zł</td>
+                <td>${p.productId.categoryId.name}</td>
+                <td>${p.productId.name}</td>
+                <td>${p.productId.brand}</td>
+                <td>${p.productId.price} zł</td>
                 <td>${p.quantity}</td>
-                <td>${p.sale_date}</td>
+                <td>${year}-${month}-${day} ${hour}:${minute}:${second}</td>
             </tr>
         `;
     });
@@ -26,19 +63,18 @@ window.onload = async function() {
 
         drawNavbar()
         checkRole()
-        await loadProducts();   
+        await loadSales();   
         initFilters();  
     }
 
 }
 
-async function loadProducts(){
+async function loadSales(){
 
-    const res = await fetch("/MyParts/productListServlet");
-    allProducts = await res.json();
+    const res = await fetch("/MyParts/getSales");
+    allSales = await res.json();
 
-    renderProducts(allProducts);
-    loadCategories(allProducts);
+    renderSales(allSales);
 }
 
 function filtr(){
@@ -86,20 +122,3 @@ function initFilters(){
     document.getElementById("sort_select").addEventListener("change", filtr);
 }
 
-
-function loadCategories(products){
-
-    const select = document.getElementById("kategoria");
-    let categories = new Set();
-
-    products.forEach(p => {
-        categories.add(p.categoryId.name);
-    });
-
-    categories.forEach(cat => {
-        let option = document.createElement("option");
-        option.value = cat;
-        option.textContent = cat;
-        select.appendChild(option);
-    });
-}

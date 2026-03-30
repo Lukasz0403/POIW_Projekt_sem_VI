@@ -72,10 +72,10 @@ public class JPAController {
     }
     
     public List<Products> getProducts() {
-    Session session = sessionFactory.openSession();
-    List<Products> list = session.createQuery("from Products", Products.class).list();
-    session.close();
-    return list;
+        Session session = sessionFactory.openSession();
+        List<Products> list = session.createQuery("from Products", Products.class).list();
+        session.close();
+        return list;
     }
     
     public Categories getCategoryByName(String name) {
@@ -152,6 +152,13 @@ public class JPAController {
         } finally {
             session.close();
         }
+    }
+    
+    public List<Sales> getSales() {
+        Session session = sessionFactory.openSession();
+        List<Sales> list = session.createQuery("from Sales", Sales.class).list();
+        session.close();
+        return list;
     }
     
 }

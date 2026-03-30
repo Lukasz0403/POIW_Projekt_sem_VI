@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.mycompany.servlets.servlets;
 
@@ -11,22 +11,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * Servlet odpowiedzialny za wyświetlanie listy sprzedanych produktów w aplikacji.
  *
- * @author ida
+ * @author Radosław
  */
-/*@WebServlet(name = "salesListServlet", urlPatterns = {"/salesListServlet"})
-public class salesListServlet {
-    
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+@WebServlet(name = "getSalesServlet", urlPatterns = {"/getSales"})
+public class getSalesServlet extends HttpServlet {
+
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -40,5 +40,12 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         String json = mapper.writeValueAsString(sales);
 
         response.getWriter().write(json);
+    
     }
-}*/
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

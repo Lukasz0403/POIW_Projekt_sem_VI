@@ -66,6 +66,7 @@ public class Products implements Serializable {
     @Column(name = "quantity")
     private int quantity;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @JsonIgnore
     private Collection<Sales> salesCollection;
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     @ManyToOne(optional = false)

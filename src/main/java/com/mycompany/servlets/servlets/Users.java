@@ -23,7 +23,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
-//import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -56,7 +56,7 @@ public class Users implements Serializable {
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    //@JsonIgnore
+    @JsonIgnore
     private Collection<Sales> salesCollection;
     @JoinColumn(name = "role", referencedColumnName = "role_id")
     @ManyToOne(optional = false)
