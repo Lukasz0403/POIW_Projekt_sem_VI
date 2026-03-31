@@ -2,7 +2,7 @@ function login(){
     
     let login = document.getElementById('login').value;
     let pass =  document.getElementById('password').value;
-
+    
 
     fetch("/MyParts/loginProcedureServlet", {
         method: "POST",
@@ -20,4 +20,9 @@ function login(){
             }
         })
         .catch(err => console.error(err));
+}
+window.onkeydown = function(e){
+    
+    if(e.keyCode === 13)
+    login()
 }

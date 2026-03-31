@@ -21,7 +21,7 @@ public class JPAController {
     
     
     public void start() {
-        
+            
         Properties prop = new Properties();
         //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
         //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");

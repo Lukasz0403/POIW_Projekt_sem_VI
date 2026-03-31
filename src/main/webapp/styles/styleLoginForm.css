@@ -44,6 +44,7 @@ button {
 
 button:hover {
     background: #cc0000;
+    cursor:pointer;
 }
 
 .hint {

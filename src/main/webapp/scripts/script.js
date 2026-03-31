@@ -12,7 +12,7 @@ async function logout() {
         .then(data => {
             console.log(data)
             if (data.status == 202) {
-                window.location.href = "loginform.html";
+                window.location.href = "/MyParts/html/loginform.html";
             }
         })
         .catch(err => console.error(err))
@@ -30,7 +30,7 @@ async function checkSession() {
         .then(data => {
             if (data.status == 401) {
                 status = false
-                window.location.href = "loginform.html";
+                window.location.href = "/MyParts/html/loginform.html";
             } else {
                 status = true
             }
@@ -50,10 +50,10 @@ function drawNavbar() {
     `<nav>
         <div class="nav-left">
             <a href="/MyParts/">Dashboard</a>
-            <a href="/MyParts/products.html">Produkty</a>
-            <a href="/MyParts/orders.html">Przyjęcie Zamówienia</a>
-            <a href="/MyParts/mainWindow.html">Kasa fiskalna</a>
-            <a href="/MyParts/salesReport.html">Raport sprzedażowy</a>
+            <a href="/MyParts/html/products.html">Produkty</a>
+            <a href="/MyParts/html/orders.html">Przyjęcie Zamówienia</a>
+            <a href="/MyParts/html/mainWindow.html">Kasa fiskalna</a>
+            <a href="/MyParts/html/salesReport.html">Raport sprzedażowy</a>
         </div>
         <div class="nav-right" onclick="logout()">
             <a href="#">Wyloguj</a>
