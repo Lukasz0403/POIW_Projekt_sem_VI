@@ -1,11 +1,10 @@
-async function drawDashboard () {
+async function drawDashboard (json) {
 
     const id = document.getElementById("ident")
     const login = document.getElementById("login")
     const rola = document.getElementById("rola")
     const data = document.getElementById("data")
 
-    let json = await getLoginInfo()
     let formatMonth;
 
     if(json[1].monthValue < 10) {
@@ -23,10 +22,11 @@ window.onload = async function() {
     let status = await checkSession()
 
     if(status) {
+        let roleInfo = await getLoginInfo()
 
         drawNavbar()
-        checkRole()
-        drawDashboard()
+        checkRole(roleInfo)
+        drawDashboard(roleInfo)
     }
 
 }

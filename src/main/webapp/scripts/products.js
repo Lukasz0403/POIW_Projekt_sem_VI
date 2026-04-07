@@ -27,8 +27,10 @@ window.onload = async function() {
 
     if(status) {
 
+        let roleInfo = await getLoginInfo()
+
         drawNavbar()
-        checkRole()
+        checkRole(roleInfo)
         await loadProducts();   
         initFilters();  
     }

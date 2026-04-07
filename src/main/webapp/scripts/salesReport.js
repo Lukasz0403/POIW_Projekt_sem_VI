@@ -60,9 +60,9 @@ window.onload = async function() {
     let status = await checkSession()
 
     if(status) {
-
+        let roleInfo = await getLoginInfo()
         drawNavbar()
-        checkRole()
+        checkRole(roleInfo)
         await loadSales();   
         initFilters();  
     }

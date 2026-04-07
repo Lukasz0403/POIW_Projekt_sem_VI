@@ -1,0 +1,25 @@
+.card-container {
+
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    width: fit-content;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.table-card {
+    overflow-y:scroll;
+    height:400px;
+}

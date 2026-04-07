@@ -36,7 +36,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
     @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId"),
     @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username"),
-    @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")})
+    @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
+    @NamedQuery(name = "Users.findWorkers", query = "SELECT u FROM Users u WHERE u.role = 1")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +55,7 @@ public class Users implements Serializable {
     @NotNull
     @Size(min = 1, max = 40)
     @Column(name = "password")
+    @JsonIgnore
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     @JsonIgnore

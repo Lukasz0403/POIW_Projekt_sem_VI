@@ -24,8 +24,8 @@ public class JPAController {
             
         Properties prop = new Properties();
         //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
-        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -47,9 +47,9 @@ public class JPAController {
     
     public List<Users> getUsers() {
         Session session = sessionFactory.openSession();
-        List<Users> students = session.createQuery("from Users", Users.class).list();
+        List<Users> u = session.createQuery("from Users", Users.class).list();
         session.close();
-        return students;
+        return u;
     }
     
     public Users getUserByName(String name) {
@@ -61,6 +61,24 @@ public class JPAController {
         return u;
     }
     
+    public Users getUserById(int id) {
+        Session session = sessionFactory.openSession();
+        Query q = session.createNamedQuery("Users.findByUserId", Users.class);
+        q.setParameter("userId", id);
+        Users u = (Users) q.getSingleResult();
+        session.close();
+        return u;
+    }
+    
+    public List<Users> getUserWorkers() {
+        Session session = sessionFactory.openSession();
+        Query q = session.createNamedQuery("Users.findWorkers", Users.class);
+        List<Users> u = (List<Users>) q.getResultList();
+        session.close();
+        return u;
+        
+    }
+    
     public void showUsers() {
         Session session = sessionFactory.openSession();
         List<Users> students = session.createQuery("from Users", Users.class).list();
@@ -69,6 +87,35 @@ public class JPAController {
             System.out.println(student);
         }
         session.close();
+    }
+    
+    public void saveUser(Users u) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.persist(u);
+
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    public void updateUser(Users u) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.update(u);
+
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    public Roles getRoleById(int id) {
+        Session session = sessionFactory.openSession();
+        Query q = session.createNamedQuery("Roles.findByRoleId", Roles.class);
+        q.setParameter("roleId", id);
+        Roles r = (Roles) q.getSingleResult();
+        session.close();
+        return r;
     }
     
     public List<Products> getProducts() {

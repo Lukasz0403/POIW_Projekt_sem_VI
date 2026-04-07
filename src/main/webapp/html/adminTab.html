@@ -3,19 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <!-- Tytuł strony panelu głównego -->
-    <title>MyParts - Panel</title>
+    <title>MyParts - Pracownicy</title>
     <!-- Podłączenie stylów CSS -->
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/styleAdmin.css">
 </head>
 <body>
     <!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
     <main>
-        <h1>Work in progress</h1>
-        <div class="card">
- 
+        <div class="card-container">
+            <div class="card">
+                <h3>Dodaj pracownika</h3>
+                <label for="role">Uprawnienia:</label>
+                <select id="role">
+                    <option value="1" selected>pracownik</option>
+                    <option value="2">kierownik</option>
+                    <option value="3">administrator</option>
+                </select>
+                <label for="login">Nazwa użytkownika:</label>
+                <input placeholder="login" id="login">
+                <label for="pass">Hasło:</label>
+                <input type="password" placeholder="hasło" id="pass">
+                <button onclick="addUser()">Potwierdź</button>
+            </div>
+            <div class="card table-card">
+                <table>
+                    <thead>
+                        <th>Identyfikator</th>
+                        <th>Login</th>
+                        <th>Uprawnienia</th>
+                        <th>Edytuj</th>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3>Filtry</h3>
+                <label for="roleFilter">Uprawnienia:</label>
+                <select id="roleFilter">
+                    <option value="">wszyscy</option>
+                    <option value="pracownik">pracownik</option>
+                    <option value="kierownik">kierownik</option>
+                    <option value="administrator">administrator</option>
+                </select>
+                <label for="loginFilter">Nazwa użytkownika:</label>
+                <input id="loginFilter">
+                <label for="userId">Identyfikator:</label>
+                <input type="number" min="1" id="userId">
+                <label for="userId">Sortuj:</label>
+                <select id="sort">
+                    <option> -- BRAK -- </option>
+                    <option value="az">Nazwa A-Z</option>
+                    <option value="za">Nazwa Z-A</option>
+                    <option value="increment">Identyfikator rosnąco</option>
+                    <option value="decrement">Identyfikator malejąco</option>
+                </select>
+            </div>
         </div>
+
     </main>
     <!-- Podłączenie pliku JavaScript (logika aplikacji) -->
     <script src="../scripts/script.js"></script>
+    <script src="../scripts/adminTab.js"></script>
 </body>
 </html>

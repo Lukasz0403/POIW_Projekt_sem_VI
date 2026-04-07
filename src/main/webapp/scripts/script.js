@@ -74,30 +74,14 @@ async function getLoginInfo() {
     })
 }
 
-async function checkRole() {
+async function checkRole(json) {
 
     const navRight = document.querySelector(".nav-right")
 
-    let json = await getLoginInfo()
-
-    if(json[0].role.roleId == 3) {
+    if(json[0].role.roleId >= 2) {
 
         let nav = document.createElement("a")
-        nav.setAttribute("href", "/MyParts/html/workerTab.html")
-        nav.innerText = "Pracownicy"
-
-        navRight.insertAdjacentElement("afterbegin", nav)
-
-        nav = document.createElement("a")
         nav.setAttribute("href", "/MyParts/html/adminTab.html")
-        nav.innerText = "Administracja"
-
-        navRight.insertAdjacentElement("afterbegin", nav)
-    }
-    else if(json.role.roleId == 2) {
-
-        let nav = document.createElement("a")
-        nav.setAttribute("href", "/MyParts/html/workerTab.html")
         nav.innerText = "Pracownicy"
 
         navRight.insertAdjacentElement("afterbegin", nav)
