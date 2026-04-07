@@ -83,13 +83,13 @@ async function checkRole() {
     if(json[0].role.roleId == 3) {
 
         let nav = document.createElement("a")
-        nav.setAttribute("href", "workerTab.html")
+        nav.setAttribute("href", "/MyParts/html/workerTab.html")
         nav.innerText = "Pracownicy"
 
         navRight.insertAdjacentElement("afterbegin", nav)
 
         nav = document.createElement("a")
-        nav.setAttribute("href", "adminTab.html")
+        nav.setAttribute("href", "/MyParts/html/adminTab.html")
         nav.innerText = "Administracja"
 
         navRight.insertAdjacentElement("afterbegin", nav)
@@ -97,7 +97,7 @@ async function checkRole() {
     else if(json.role.roleId == 2) {
 
         let nav = document.createElement("a")
-        nav.setAttribute("href", "workerTab.html")
+        nav.setAttribute("href", "/MyParts/html/workerTab.html")
         nav.innerText = "Pracownicy"
 
         navRight.insertAdjacentElement("afterbegin", nav)

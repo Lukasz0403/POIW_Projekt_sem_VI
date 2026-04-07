@@ -4,6 +4,7 @@ window.onload = async function(){
 
     if(status){
         drawNavbar();
+        checkRole();
         await loadCategories();
     }
 }
