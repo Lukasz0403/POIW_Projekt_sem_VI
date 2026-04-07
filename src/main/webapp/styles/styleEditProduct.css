@@ -1,0 +1,31 @@
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.delete-btn {
+    width: 100%;
+    padding: 12px;
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    margin: 30px auto;
+    max-width: 600px;
+    width: 90%;
+}
+

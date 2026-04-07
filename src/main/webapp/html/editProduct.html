@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja produktu</title>
+
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/styleEditProduct.css">
+</head>
+
+<body>
+
+<main>
+
+    <div class="card">
+
+        <h2>Edytuj produkt</h2>
+
+        <div>
+            <label>Nazwa:</label>
+            <input type="text" id="name">
+        </div>
+
+        <div>
+            <label>Marka:</label>
+            <input type="text" id="brand">
+        </div>
+
+        <div>
+            <label>Kategoria:</label>
+            <select id="category"></select>
+        </div>
+
+        <div>
+            <label>Cena:</label>
+            <input type="number" id="price">
+        </div>
+
+        <div>
+            <label>Ilość:</label>
+            <input type="number" id="quantity">
+        </div>
+
+        <button type="button" class="save-btn" onclick="updateProduct()">
+            Zapisz zmiany
+        </button>
+        <button type="button" class="delete-btn" onclick="deleteProduct()">
+            Usuń z systemu
+        </button>
+        
+
+    </div>
+
+</main>
+
+<script src="../scripts/script.js"></script>
+<script src="../scripts/editProduct.js"></script>
+
+</body>
+</html>

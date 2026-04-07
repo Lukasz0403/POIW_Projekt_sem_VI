@@ -22,3 +22,23 @@ button:hover {
     display: block;
     margin-bottom: 10px;
 }
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orders-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.card {
+    margin: 0;
+    max-width: 500px;
+    width: 100%;
+}

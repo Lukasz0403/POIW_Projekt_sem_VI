@@ -161,4 +161,28 @@ public class JPAController {
         return list;
     }
     
+    public Products getProductById(int id) {
+
+    Session session = sessionFactory.openSession();
+
+    try {
+        return session.get(Products.class, id);
+    } finally {
+        session.close();
+      }
+    }
+    
+    public void deleteProduct(Products p) {
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.remove(p);
+
+        session.getTransaction().commit();
+        session.close();
+    }
+    
 }
+
+

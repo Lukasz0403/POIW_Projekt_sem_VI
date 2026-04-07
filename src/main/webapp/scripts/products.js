@@ -12,8 +12,8 @@ function renderProducts(products){
                 <td>${p.price} zł</td>
                 <td>${p.quantity}</td>
                 <td>
-                    <a href="#"">
-                        Edytuj
+                    <a href="editProduct.html?id=${p.productId}">
+                    Edytuj
                     </a>
                 </td>
             </tr>
@@ -106,3 +106,4 @@ function loadCategories(products){
         select.appendChild(option);
     });
 }
+
