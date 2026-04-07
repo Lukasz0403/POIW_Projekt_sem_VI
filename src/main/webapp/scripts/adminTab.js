@@ -112,7 +112,7 @@ function filtr(){
 
         let matchRole = !roleFilter || p.role.roleName === roleFilter
         let matchLogin = !loginFilter || p.username.toLowerCase().includes(loginFilter)
-        let matchId = !userId || p.userId <= userId
+        let matchId = !userId || p.userId == userId
 
         return matchRole && matchLogin && matchId
     })
