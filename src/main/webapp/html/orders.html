@@ -48,6 +48,12 @@
             <label for="csv_file" class="file-label">Wybierz plik CSV:</label>
             <input type="file" id="csv_file" accept=".csv">
             
+            <div class="csv-hint">
+                <p>Plik CSV powinien mieć następującą strukturę:</p>
+                <code>nazwa;marka;kategoria;cena;ilosc</code>
+                <p>Przykład:</p>
+                <code>Filtr oleju;Bosch;Filtry;45.50;30</code>
+            </div>
 
             <button onclick="uploadCSV()">Importuj</button>
 

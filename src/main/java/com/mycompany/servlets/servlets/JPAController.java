@@ -24,8 +24,8 @@ public class JPAController {
             
         Properties prop = new Properties();
         //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
-        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
+        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -229,6 +229,21 @@ public class JPAController {
         session.getTransaction().commit();
         session.close();
     }
+    
+    public Categories findManyCategoriesByName(String name) {
+    Session session = sessionFactory.openSession();
+    try {
+        Query<Categories> q = session.createQuery(
+            "FROM Categories c WHERE c.name = :name",
+            Categories.class
+        );
+        q.setParameter("name", name);
+        List<Categories> result = q.getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    } finally {
+        session.close();
+    }
+}
     
 }
 

@@ -42,3 +42,27 @@ main {
     max-width: 500px;
     width: 100%;
 }
+
+.csv-hint {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-left: 4px solid #cc0000;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.csv-hint code {
+    display: block;
+    background: #e0e0e0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin: 5px 0;
+    font-family: monospace;
+}
+
+.orders-grid .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

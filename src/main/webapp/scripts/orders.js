@@ -69,7 +69,7 @@ async function addProduct(){
     if(res.status === 202){
         alert("Produkt dodany!");
 
-        clearForm(); // 🔥 czyszczenie
+        clearForm(); 
     } else {
         alert("Błąd dodawania produktu");
     }
@@ -85,13 +85,25 @@ function clearForm(){
 }
 
 
-function uploadCSV(){
-    const file = document.getElementById("csv_file").files[0];
-
-    if(!file){
-        alert("Wybierz plik!");
+async function uploadCSV() {
+    const fileInput = document.getElementById("csv_file");
+    if (!fileInput.files[0]) {
+        alert("Wybierz plik CSV!");
         return;
     }
 
-    alert("Import CSV - do implementacji");
+    const formData = new FormData();
+    formData.append("csv_file", fileInput.files[0]);
+
+    const res = await fetch("/MyParts/uploadCSVServlet", {
+        method: "POST",
+        body: formData
+    });
+
+    if (res.status === 202) {
+        alert("Produkty zaimportowane pomyślnie!");
+        document.getElementById("csv_file").value = "";
+    } else {
+        alert("Błąd importu!");
+    }
 }
