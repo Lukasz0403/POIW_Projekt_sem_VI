@@ -1,9 +1,14 @@
-function renderProducts(products){
+let allProducts = [];
+let currentRoleId = 1;
 
+function renderProducts(products, roleId) {
     const table = document.getElementById("products_table");
     table.innerHTML = "";
+    products.forEach((p) => {
+        const editCell = (roleId >= 2)
+            ? `<a href="editProduct.html?id=${p.productId}">Edytuj</a>`
+            : `<a href="#" onclick="alert('Brak uprawnień do edycji produktów.')">Edytuj</a>`;
 
-    products.forEach((p, i) => {
         table.innerHTML += `
             <tr>
                 <td>${p.categoryId.name}</td>
@@ -11,38 +16,27 @@ function renderProducts(products){
                 <td>${p.brand}</td>
                 <td>${p.price} zł</td>
                 <td>${p.quantity}</td>
-                <td>
-                    <a href="editProduct.html?id=${p.productId}">
-                    Edytuj
-                    </a>
-                </td>
+                <td>${editCell}</td>
             </tr>
         `;
     });
 }
 
 window.onload = async function() {
-
-    let status = await checkSession()
-
+    let status = await checkSession();
     if(status) {
-
-        let roleInfo = await getLoginInfo()
-
-        drawNavbar()
-        checkRole(roleInfo)
-        await loadProducts();   
-        initFilters();  
+        drawNavbar();
+        let roleInfo = await getLoginInfo();
+        currentRoleId = roleInfo[0].role.roleId;
+        await loadProducts();
+        initFilters();
     }
-
 }
 
-async function loadProducts(){
-
+async function loadProducts() {
     const res = await fetch("/MyParts/productListServlet");
     allProducts = await res.json();
-
-    renderProducts(allProducts);
+    renderProducts(allProducts, currentRoleId);
     loadCategories(allProducts);
 }
 
@@ -79,7 +73,7 @@ function filtr(){
         filtered.sort((a, b) => b.quantity - a.quantity);
     }
 
-    renderProducts(filtered);
+    renderProducts(filtered, currentRoleId);
 }
 
 
