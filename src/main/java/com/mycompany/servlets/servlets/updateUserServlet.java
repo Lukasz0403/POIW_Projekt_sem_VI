@@ -43,22 +43,23 @@ public class updateUserServlet extends HttpServlet {
         if(u == null) {
             response.sendError(404);
         }
-        
-        u.setUsername(request.getParameter("login"));
-        u.setRole(jpa.getRoleById(Integer.parseInt(request.getParameter("role"))));
-        
-        if(request.getParameter("password") != "") {
-            
-            BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
+        else {
+            u.setUsername(request.getParameter("login"));
+            u.setRole(jpa.getRoleById(Integer.parseInt(request.getParameter("role"))));
 
-            Hash hash = Password.hash(request.getParameter("password")).addPepper("shared-secret").with(bcrypt);
-            
-            u.setPassword(hash.getResult());
+            if(!"".equals(request.getParameter("password"))) {
+
+                BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
+
+                Hash hash = Password.hash(request.getParameter("password")).addPepper("shared-secret").with(bcrypt);
+
+                u.setPassword(hash.getResult());
+            }
+
+            jpa.updateUser(u);
+
+            response.setStatus(202);
         }
-        
-        jpa.updateUser(u);
-        
-        response.setStatus(202);
     }
 
     /**

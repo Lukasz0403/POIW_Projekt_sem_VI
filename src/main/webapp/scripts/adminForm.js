@@ -70,13 +70,17 @@ function removeUser() {
 
 function changeUser() {
 
+    let login = document.getElementById("login").value
     let npass = document.getElementById("npass").value
     let rpass = document.getElementById("rpass").value
 
-
-    if(!(npass === rpass)) {
+    if(login == "") {
+        alert("Podano pusty login")
+        adjustForm()
+    }
+    else if(!(npass === rpass)) {
         alert("Błędnie podano nowe hasło.")
-        window.location.href = `adminForm.html?login=${getUserCredentials("login")}&roleId=${getUserCredentials("roleId")}`;
+        adjustForm()
     }
     else {
 
@@ -97,6 +101,7 @@ function changeUser() {
             window.location.href = "adminTab.html"
         } else {
             alert("Błąd aktualizacji użytkownika")
+            adjustForm()
         }
         })
     }

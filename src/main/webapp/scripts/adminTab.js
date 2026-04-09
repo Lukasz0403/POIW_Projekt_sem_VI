@@ -68,22 +68,35 @@ function addUser() {
     let login = document.getElementById("login").value
     let pass = document.getElementById("pass").value
 
-    fetch("/MyParts/addUserServlet", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `role=${role}&login=${login}&password=${pass}`
-    }).then(async res => {
+    if(login == "" || pass == "") {
 
-    if(res.status === 202){
-        alert("Dodano użytkownika")
-        allProducts = await getUsers(roleInfo)
-        printUsers(allProducts)
-    } else {
-        alert("Błąd dodawania użytkownika")
+        alert("Nie podano loginu lub hasła.")
     }
-    })
+    else {
+
+        let conf = confirm("Czy na pewno chcesz dodać nowego uzytkownika?")
+
+        if(!conf) {
+            exit()
+        }
+
+        fetch("/MyParts/addUserServlet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `role=${role}&login=${login}&password=${pass}`
+        }).then(async res => {
+
+        if(res.status === 202){
+            alert("Dodano użytkownika")
+            allProducts = await getUsers(roleInfo)
+            printUsers(allProducts)
+        } else {
+            alert("Błąd dodawania użytkownika")
+        }
+        })
+    }
 }
 
 async function checkRoleForPermissionFilter(roleInfo) {

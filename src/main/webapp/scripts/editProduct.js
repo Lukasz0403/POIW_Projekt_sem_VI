@@ -10,6 +10,8 @@ window.onload = async function(){
     if(status){
         drawNavbar();
         await loadProduct();
+        let roleInfo = await getLoginInfo();
+        checkRole(roleInfo)
     }
 }
 
