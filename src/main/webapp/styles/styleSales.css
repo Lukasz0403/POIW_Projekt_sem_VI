@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sales-grid {
+/*    display: flex;*/
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    padding-top: 20%;
+    padding: 20px;
+}
+#title{
+    margin: 100px;
+}
