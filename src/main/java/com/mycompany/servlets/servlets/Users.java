@@ -53,7 +53,7 @@ public class Users implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 60)
     @Column(name = "password")
     @JsonIgnore
     private String password;

@@ -4,10 +4,6 @@
  */
 package com.mycompany.servlets.servlets;
 
-import com.password4j.BcryptFunction;
-import com.password4j.Hash;
-import com.password4j.Password;
-import com.password4j.types.Bcrypt;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,46 +16,23 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Radosław
  */
-@WebServlet(name = "addUserServlet", urlPatterns = {"/addUserServlet"})
-public class addUserServlet extends HttpServlet {
+@WebServlet(name = "removeUserServlet", urlPatterns = {"/removeUserServlet"})
+public class removeUserServlet extends HttpServlet {
 
-
-
-
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+       
         JPAController jpa = new JPAController();
         
         jpa.start();
         
         System.out.println(request.getParameter("login"));
-        System.out.println(request.getParameter("password"));
-        System.out.println(request.getParameter("role"));
         
-        Users u = new Users();
-        
-        BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
+        Users u = jpa.getUserByName(request.getParameter("login"));
 
-        Hash hash = Password.hash(request.getParameter("password")).addPepper("shared-secret").with(bcrypt);
-        
-        System.out.println(hash.getResult());
-        
-        u.setUsername(request.getParameter("login"));
-        u.setPassword(hash.getResult());
-        u.setRole(jpa.getRoleById(Integer.parseInt(request.getParameter("role"))));
-        
-        jpa.saveUser(u);
+        jpa.removeUser(u);
         
         response.setStatus(202);
     }

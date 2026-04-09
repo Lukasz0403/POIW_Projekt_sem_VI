@@ -1,11 +1,9 @@
-
-
 window.onload = async function() {
 
     let status = await checkSession()
 
     if(status) {
-        let roleInfo = await getLoginInfo()
+        roleInfo = await getLoginInfo()
         allProducts = await getUsers(roleInfo)
         drawNavbar()
         checkRole(roleInfo)
@@ -57,7 +55,7 @@ async function printUsers(json) {
                             ${element.role.roleName}
                         </td>
                         <td>
-                            <a>Edytuj</a>
+                            <a href="/MyParts/html/adminForm.html?login=${element.username}&roleId=${element.role.roleId}">Edytuj</a>
                         </td>`
         tbody.appendChild(row)
     })
@@ -76,13 +74,14 @@ function addUser() {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         body: `role=${role}&login=${login}&password=${pass}`
-    }).then(res => {
+    }).then(async res => {
 
     if(res.status === 202){
         alert("Dodano użytkownika")
-        printUsers()
+        allProducts = await getUsers(roleInfo)
+        printUsers(allProducts)
     } else {
-        alert("Błąd dodawania uzytkownika")
+        alert("Błąd dodawania użytkownika")
     }
     })
 }

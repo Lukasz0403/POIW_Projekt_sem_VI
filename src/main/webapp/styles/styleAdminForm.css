@@ -1,0 +1,35 @@
+.card-container {
+
+    display: flex;
+    justify-content: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form {
+    width: fit-content;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+a {
+    width: fit-content;
+    color: white;
+    padding: 12px;
+    background-color: #cc0000;
+    border-radius: 6px;
+    
+}

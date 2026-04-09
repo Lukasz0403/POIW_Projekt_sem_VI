@@ -20,21 +20,12 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Radosław
  */
-@WebServlet(name = "addUserServlet", urlPatterns = {"/addUserServlet"})
-public class addUserServlet extends HttpServlet {
+@WebServlet(name = "updateUserServlet", urlPatterns = {"/updateUserServlet"})
+public class updateUserServlet extends HttpServlet {
 
 
 
 
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,19 +38,25 @@ public class addUserServlet extends HttpServlet {
         System.out.println(request.getParameter("password"));
         System.out.println(request.getParameter("role"));
         
-        Users u = new Users();
+        Users u = jpa.getUserByName(request.getParameter("login"));
         
-        BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
-
-        Hash hash = Password.hash(request.getParameter("password")).addPepper("shared-secret").with(bcrypt);
-        
-        System.out.println(hash.getResult());
+        if(u == null) {
+            response.sendError(404);
+        }
         
         u.setUsername(request.getParameter("login"));
-        u.setPassword(hash.getResult());
         u.setRole(jpa.getRoleById(Integer.parseInt(request.getParameter("role"))));
         
-        jpa.saveUser(u);
+        if(request.getParameter("password") != "") {
+            
+            BcryptFunction bcrypt = BcryptFunction.getInstance(Bcrypt.B, 12);
+
+            Hash hash = Password.hash(request.getParameter("password")).addPepper("shared-secret").with(bcrypt);
+            
+            u.setPassword(hash.getResult());
+        }
+        
+        jpa.updateUser(u);
         
         response.setStatus(202);
     }

@@ -5,6 +5,8 @@
 package com.mycompany.servlets.servlets;
 
 
+import com.password4j.BcryptFunction;
+import com.password4j.Password;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -52,8 +54,15 @@ public class loginProcedureServlet extends HttpServlet {
         if(u == null) {
             response.sendError(404);
         }
+        
+        String hash = u.getPassword();
+        BcryptFunction bcrypt = BcryptFunction.getInstanceFromHash(hash);
+
+        boolean verified = Password.check(password, hash)
+                           .addPepper("shared-secret")
+                           .with(bcrypt);
             
-        if(u.getUsername().equals(login) && u.getPassword().equals(password)){
+        if(u.getUsername().equals(login) && verified){
 
             request.getSession().setAttribute("user", u);
             request.getSession().setAttribute("loginDate", LocalDate.now());

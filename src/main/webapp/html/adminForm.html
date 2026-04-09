@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <!-- Tytuł strony panelu głównego -->
+    <title>MyParts - Panel</title>
+    <!-- Podłączenie stylów CSS -->
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/styleAdminForm.css">
+</head>
+<body>
+    <!-- Główna zawartość strony (dynamicznie zmieniana przez JS) -->
+    <main>
+        <div class="card-container">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Edytuj użytkownika</h3>
+                    <a href="/MyParts/html/adminTab.html" class="return">Powrót</a>
+                </div>
+                
+                <label for="login">Zmień nazwę:</label>
+                <input type="text" id="login">
+                <select id="role">
+                    <option value="1" selected>pracownik</option>
+                    <option value="2">kierownik</option>
+                    <option value="3">administrator</option>
+                </select>
+                <label for="npass">Podaj nowe hasło:</label>
+                <input type="password" id="npass">
+                <label for="rpass">Powtórz nowe hasło:</label>
+                <input type="password" id="rpass">
+                <button onclick="changeUser()">Zapisz zmiany</button>
+                <button onclick="removeUser()">Usuń użytkownika</button>
+            </div>  
+        </div>
+    </main>
+    <!-- Podłączenie pliku JavaScript (logika aplikacji) -->
+    <script src="../scripts/script.js"></script>
+    <script src="../scripts/adminForm.js"></script>
+</body>
+</html>
