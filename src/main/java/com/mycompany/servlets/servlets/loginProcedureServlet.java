@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  *
- * @author mateu
+ * @author Mateusz Gojny i Radosław Kruczek
  */
 @WebServlet(name = "loginProcedureServlet", urlPatterns = {"/loginProcedureServlet"})
 public class loginProcedureServlet extends HttpServlet {

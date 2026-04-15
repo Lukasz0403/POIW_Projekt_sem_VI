@@ -15,12 +15,18 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
- * @author mateu
+ * @author Mateusz Gojny
  */
 @WebServlet(name = "getProductServlet", urlPatterns = {"/getProductServlet"})
 public class getProductServlet extends HttpServlet {
 
-    
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

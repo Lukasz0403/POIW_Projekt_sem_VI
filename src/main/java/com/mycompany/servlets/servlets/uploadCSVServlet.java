@@ -18,12 +18,19 @@ import java.io.InputStreamReader;
 
 /**
  *
- * @author mateu
+ * @author Mateusz Gojny
  */
 @WebServlet(name = "uploadCSVServlet", urlPatterns = {"/uploadCSVServlet"})
 @MultipartConfig
 public class uploadCSVServlet extends HttpServlet {
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,7 +47,7 @@ public class uploadCSVServlet extends HttpServlet {
         boolean firstLine = true;
 
         while ((line = reader.readLine()) != null) {
-            // pomijamy nagłówek
+            
             if (firstLine) { firstLine = false; continue; }
 
             String[] cols = line.split(";");

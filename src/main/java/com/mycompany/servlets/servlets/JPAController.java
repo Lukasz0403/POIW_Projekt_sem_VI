@@ -155,6 +155,10 @@ public class JPAController {
         }
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @return
+     */
     public List<Products> getProducts() {
         Session session = sessionFactory.openSession();
         List<Products> list = session.createQuery("from Products", Products.class).list();
@@ -162,6 +166,11 @@ public class JPAController {
         return list;
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param name
+     * @return
+     */
     public Categories getCategoryByName(String name) {
         Session session = sessionFactory.openSession();
         Query q = session.createNamedQuery("Categories.findByName", Categories.class);
@@ -171,6 +180,10 @@ public class JPAController {
         return c;
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param p
+     */
     public void saveProduct(Products p) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -181,6 +194,13 @@ public class JPAController {
         session.close();
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param name
+     * @param brand
+     * @param categoryName
+     * @return
+     */
     public Products findProduct(String name, String brand, String categoryName) {
 
         Session session = sessionFactory.openSession();
@@ -208,6 +228,10 @@ public class JPAController {
         }
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param product
+     */
     public void saveOrUpdateProduct(Products product) {
 
         Session session = sessionFactory.openSession();
@@ -219,6 +243,11 @@ public class JPAController {
         session.close();
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param name
+     * @return
+     */
     public Categories findCategoryByName(String name) {
 
         Session session = sessionFactory.openSession();
@@ -264,6 +293,10 @@ public class JPAController {
         }
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param p
+     */
     public void updateProduct(Products p) {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
@@ -277,6 +310,11 @@ public class JPAController {
     }
 }
     
+    /**
+     * @author Mateusz Gojny
+     * @param id
+     * @return
+     */
     public Products getProductById(int id) {
 
     Session session = sessionFactory.openSession();
@@ -288,6 +326,10 @@ public class JPAController {
       }
     }
     
+    /**
+     * @author Mateusz Gojny
+     * @param p
+     */
     public void deleteProduct(Products p) {
 
         Session session = sessionFactory.openSession();
@@ -299,6 +341,13 @@ public class JPAController {
         session.close();
     }
     
+    /**
+     * 
+     * @author Mateusz Gojny
+     * @param name
+     * @return
+     * 
+     */
     public Categories findManyCategoriesByName(String name) {
     Session session = sessionFactory.openSession();
     try {

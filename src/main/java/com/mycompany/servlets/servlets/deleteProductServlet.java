@@ -14,11 +14,17 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author mateu
+ * @author Mateusz Gojny
  */
 @WebServlet(name = "deleteProductServlet", urlPatterns = {"/deleteProductServlet"})
 public class deleteProductServlet extends HttpServlet {
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

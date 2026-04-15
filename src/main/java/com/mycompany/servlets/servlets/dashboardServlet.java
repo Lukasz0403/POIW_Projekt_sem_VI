@@ -45,22 +45,12 @@ import org.codehaus.jackson.node.ObjectNode;
  * Wygenerowany HTML jest przeznaczony do dynamicznego wstawienia
  * w głównym kontenerze aplikacji (np. przy użyciu fetch API).
  *
- * @author Mateusz Gojny
+ * @author Mateusz Gojny i Radosław Kruczek
  */
 @WebServlet(name = "dashboardServlet", urlPatterns = {"/dashboardServlet"})
 public class dashboardServlet extends HttpServlet {
 
-    /**
-     * Obsługuje żądanie HTTP GET.
-     * 
-     * Pobiera obiekt użytkownika z sesji ({@link HttpSession}),
-     * a następnie generuje widok dashboardu zawierający jego dane
-     * oraz bieżącą datę logowania.
-     *
-     * @param request obiekt żądania HTTP, zawierający sesję użytkownika
-     * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest HTML
-     * @throws IOException w przypadku błędu zapisu odpowiedzi
-     */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
