@@ -24,8 +24,8 @@ public class JPAController {
             
         Properties prop = new Properties();
         //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
-        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
+        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -250,6 +250,32 @@ public class JPAController {
             return list;
         }
     }
+    
+    public void saveSale(Sales s) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            session.persist(s);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+    
+    public void updateProduct(Products p) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    try {
+        session.update(p);
+        session.getTransaction().commit();
+    } catch (Exception e) {
+        session.getTransaction().rollback();
+    } finally {
+        session.close();
+    }
+}
     
     public Products getProductById(int id) {
 
