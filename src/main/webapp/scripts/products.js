@@ -6,12 +6,12 @@ function renderProducts(products, roleId) {
     table.innerHTML = "";
     products.forEach((p) => {
         table.innerHTML += `
-            <tr>
+            <tr class="${p.quantity <= 5 ? 'low-stock' : ''}">
                 <td>${p.categoryId.name}</td>
                 <td>${p.name}</td>
                 <td>${p.brand}</td>
                 <td>${p.price} zł</td>
-                <td>${p.quantity}</td>
+                <td>${p.quantity <= 5 ? `${p.quantity} ⚠️` : p.quantity}</td>
                 ${roleId >= 2 ? `<td><a href="editProduct.html?id=${p.productId}">Edytuj</a></td>` : ""}
             </tr>
         `;

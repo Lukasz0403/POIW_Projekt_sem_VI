@@ -26,4 +26,12 @@ button:hover {
     background: #0056b3;
 }
 
+.low-stock {
+    background-color: #ffe5e5;
+}
+
+.low-stock:hover {
+    background-color: #ffd0d0;
+}
+
 
