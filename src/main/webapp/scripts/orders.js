@@ -7,6 +7,7 @@ window.onload = async function(){
         drawNavbar();
         checkRole(roleInfo);
         await loadCategories();
+        initValidation();
     }
 }
 
@@ -42,17 +43,17 @@ async function addProduct(){
 
     
     if(!name || !brand || !category){
-        alert("Wypełnij wszystkie pola!");
+        showToast("Wypełnij wszystkie pola","error");
         return;
     }
 
     if(isNaN(price) || price < 0){
-        alert("Cena musi być dodatnia!");
+        showToast("Cena musi być dodatnia","error");;
         return;
     }
 
     if(isNaN(quantity) || quantity <= 0){
-        alert("Ilość musi być większa od 0!");
+        showToast("Ilość musi być większa od 0","error");;
         return;
     }
 
@@ -67,11 +68,11 @@ async function addProduct(){
     });
 
     if(res.status === 202){
-        alert("Produkt dodany!");
+        showToast("Produkt dodany");
 
         clearForm(); 
     } else {
-        alert("Błąd dodawania produktu");
+        showToast("Nie udało się dodać produktu","error");
     }
 }
 
@@ -88,7 +89,7 @@ function clearForm(){
 async function uploadCSV() {
     const fileInput = document.getElementById("csv_file");
     if (!fileInput.files[0]) {
-        alert("Wybierz plik CSV!");
+        showToast("Wybierz plik .csv","error");
         return;
     }
 
@@ -101,9 +102,39 @@ async function uploadCSV() {
     });
 
     if (res.status === 202) {
-        alert("Produkty zaimportowane pomyślnie!");
+        showToast("Produkty zaimportowane");
         document.getElementById("csv_file").value = "";
     } else {
-        alert("Błąd importu!");
+        showToast("Błąd importu","error");
     }
+}
+
+
+function initValidation() {
+    
+     document.getElementById("prod_name").addEventListener("input", function () {
+        const isValid = this.value.trim() !== "";
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_name").classList.toggle("show", !isValid);
+    });
+
+    document.getElementById("prod_brand").addEventListener("input", function () {
+        const isValid = this.value.trim() !== "";
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_brand").classList.toggle("show", !isValid);
+    });
+    
+    document.getElementById("prod_price").addEventListener("input", function () {
+        const val = this.value;
+        const isValid = val !== "" && !isNaN(val) && parseFloat(val) >= 0;
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_price").classList.toggle("show", !isValid);
+    });
+
+    document.getElementById("prod_quantity").addEventListener("input", function () {
+        const val = this.value;
+        const isValid = val !== "" && !isNaN(val) && parseInt(val) >= 1;
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_quantity").classList.toggle("show", !isValid);
+    });
 }

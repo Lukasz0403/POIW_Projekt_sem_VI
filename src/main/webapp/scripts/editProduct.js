@@ -12,6 +12,7 @@ window.onload = async function(){
         await loadProduct();
         let roleInfo = await getLoginInfo();
         checkRole(roleInfo)
+        initValidation();
     }
 }
 
@@ -75,10 +76,11 @@ async function updateProduct(){
     });
 
     if(res.status === 202){
-        alert("Zaktualizowano produkt");
-        window.location.href = "products.html";
+        showToast("Zaktualizowano produkt");
+        setTimeout(() => window.location.href = "products.html", 1000);
     } else {
-        alert("Błąd aktualizacji");
+        showToast("Błąd aktualizacji","error");
+        
     }
 }
 
@@ -101,9 +103,37 @@ async function deleteProduct(){
     });
 
     if(res.status === 202){
-        alert("Produkt usunięty");
-        window.location.href = "products.html";
+        showToast("Usunięto produkt");
+        setTimeout(() => window.location.href = "products.html", 1000);
     } else {
-        alert("Błąd usuwania");
+        showToast("Nie udało się usunąć","error");
     }
+}
+
+function initValidation() {
+    document.getElementById("name").addEventListener("input", function () {
+        const isValid = this.value.trim() !== "";
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_name").classList.toggle("show", !isValid);
+    });
+
+    document.getElementById("brand").addEventListener("input", function () {
+        const isValid = this.value.trim() !== "";
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_brand").classList.toggle("show", !isValid);
+    });
+
+    document.getElementById("price").addEventListener("input", function () {
+        const val = this.value;
+        const isValid = val !== "" && !isNaN(val) && parseFloat(val) >= 0;
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_price").classList.toggle("show", !isValid);
+    });
+
+    document.getElementById("quantity").addEventListener("input", function () {
+        const val = this.value;
+        const isValid = val !== "" && !isNaN(val) && parseInt(val) >= 1;
+        this.classList.toggle("input-error", !isValid);
+        document.getElementById("err_quantity").classList.toggle("show", !isValid);
+    });
 }

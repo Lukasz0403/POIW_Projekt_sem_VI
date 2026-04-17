@@ -19,11 +19,13 @@
         <div>
             <label>Nazwa:</label>
             <input type="text" id="name">
+            <span class="error-msg" id="err_name">Pole nie może być puste</span>
         </div>
 
         <div>
             <label>Marka:</label>
             <input type="text" id="brand">
+            <span class="error-msg" id="err_brand">Pole nie może być puste</span>
         </div>
 
         <div>
@@ -34,11 +36,13 @@
         <div>
             <label>Cena:</label>
             <input type="number" id="price">
+            <span class="error-msg" id="err_price">Błąd w formularzu</span>
         </div>
 
         <div>
             <label>Ilość:</label>
             <input type="number" id="quantity">
+            <span class="error-msg" id="err_quantity">Błąd w formularzu</span>
         </div>
 
         <button type="button" class="save-btn" onclick="updateProduct()">

@@ -88,3 +88,20 @@ async function checkRole(json) {
     }
 
 }
+
+
+function showToast(message, type = "success", duration = 3000) {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // pokaż
+    setTimeout(() => toast.classList.add("show"), 10);
+
+    // ukryj i usuń
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 400);
+    }, duration);
+}

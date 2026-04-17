@@ -106,3 +106,32 @@ a:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.success {
+    background: #2e7d32;
+}
+
+.toast.error {
+    background: #cc0000;
+}
+

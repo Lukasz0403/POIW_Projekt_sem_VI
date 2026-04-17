@@ -5,10 +5,6 @@ function renderProducts(products, roleId) {
     const table = document.getElementById("products_table");
     table.innerHTML = "";
     products.forEach((p) => {
-        const editCell = (roleId >= 2)
-            ? `<a href="editProduct.html?id=${p.productId}">Edytuj</a>`
-            : `<a href="#" onclick="alert('Brak uprawnień do edycji produktów.')">Edytuj</a>`;
-
         table.innerHTML += `
             <tr>
                 <td>${p.categoryId.name}</td>
@@ -16,7 +12,7 @@ function renderProducts(products, roleId) {
                 <td>${p.brand}</td>
                 <td>${p.price} zł</td>
                 <td>${p.quantity}</td>
-                <td>${editCell}</td>
+                ${roleId >= 2 ? `<td><a href="editProduct.html?id=${p.productId}">Edytuj</a></td>` : ""}
             </tr>
         `;
     });
@@ -31,6 +27,9 @@ window.onload = async function() {
         checkRole(roleInfo)
         await loadProducts();
         initFilters();
+        if (currentRoleId < 2) {
+            document.getElementById("th_edit").style.display = "none";
+        }
     }
 }
 

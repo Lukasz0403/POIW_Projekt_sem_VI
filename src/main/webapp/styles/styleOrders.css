@@ -66,3 +66,20 @@ main {
     flex-direction: column;
     justify-content: space-between;
 }
+
+.input-error {
+    border: 2px solid #cc0000 !important;
+    background: #fff0f0;
+}
+
+.error-msg {
+    color: #cc0000;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    display: none;
+}
+
+.error-msg.show {
+    display: block;
+}
