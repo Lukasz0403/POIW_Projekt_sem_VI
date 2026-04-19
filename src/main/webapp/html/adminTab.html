@@ -14,23 +14,26 @@
         <div class="card-container">
             <div class="card">
                 <h3>Dodaj pracownika</h3>
-                <label for="role">Uprawnienia:</label>
-                <select id="role">
-                    <option value="1" selected>pracownik</option>
-                    <option value="2">kierownik</option>
-                    <option value="3">administrator</option>
-                </select>
-                <label for="login">Nazwa użytkownika:</label>
-                <input placeholder="login" id="login">
-                <label for="pass">Hasło:</label>
-                <input type="password" placeholder="hasło" id="pass">
-                <button onclick="addUser()">Potwierdź</button>
+                <form onsubmit="event.preventDefault(); addUser()">
+                    <label class="role" for="rol">Uprawnienia:</label>
+                    <select class="role" id="rol">
+                        <option value="1" selected>pracownik</option>
+                        <option value="2">kierownik</option>
+                        <option value="3">administrator</option>
+                    </select>
+                    <label for="login">Nazwa użytkownika (Minimum 4 znaki):</label>
+                    <input type="text" placeholder="login" id="login" pattern="\S{4,}" required>
+                    <label for="pass">Hasło (Minimum 8 znaków):</label>
+                    <input type="password" placeholder="hasło" id="pass" pattern="\S{8,}" required>
+                    <button>Potwierdź</button>
+                </form>
+
             </div>
             <div class="card table-card">
                 <table>
                     <thead>
-                        <th>Identyfikator</th>
-                        <th>Login</th>
+                        <th id="idSort" onclick="idSort()">Identyfikator<span>&#8595;</span></th>
+                        <th id="loginSort" onclick="nameSort()">Login<span>&#8595;</span></th>
                         <th>Uprawnienia</th>
                         <th>Edytuj</th>
                     </thead>
@@ -40,8 +43,8 @@
             </div>
             <div class="card">
                 <h3>Filtry</h3>
-                <label for="roleFilter">Uprawnienia:</label>
-                <select id="roleFilter">
+                <label class="filterRole" for="roleFilter">Uprawnienia:</label>
+                <select class="filterRole" id="roleFilter">
                     <option value="">wszyscy</option>
                     <option value="pracownik">pracownik</option>
                     <option value="kierownik">kierownik</option>
@@ -51,14 +54,6 @@
                 <input id="loginFilter">
                 <label for="userId">Identyfikator:</label>
                 <input type="number" min="1" id="userId">
-                <label for="userId">Sortuj:</label>
-                <select id="sort">
-                    <option> -- BRAK -- </option>
-                    <option value="az">Nazwa A-Z</option>
-                    <option value="za">Nazwa Z-A</option>
-                    <option value="increment">Identyfikator rosnąco</option>
-                    <option value="decrement">Identyfikator malejąco</option>
-                </select>
             </div>
         </div>
 

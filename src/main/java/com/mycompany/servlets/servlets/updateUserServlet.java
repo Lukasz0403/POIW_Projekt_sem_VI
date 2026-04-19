@@ -34,17 +34,18 @@ public class updateUserServlet extends HttpServlet {
         
         jpa.start();
         
-        System.out.println(request.getParameter("login"));
+        System.out.println(request.getParameter("newlogin"));
+        System.out.println(request.getParameter("oldlogin"));
         System.out.println(request.getParameter("password"));
         System.out.println(request.getParameter("role"));
         
-        Users u = jpa.getUserByName(request.getParameter("login"));
+        Users u = jpa.getUserByName(request.getParameter("oldlogin"));
         
         if(u == null) {
-            response.sendError(404);
+            response.sendError(402);
         }
         else {
-            u.setUsername(request.getParameter("login"));
+            u.setUsername(request.getParameter("newlogin"));
             u.setRole(jpa.getRoleById(Integer.parseInt(request.getParameter("role"))));
 
             if(!"".equals(request.getParameter("password"))) {

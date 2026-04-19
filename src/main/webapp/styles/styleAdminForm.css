@@ -33,3 +33,16 @@ a {
     border-radius: 6px;
     
 }
+
+input:invalid {
+    background: #fff0f0;
+    border: 2px solid #cc0000;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+input:disabled {
+    cursor: not-allowed;
+}

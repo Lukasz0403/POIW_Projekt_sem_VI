@@ -33,9 +33,17 @@ function permissionAdjust(roleInfo) {
 
     if(roleInfo[0].role.roleId == 2) {
 
-        const select = document.getElementById("role")
 
         select.setAttribute("disabled", "disabled")
+
+        const select = Array.from(document.getElementsByClassName("rol"))
+
+        if(roleInfo[0].role.roleId != 3) {
+
+            select.forEach((e) => {
+                e.setAttribute("hidden", "hidden")
+            })
+        }
 
     }
 }
@@ -59,10 +67,10 @@ function removeUser() {
         }).then(res => {
 
         if(res.status === 202){
-            alert("Usunięto użytkownika")
-            window.location.href = "adminTab.html"
+            showToast("Usunięto użytkownika")
+            setTimeout(() => window.location.href = "adminTab.html", 1000);
         } else {
-            alert("Błąd usuwania użytkownika")
+            showToast("Błąd usuwania użytkownika")
         }
         })
     }
@@ -72,38 +80,49 @@ function changeUser() {
 
     let login = document.getElementById("login").value
     let npass = document.getElementById("npass").value
-    let rpass = document.getElementById("rpass").value
+    let role = document.getElementById("role").value
+    let oldlogin = getUserCredentials("login")
+    
 
-    if(login == "") {
-        alert("Podano pusty login")
-        adjustForm()
-    }
-    else if(!(npass === rpass)) {
-        alert("Błędnie podano nowe hasło.")
-        adjustForm()
-    }
-    else {
-
-        let role = document.getElementById("role").value
-        let login = document.getElementById("login").value
-        let pass = document.getElementById("rpass").value
-
-        fetch("/MyParts/updateUserServlet", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `role=${role}&login=${login}&password=${pass}`
-        }).then(res => {
+    fetch("/MyParts/updateUserServlet", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `role=${role}&newlogin=${login}&oldlogin=${oldlogin}&password=${npass}`
+    }).then(res => {
 
         if(res.status === 202){
-            alert("Zaktualizowano użytkownika")
-            window.location.href = "adminTab.html"
+
+            showToast("Zaktualizowano użytkownika")
+            setTimeout(() => window.location.href = "products.html", 1000);
+
         } else {
-            alert("Błąd aktualizacji użytkownika")
+            showToast("Błąd aktualizacji użytkownika", "error")
             adjustForm()
         }
-        })
+    })
+    
+}
+
+function setPatternPass() {
+
+    const npass = document.getElementById("npass")
+
+    const rpass = document.getElementById("rpass")
+
+    if(npass.value) {
+        npass.setAttribute("pattern", "\\S{8,}")
+        npass.setAttribute("required", "")
+        npass.removeAttribute("disabled")
+        rpass.setAttribute("pattern", npass.value)
+        rpass.setAttribute("required", "required")
+    } else {
+        npass.removeAttribute("pattern")
+        npass.removeAttribute("required")
+        rpass.removeAttribute("pattern")
+        rpass.removeAttribute("required")
+        rpass.setAttribute("disabled", "disabled")
     }
 }
 

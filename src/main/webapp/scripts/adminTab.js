@@ -1,3 +1,6 @@
+let allProducts = null
+let filtered = null
+
 window.onload = async function() {
 
     let status = await checkSession()
@@ -38,7 +41,7 @@ async function getUsers(roleInfo) {
 
 async function printUsers(json) {
 
-    let tbody = document.getElementById("tbody")
+    const tbody = document.getElementById("tbody")
 
     tbody.innerHTML = ""
 
@@ -64,50 +67,49 @@ async function printUsers(json) {
 
 function addUser() {
 
-    let role = document.getElementById("role").value
+    let role = document.getElementById("rol").value
     let login = document.getElementById("login").value
     let pass = document.getElementById("pass").value
 
-    if(login == "" || pass == "") {
 
-        alert("Nie podano loginu lub hasła.")
+    let conf = confirm("Czy na pewno chcesz dodać nowego uzytkownika?")
+
+    if(!conf) {
+        exit()
     }
-    else {
 
-        let conf = confirm("Czy na pewno chcesz dodać nowego uzytkownika?")
+    fetch("/MyParts/addUserServlet", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `role=${role}&login=${login}&password=${pass}`
+    }).then(async res => {
 
-        if(!conf) {
-            exit()
-        }
-
-        fetch("/MyParts/addUserServlet", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `role=${role}&login=${login}&password=${pass}`
-        }).then(async res => {
-
-        if(res.status === 202){
-            alert("Dodano użytkownika")
-            allProducts = await getUsers(roleInfo)
-            printUsers(allProducts)
-        } else {
-            alert("Błąd dodawania użytkownika")
-        }
-        })
+    if(res.status === 202){
+        showToast("Dodano użytkownika")
+        allProducts = await getUsers(roleInfo)
+        printUsers(allProducts)
+    } else {
+        showToast("Błąd dodowania użytkownika", "error")
     }
+    })
+    
 }
 
 async function checkRoleForPermissionFilter(roleInfo) {
 
-        const addroleSelect = document.getElementById("role")
-        const filterroleSelect = document.getElementById("roleFilter")
+        const addroleSelect = Array.from(document.getElementsByClassName("role"))
+        const filterroleSelect = Array.from(document.getElementsByClassName("filterRole"))
 
         if(roleInfo[0].role.roleId != 3) {
 
-            addroleSelect.setAttribute("disabled", "disabled")
-            filterroleSelect.setAttribute("disabled", "disabled")
+            addroleSelect.forEach((e) => {
+                e.setAttribute("hidden", "hidden")
+            })
+            filterroleSelect.forEach((e) => {
+                e.setAttribute("hidden", "hidden")
+            })
         }
 }
 
@@ -116,11 +118,9 @@ function filtr(){
     const roleFilter = document.getElementById("roleFilter").value
     const loginFilter = document.getElementById("loginFilter").value.toLowerCase()
     const userId = document.getElementById("userId").value
-    const sort = document.getElementById("sort").value
 
-    console.log(roleFilter)
 
-    let filtered = allProducts.filter(p => {
+    filtered = allProducts.filter(p => {
 
         let matchRole = !roleFilter || p.role.roleName === roleFilter
         let matchLogin = !loginFilter || p.username.toLowerCase().includes(loginFilter)
@@ -129,22 +129,45 @@ function filtr(){
         return matchRole && matchLogin && matchId
     })
 
-    
-    if(sort === "az"){
+    printUsers(filtered)
+}
+
+function nameSort() {
+    const login = document.getElementById("loginSort")
+
+    filtr()
+
+    if(login.lastChild.innerHTML === "↑"){
+
         filtered.sort((a, b) => a.username.localeCompare(b.username))
-    }
-    if(sort === "za"){
+        login.lastChild.innerHTML = "↓"
+
+    } else if(login.lastChild.innerText === "↓"){
+
         filtered.sort((a, b) => b.username.localeCompare(a.username))
-    }
-    if(sort === "increment"){
-        filtered.sort((a, b) => a.userId - b.userId)
-    }
-    if(sort === "decrement"){
-        filtered.sort((a, b) => b.userId - a.userId)
+        login.lastChild.innerHTML = "↑"
     }
 
     printUsers(filtered)
 }
+
+function idSort() {
+
+    const id = document.getElementById("idSort")
+
+    filtr()
+
+    if(id.lastChild.innerHTML === "↑"){
+        filtered.sort((a, b) => a.userId - b.userId)
+        id.lastChild.innerHTML = "↓"
+    } else if(id.lastChild.innerHTML === "↓"){
+        filtered.sort((a, b) => b.userId - a.userId)
+        id.lastChild.innerHTML = "↑"
+    }
+
+    printUsers(filtered)
+}
+
 
 
 function initFilters(){
@@ -152,5 +175,14 @@ function initFilters(){
     document.getElementById("loginFilter").addEventListener("input", filtr)
     document.getElementById("roleFilter").addEventListener("change", filtr)
     document.getElementById("userId").addEventListener("input", filtr)
-    document.getElementById("sort").addEventListener("input", filtr)
+}
+
+function missInputInfo() {
+
+    const form = document.getElementsByClassName("card")[0]
+
+    console.log("dupa")
+
+    form.append(`<p>Nie podano loginu lub hasła.</p>`)
+
 }

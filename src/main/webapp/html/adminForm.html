@@ -17,19 +17,21 @@
                     <h3>Edytuj użytkownika</h3>
                     <a href="/MyParts/html/adminTab.html" class="return">Powrót</a>
                 </div>
-                
-                <label for="login">Zmień nazwę:</label>
-                <input type="text" id="login">
-                <select id="role">
-                    <option value="1" selected>pracownik</option>
-                    <option value="2">kierownik</option>
-                    <option value="3">administrator</option>
-                </select>
-                <label for="npass">Podaj nowe hasło:</label>
-                <input type="password" id="npass">
-                <label for="rpass">Powtórz nowe hasło:</label>
-                <input type="password" id="rpass">
-                <button onclick="changeUser()">Zapisz zmiany</button>
+                <form onsubmit="event.preventDefault(); changeUser()">
+                    <label for="login">Zmień nazwę (Minimum 4 znaki):</label>
+                    <input type="text" id="login" pattern="\S{4,}" required>
+                    <label class="rol" for="role">Wybierz stanowisko:</label>
+                    <select class="rol" id="role">
+                        <option value="1" selected>pracownik</option>
+                        <option value="2">kierownik</option>
+                        <option value="3">administrator</option>
+                    </select>
+                    <label for="npass">Podaj nowe hasło (Minimum 8 znaków):</label>
+                    <input type="password" id="npass" onchange="setPatternPass()">
+                    <label for="rpass">Powtórz nowe hasło:</label>
+                    <input type="password" id="rpass" disabled>
+                    <button id="submit">Zapisz zmiany</button>
+                </form>
                 <button onclick="removeUser()">Usuń użytkownika</button>
             </div>  
         </div>

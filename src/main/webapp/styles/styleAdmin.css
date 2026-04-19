@@ -23,3 +23,17 @@ button {
     overflow-y:scroll;
     height:400px;
 }
+
+select:hover {
+    cursor: pointer;
+}
+
+th#idSort:hover, th#loginSort:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+input:invalid {
+    background: #fff0f0;
+    border: 2px solid #cc0000;
+}
