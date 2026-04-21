@@ -53,7 +53,7 @@ function drawNavbar() {
             <a href="/MyParts/html/products.html">Produkty</a>
             <a href="/MyParts/html/orders.html">Przyjęcie Zamówienia</a>
             <a href="/MyParts/html/sales.html">Kasa fiskalna</a>
-            <a href="/MyParts/html/salesReport.html">Raport sprzedażowy</a>
+            <a href="/MyParts/html/salesReportMAIN.html">Raport sprzedażowy</a>
         </div>
         <div class="nav-right">
             <a href="#" onclick="logout()">Wyloguj</a>

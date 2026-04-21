@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyParts - Raport sprzedażowy</title>
+        <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/styleReportMain.css">
+    </head>
+    <body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="summary-box">
+                <div class="summary-header">
+                    <h3>Dane sprzedażowe z miesiąca: </h3>
+                </div>
+                <p>Łączna sprzedaż: <span id="total_sales">0 zł</span></p>
+                <p>Sprzedane produkty: <span id="total_items">0</span></p>
+                <p>Miesiąc: <span id="month">-</span></p>
+            </div>
+            <div class="charts-box">
+                <h3>Wykresy kołowe i słupkowe</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+        <div class="right-panel">
+            <button onclick="printFullReport()" style="background: #28a745;">Drukuj Pełny Raport (PDF)</button>
+
+            <button onclick="printPDF()">Generuj PDF (Widok bieżący)</button>
+            <button onclick="goReport()">Przejście do listy archiwalnej sprzedaży</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../scripts/script.js"></script>
+    <script src="../scripts/salesReportMain.js"></script>
+</body>
+</html>

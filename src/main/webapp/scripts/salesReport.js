@@ -1,124 +1,103 @@
-function renderSales(sales){
+let allSales = []; // Tutaj trzymamy dane z bazy
 
+// Ładowanie danych i kategorii
+async function loadSales() {
+    try {
+        const res = await fetch("/MyParts/getSales");
+        allSales = await res.json();
+        
+        populateCategories(allSales); // Automatyczne wypełnienie listy kategorii
+        renderSales(allSales);
+    } catch (error) {
+        console.error("Błąd ładowania:", error);
+    }
+}
+
+// Funkcja pomocnicza do wypełnienia selecta kategoriami
+function populateCategories(sales) {
+    const select = document.getElementById("kategoria");
+    const categories = [...new Set(sales.map(s => s.productId.categoryId.name))];
+    
+    categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+    });
+}
+
+// Główna funkcja filtrująca i sortująca
+function filtr() {
+    const kategoria = document.getElementById("kategoria").value;
+    const nazwa = document.getElementById("search_name").value.toLowerCase();
+    const sort = document.getElementById("sort_select").value;
+
+    // FILTROWANIE
+    let filtered = allSales.filter(s => {
+        const product = s.productId;
+        
+        // Sprawdź kategorię (jeśli pusta, przepuść wszystko)
+        const matchCategory = !kategoria || product.categoryId.name === kategoria;
+        
+        // Sprawdź nazwę (jeśli pusta, przepuść wszystko)
+        const matchName = !nazwa || product.name.toLowerCase().includes(nazwa);
+
+        return matchCategory && matchName;
+    });
+
+    // SORTOWANIE
+    if (sort === "name_asc") {
+        filtered.sort((a, b) => a.productId.name.localeCompare(b.productId.name));
+    } else if (sort === "name_desc") {
+        filtered.sort((a, b) => b.productId.name.localeCompare(a.productId.name));
+    } else if (sort === "price_asc") {
+        filtered.sort((a, b) => a.productId.price - b.productId.price);
+    } else if (sort === "price_desc") {
+        filtered.sort((a, b) => b.productId.price - a.productId.price);
+    } else if (sort === "date_asc") {
+        filtered.sort((a, b) => new Date(a.saleDate) - new Date(b.saleDate));
+    } else if (sort === "date_desc") {
+        filtered.sort((a, b) => new Date(b.saleDate) - new Date(a.saleDate));
+    }
+
+    renderSales(filtered);
+}
+
+// Renderowanie tabeli
+function renderSales(sales) {
     const table = document.getElementById("products_table");
     table.innerHTML = "";
+    const pad = (n) => String(n).padStart(2, '0');
 
-    sales.forEach((p, i) => {
+    sales.forEach(s => {
+        const d = new Date(s.saleDate);
+        const formattedDate = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 
-        let date = new Date(p.saleDate)
-
-        let hour
-        let minute
-        let second
-        let year
-        let month
-        let day
-
-        if(date.getHours() < 10) {
-            hour = "0" + date.getHours()
-        } else {
-            hour = date.getHours()
-        }
-        if(date.getMinutes() < 10) {
-            minute = "0" + date.getMinutes()
-        } else {
-            minute = date.getMinutes()
-        }
-        if(date.getSeconds() < 10) {
-            second = "0" + date.getSeconds()
-        } else {
-            second = date.getSeconds()
-        }
-        if(date.getMonth() < 10) {
-            month = "0" + date.getMonth()
-        } else {
-            month = date.getMonth()
-        }
-        if(date.getDay() < 10) {
-            day = "0" + date.getDay()
-        } else {
-            day = date.getDay()
-        }
-
-        year = date.getFullYear()
-        
         table.innerHTML += `
             <tr>
-                <td>${p.productId.categoryId.name}</td>
-                <td>${p.productId.name}</td>
-                <td>${p.productId.brand}</td>
-                <td>${p.productId.price} zł</td>
-                <td>${p.quantity}</td>
-                <td>${year}-${month}-${day} ${hour}:${minute}:${second}</td>
+                <td>${s.productId.categoryId.name}</td>
+                <td>${s.productId.name}</td>
+                <td>${s.productId.brand}</td>
+                <td>${s.productId.price.toFixed(2)} zł</td>
+                <td>${s.quantity}</td>
+                <td>${formattedDate}</td>
             </tr>
         `;
     });
 }
 
-window.onload = async function() {
-
-    let status = await checkSession()
-
-    if(status) {
-        let roleInfo = await getLoginInfo()
-        drawNavbar()
-        checkRole(roleInfo)
-        await loadSales();   
-        initFilters();  
-    }
-
-}
-
-async function loadSales(){
-
-    const res = await fetch("/MyParts/getSales");
-    allSales = await res.json();
-
-    renderSales(allSales);
-}
-
-function filtr(){
-
-    const kategoria = document.getElementById("kategoria").value;
-    const cena = document.getElementById("cena").value;
-    const nazwa = document.getElementById("search_name").value.toLowerCase();
-    const sort = document.getElementById("sort_select").value;
-
-    let filtered = allProducts.filter(p => {
-
-        let matchCategory = !kategoria || p.categoryId.name === kategoria;
-        let matchPrice = !cena || p.price <= cena;
-        let matchName = !nazwa || p.name.toLowerCase().includes(nazwa);
-
-        return matchCategory && matchPrice && matchName;
-    });
-
-    
-    if(sort === "name_asc"){
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-    }
-    if(sort === "name_desc"){
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
-    }
-    if(sort === "price_asc"){
-        filtered.sort((a, b) => a.price - b.price);
-    }
-    if(sort === "price_desc"){
-        filtered.sort((a, b) => b.price - a.price);
-    }
-    if(sort === "quantity_desc"){
-        filtered.sort((a, b) => b.quantity - a.quantity);
-    }
-
-    renderProducts(filtered);
-}
-
-
-function initFilters(){
-
+// Inicjalizacja zdarzeń
+function initFilters() {
     document.getElementById("search_name").addEventListener("input", filtr);
-    document.getElementById("cena").addEventListener("input", filtr);
     document.getElementById("kategoria").addEventListener("change", filtr);
     document.getElementById("sort_select").addEventListener("change", filtr);
 }
 
+window.onload = async function() {
+    let status = await checkSession();
+    if (status) {
+        drawNavbar();
+        await loadSales();
+        initFilters();
+    }
+};

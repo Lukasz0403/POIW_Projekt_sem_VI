@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column; /* Układa navbar i container jeden pod drugim */
+    height: 100vh; /* Body zajmuje cały ekran */
+    overflow: hidden; /* Zapobiega podwójnemu scrollowi strony */
+}
+
+.container {
+    display: flex;
+    flex: 1; 
+    width: 100%;
+    overflow: hidden; 
+}
+
+.left-panel {
+    flex: 3;
+    padding: 20px;
+    overflow-y: auto;
+    background: #fafafa;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    background: #f0f0f0;
+    overflow-y: auto;
+}
+
+.right-panel button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #d00000;
+    color: white;
+    position: sticky;
+    top: 0;
+    padding: 10px;
+}
+
+@media print {
+    nav, .navbar, .right-panel, .summary-header button {
+        display: none !important;
+    }
+
+    body, .container {
+        display: block;
+        height: auto;
+        overflow: visible;
+        background: white;
+    }
+
+    .left-panel {
+        width: 100%;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .summary-box, .charts-box {
+        box-shadow: none;
+        border: 1px solid #eee;
+        page-break-inside: avoid; 
+        margin-bottom: 30px;
+    }
+
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
