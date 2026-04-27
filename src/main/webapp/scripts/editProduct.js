@@ -78,9 +78,17 @@ async function updateProduct(){
     if(res.status === 202){
         showToast("Zaktualizowano produkt");
         setTimeout(() => window.location.href = "products.html", 1000);
-    } else {
+    } 
+    if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+        return;
+    }
+    if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
+        return;
+    }else {
         showToast("Błąd aktualizacji","error");
-        
     }
 }
 
@@ -105,7 +113,17 @@ async function deleteProduct(){
     if(res.status === 202){
         showToast("Usunięto produkt");
         setTimeout(() => window.location.href = "products.html", 1000);
-    } else {
+    }
+    if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+        return;
+    }
+    if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
+        return;
+    }
+    else {
         showToast("Nie udało się usunąć","error");
     }
 }

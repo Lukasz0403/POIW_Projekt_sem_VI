@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,12 @@ public class productListServlet extends HttpServlet {
    @Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
+    
+       HttpSession session = request.getSession(false);
+       if (session == null || session.getAttribute("user") == null) {
+           response.sendError(401);
+           return;
+       }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
