@@ -34,4 +34,24 @@ button:hover {
     background-color: #ffd0d0;
 }
 
+thead th {
+    cursor: pointer;
+    user-select: none;
+}
+
+th#th_category:hover,
+th#th_name:hover,
+th#th_brand:hover,
+th#th_price:hover,
+th#th_quantity:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    
+}
+thead th span {
+    font-size: 12px;
+    margin-left: 5px;
+    color: #888;
+}
+
 
