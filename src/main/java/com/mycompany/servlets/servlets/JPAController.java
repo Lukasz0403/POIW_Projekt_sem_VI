@@ -23,8 +23,6 @@ public class JPAController {
     public void start() {
             
         Properties prop = new Properties();
-        //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
-        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
         prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
@@ -33,7 +31,6 @@ public class JPAController {
         prop.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         prop.setProperty("hibernate.hbm2ddl.auto", "update");
         prop.setProperty("hibernate.show_sql", "true");
-
 
         Configuration configuration = new Configuration().addProperties(prop);
         configuration.addAnnotatedClass(Users.class);

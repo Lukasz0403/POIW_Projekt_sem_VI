@@ -17,6 +17,9 @@ function renderProducts(products, roleId) {
             </tr>
         `;
     });
+    
+    document.getElementById("products_counter").textContent =
+            `Wyświetlono ${products.length} z ${allProducts.length} produktów`;
 }
 
 window.onload = async function() {

@@ -54,4 +54,12 @@ thead th span {
     color: #888;
 }
 
+.counter {
+    text-align: right;
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+    margin-right: 4px;
+}
+
 
