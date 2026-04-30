@@ -1,25 +1,33 @@
-function login(){
-    
-    let login = document.getElementById('login').value;
-    let pass =  document.getElementById('password').value;
-    
+function login() {
+    const loginVal = document.getElementById('login').value;
+    const passVal = document.getElementById('password').value;
+
+    // pokaż spinner i zablokuj przycisk
+    document.getElementById("spinner").classList.remove("hidden");
+    document.querySelector("button").disabled = true;
 
     fetch("/MyParts/loginProcedureServlet", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: "login=" + login + "&pass=" + pass
+        body: "login=" + loginVal + "&pass=" + passVal
     })
-        .then(data => {
-            console.log(data)
-            if (data.status == 202) {
-                window.location.href = "/MyParts/";
-            } else {
-                alert("Błędny login lub hasło");
-            }
-        })
-        .catch(err => console.error(err));
+            .then(data => {
+                if (data.status == 202) {
+                    window.location.href = "/MyParts/";
+                } else {
+                    // ukryj spinner i odblokuj przycisk przy błędzie
+                    document.getElementById("spinner").classList.add("hidden");
+                    document.querySelector("button").disabled = false;
+                    alert("Błędny login lub hasło");
+                }
+            })
+            .catch(err => {
+                document.getElementById("spinner").classList.add("hidden");
+                document.querySelector("button").disabled = false;
+                console.error(err);
+            });
 }
 window.onkeydown = function(e){
     
