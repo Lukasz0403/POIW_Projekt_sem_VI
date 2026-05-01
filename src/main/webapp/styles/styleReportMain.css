@@ -4,7 +4,7 @@ body {
     background: #fafafa;
     display: flex;
     flex-direction: column; /* Układa navbar i container jeden pod drugim */
-    height: 100vh; /* Body zajmuje cały ekran */
+   /* height: 100vh; /* Body zajmuje cały ekran */
     overflow: hidden; /* Zapobiega podwójnemu scrollowi strony */
 }
 
@@ -13,6 +13,8 @@ body {
     flex: 1; 
     width: 100%;
     overflow: hidden; 
+    margin-top: 70px; /* Tyle, ile wynosi wysokość navbaru */
+    height: calc(100vh - 70px); /* Opcjonalnie: dostosuj wysokość, by uniknąć scrolla strony */
 }
 
 .left-panel {
