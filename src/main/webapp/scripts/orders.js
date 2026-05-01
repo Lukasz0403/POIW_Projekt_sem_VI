@@ -67,12 +67,16 @@ async function addProduct(){
             `name=${name}&brand=${brand}&category=${category}&price=${price}&quantity=${quantity}`
     });
 
-    if(res.status === 202){
+    if (res.status === 202) {
         showToast("Produkt dodany");
-
-        clearForm(); 
+        clearForm();
+    } else if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+    } else if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
     } else {
-        showToast("Nie udało się dodać produktu","error");
+        showToast("Nie udało się dodać produktu", "error");
     }
 }
 
@@ -104,8 +108,13 @@ async function uploadCSV() {
     if (res.status === 202) {
         showToast("Produkty zaimportowane");
         document.getElementById("csv_file").value = "";
+    } else if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+    } else if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
     } else {
-        showToast("Błąd importu","error");
+        showToast("Błąd importu", "error");
     }
 }
 

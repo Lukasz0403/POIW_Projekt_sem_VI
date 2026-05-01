@@ -75,12 +75,16 @@ async function updateProduct(){
             `id=${id}&name=${name}&brand=${brand}&category=${category}&price=${price}&quantity=${quantity}`
     });
 
-    if(res.status === 202){
+    if (res.status === 202) {
         showToast("Zaktualizowano produkt");
         setTimeout(() => window.location.href = "products.html", 1000);
+    } else if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+    } else if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
     } else {
-        showToast("Błąd aktualizacji","error");
-        
+        showToast("Błąd aktualizacji", "error");
     }
 }
 
@@ -102,11 +106,16 @@ async function deleteProduct(){
         body: `id=${id}`
     });
 
-    if(res.status === 202){
+    if (res.status === 202) {
         showToast("Usunięto produkt");
         setTimeout(() => window.location.href = "products.html", 1000);
+    } else if (res.status === 401) {
+        showToast("Sesja wygasła, zaloguj się ponownie", "error");
+        setTimeout(() => window.location.href = "../index.html", 2000);
+    } else if (res.status === 403) {
+        showToast("Brak uprawnień", "error");
     } else {
-        showToast("Nie udało się usunąć","error");
+        showToast("Nie udało się usunąć", "error");
     }
 }
 

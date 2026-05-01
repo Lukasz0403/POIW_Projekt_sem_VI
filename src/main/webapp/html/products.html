@@ -32,29 +32,17 @@
             <!-- HEADER -->
             <div class="products-header">
                 <h2>Produkty</h2>
-
-                <div class="sort-box">
-                    <label for="sort_select">Sortuj po:</label><br>
-                    <select id="sort_select">
-                        <option value="">-- brak --</option>
-                        <option value="name_asc">Nazwa A-Z</option>
-                        <option value="name_desc">Nazwa Z-A</option>
-                        <option value="price_asc">Cena rosnąco</option>
-                        <option value="price_desc">Cena malejąco</option>
-                        <option value="quantity_desc">Największa dostępność</option>
-                    </select>
-                </div>
             </div>
 
             <!-- tabela-->
             <table>
                 <thead>
                     <tr>
-                        <th>Kategoria</th>
-                        <th>Nazwa</th>
-                        <th>Marka</th>
-                        <th>Cena</th>
-                        <th>Ilość</th>
+                        <th id="th_category" onclick="columnSort('category')">Kategoria <span>↕</span></th>
+                        <th id="th_name" onclick="columnSort('name')">Nazwa <span>↕</span></th>
+                        <th id="th_brand" onclick="columnSort('brand')">Marka <span>↕</span></th>
+                        <th id="th_price" onclick="columnSort('price')">Cena <span>↕</span></th>
+                        <th id="th_quantity" onclick="columnSort('quantity')">Ilość <span>↕</span></th>
                         <th id="th_edit">Edytuj</th>
                     </tr>
                 </thead>
@@ -63,7 +51,8 @@
                     
                 </tbody>
             </table>
-
+            <p id="products_counter" class="counter"></p>
+            
         </main>
 
         <script src="../scripts/script.js"></script>

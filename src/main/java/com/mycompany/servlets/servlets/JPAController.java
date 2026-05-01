@@ -23,8 +23,6 @@ public class JPAController {
     public void start() {
             
         Properties prop = new Properties();
-        //to co było poprzednie, ale musiałem zmienić adres na localhost bo krzaczyło
-        //prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
         prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
@@ -33,7 +31,6 @@ public class JPAController {
         prop.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         prop.setProperty("hibernate.hbm2ddl.auto", "update");
         prop.setProperty("hibernate.show_sql", "true");
-
 
         Configuration configuration = new Configuration().addProperties(prop);
         configuration.addAnnotatedClass(Users.class);
@@ -156,8 +153,11 @@ public class JPAController {
     }
     
     /**
+     * Pobiera listę wszystkich produktów z bazy danych.
+     *
      * @author Mateusz Gojny
-     * @return
+     * @return Lista obiektów {@link Products} reprezentujących wszystkie produkty
+     *         dostępne w systemie.
      */
     public List<Products> getProducts() {
         Session session = sessionFactory.openSession();
@@ -167,9 +167,14 @@ public class JPAController {
     }
     
     /**
+     * Wyszukuje kategorię produktów na podstawie jej nazwy.
+     * Korzysta z nazwanego zapytania {@code Categories.findByName}.
+     *
      * @author Mateusz Gojny
-     * @param name
-     * @return
+     * @param name Nazwa kategorii do wyszukania.
+     * @return Obiekt {@link Categories} odpowiadający podanej nazwie.
+     * @throws jakarta.persistence.NoResultException jeśli kategoria o podanej
+     *         nazwie nie istnieje w bazie danych.
      */
     public Categories getCategoryByName(String name) {
         Session session = sessionFactory.openSession();
@@ -181,8 +186,12 @@ public class JPAController {
     }
     
     /**
+     * Zapisuje nowy produkt w bazie danych.
+     * Operacja jest wykonywana w ramach transakcji — w przypadku powodzenia
+     * zmiany są zatwierdzane, a sesja zamykana.
+     *
      * @author Mateusz Gojny
-     * @param p
+     * @param p Obiekt {@link Products} do zapisania w bazie danych.
      */
     public void saveProduct(Products p) {
         Session session = sessionFactory.openSession();
@@ -195,11 +204,15 @@ public class JPAController {
     }
     
     /**
+     * Wyszukuje produkt w bazie danych na podstawie nazwy, marki oraz nazwy kategorii.
+     * Zwraca pierwszy pasujący wynik lub {@code null} jeśli produkt nie istnieje.
+     *
      * @author Mateusz Gojny
-     * @param name
-     * @param brand
-     * @param categoryName
-     * @return
+     * @param name         Nazwa produktu.
+     * @param brand        Marka produktu.
+     * @param categoryName Nazwa kategorii, do której należy produkt.
+     * @return Obiekt {@link Products} jeśli produkt został znaleziony,
+     *         w przeciwnym razie {@code null}.
      */
     public Products findProduct(String name, String brand, String categoryName) {
 
@@ -229,8 +242,13 @@ public class JPAController {
     }
     
     /**
+     * Zapisuje lub aktualizuje produkt w bazie danych.
+     * Jeśli produkt już istnieje (posiada przypisane ID), zostaje zaktualizowany.
+     * W przeciwnym razie zostaje utworzony nowy rekord.
+     * Operacja jest wykonywana w ramach transakcji.
+     *
      * @author Mateusz Gojny
-     * @param product
+     * @param product Obiekt {@link Products} do zapisania lub zaktualizowania.
      */
     public void saveOrUpdateProduct(Products product) {
 
@@ -244,9 +262,15 @@ public class JPAController {
     }
     
     /**
+     * Wyszukuje kategorię produktów na podstawie jej nazwy przy użyciu zapytania HQL.
+     * W odróżnieniu od {@link #getCategoryByName(String)}, ta metoda rzuca wyjątek
+     * {@code NoResultException} jeśli kategoria nie istnieje.
+     *
      * @author Mateusz Gojny
-     * @param name
-     * @return
+     * @param name Nazwa kategorii do wyszukania.
+     * @return Obiekt {@link Categories} odpowiadający podanej nazwie.
+     * @throws jakarta.persistence.NoResultException jeśli kategoria o podanej
+     *         nazwie nie istnieje w bazie danych.
      */
     public Categories findCategoryByName(String name) {
 
@@ -294,41 +318,53 @@ public class JPAController {
     }
     
     /**
+     * Aktualizuje dane istniejącego produktu w bazie danych.
+     * Operacja jest wykonywana w ramach transakcji — w przypadku błędu
+     * transakcja jest wycofywana (rollback).
+     *
      * @author Mateusz Gojny
-     * @param p
+     * @param p Obiekt {@link Products} z zaktualizowanymi danymi do zapisania.
      */
     public void updateProduct(Products p) {
-    Session session = sessionFactory.openSession();
-    session.beginTransaction();
-    try {
-        session.update(p);
-        session.getTransaction().commit();
-    } catch (Exception e) {
-        session.getTransaction().rollback();
-    } finally {
-        session.close();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            session.update(p);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
     }
-}
     
     /**
+     * Pobiera produkt z bazy danych na podstawie jego identyfikatora.
+     * Zwraca {@code null} jeśli produkt o podanym ID nie istnieje.
+     *
      * @author Mateusz Gojny
-     * @param id
-     * @return
+     * @param id Unikalny identyfikator produktu ({@code product_id}).
+     * @return Obiekt {@link Products} odpowiadający podanemu ID,
+     *         lub {@code null} jeśli produkt nie został znaleziony.
      */
     public Products getProductById(int id) {
 
-    Session session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
 
-    try {
-        return session.get(Products.class, id);
-    } finally {
-        session.close();
-      }
+        try {
+            return session.get(Products.class, id);
+        } finally {
+            session.close();
+        }
     }
     
     /**
+     * Usuwa wskazany produkt z bazy danych.
+     * Operacja jest wykonywana w ramach transakcji — po pomyślnym usunięciu
+     * transakcja jest zatwierdzana, a sesja zamykana.
+     *
      * @author Mateusz Gojny
-     * @param p
+     * @param p Obiekt {@link Products} do usunięcia z bazy danych.
      */
     public void deleteProduct(Products p) {
 
@@ -342,27 +378,29 @@ public class JPAController {
     }
     
     /**
-     * 
+     * Wyszukuje kategorię produktów na podstawie jej nazwy, zwracając {@code null}
+     * zamiast rzucać wyjątek gdy kategoria nie istnieje.
+     * Metoda jest bezpieczna dla przypadków gdy podana nazwa kategorii
+     * może nie mieć odpowiednika w bazie danych (np. podczas importu CSV).
+     *
      * @author Mateusz Gojny
-     * @param name
-     * @return
-     * 
+     * @param name Nazwa kategorii do wyszukania.
+     * @return Obiekt {@link Categories} odpowiadający podanej nazwie,
+     *         lub {@code null} jeśli kategoria nie została znaleziona.
      */
     public Categories findManyCategoriesByName(String name) {
-    Session session = sessionFactory.openSession();
-    try {
-        Query<Categories> q = session.createQuery(
-            "FROM Categories c WHERE c.name = :name",
-            Categories.class
-        );
-        q.setParameter("name", name);
-        List<Categories> result = q.getResultList();
-        return result.isEmpty() ? null : result.get(0);
-    } finally {
-        session.close();
+        Session session = sessionFactory.openSession();
+        try {
+            Query<Categories> q = session.createQuery(
+                "FROM Categories c WHERE c.name = :name",
+                Categories.class
+            );
+            q.setParameter("name", name);
+            List<Categories> result = q.getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } finally {
+            session.close();
+        }
     }
-}
     
 }
-
-

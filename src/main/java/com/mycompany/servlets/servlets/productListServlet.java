@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.mycompany.servlets.servlets;
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,68 +10,53 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.codehaus.jackson.map.ObjectMapper;
-
+ 
 /**
- * Servlet odpowiedzialny za wyświetlanie listy produktów w aplikacji.
- * 
- * Generuje dynamiczny widok HTML zawierający:
- * 
- *panel filtrów (kategoria, maksymalna cena),
- *tabelę produktów,
- *linki do szczegółów produktu.
- * 
+ * Servlet obsługujący pobieranie listy wszystkich produktów dostępnych
+ * w systemie. Zwraca dane w formacie JSON zakodowanym w UTF-8.
  *
- * 
- * Dane produktów są generowane na podstawie przykładowej listy
- * zwracanej przez metodę {@code createSampleListOfProduct()} klasy {@link Product}.
- *
- * 
- * Servlet obsługuje filtrowanie danych na podstawie parametrów zapytania:
- *
- *{@code kategoria} – filtruje produkty po kategorii (case-insensitive),
- *{@code cena} – filtruje produkty o cenie mniejszej lub równej podanej wartości.
- * 
- *
- * 
- * Wynikowy HTML jest zwracany jako odpowiedź typu {@code text/html}
- * i przeznaczony do dynamicznego wstawienia do elementu DOM po stronie klienta (np. przez fetch API).
+ * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
  *
  * @author Mateusz Gojny
  */
 @WebServlet(name = "productListServlet", urlPatterns = {"/productListServlet"})
 public class productListServlet extends HttpServlet {
-
+ 
     /**
-     * Obsługuje żądanie HTTP GET.
-     * 
-     * Pobiera parametry filtrowania z requestu, generuje listę produktów,
-     * filtruje ją zgodnie z parametrami oraz buduje dynamiczny HTML zawierający:
-     * panel filtrów i tabelę wyników.
+     * Obsługuje żądanie HTTP GET zwracające listę wszystkich produktów
+     * w formacie JSON.
      *
-     * @param request obiekt zawierający dane żądania HTTP, w tym parametry:
-     *                {@code kategoria} oraz {@code cena}
-     * @param response obiekt odpowiedzi HTTP, do którego zapisywany jest wygenerowany HTML
-     * @throws IOException w przypadku błędu zapisu odpowiedzi
+     * <p>Kody odpowiedzi HTTP:</p>
+     * <ul>
+     *   <li>{@code 200} — lista produktów zwrócona pomyślnie w formacie JSON</li>
+     *   <li>{@code 401} — brak aktywnej sesji użytkownika</li>
+     * </ul>
+     *
+     * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
+     * @param response Obiekt {@link HttpServletResponse} używany do wysłania odpowiedzi HTTP.
+     * @throws IOException jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
      */
-   @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+ 
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendError(401);
+            return;
+        }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         JPAController jpa = new JPAController();
         jpa.start();
-
         List<Products> products = jpa.getProducts();
-
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(products);
-
         response.getWriter().write(json);
     }
 }
