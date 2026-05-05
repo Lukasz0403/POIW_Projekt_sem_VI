@@ -59,11 +59,16 @@ public class dashboardServlet extends HttpServlet {
      * @throws IOException jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendError(401);
+            return;
+        } 
+        
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        HttpSession session = request.getSession();
  
         Users user = (Users) session.getAttribute("user");
         LocalDate date = (LocalDate) session.getAttribute("loginDate");

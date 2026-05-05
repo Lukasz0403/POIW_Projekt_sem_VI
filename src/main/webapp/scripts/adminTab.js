@@ -139,12 +139,12 @@ function nameSort() {
 
     if(login.lastChild.innerHTML === "↑"){
 
-        filtered.sort((a, b) => a.username.localeCompare(b.username))
+        filtered.sort((a, b) => b.username.localeCompare(a.username))
         login.lastChild.innerHTML = "↓"
 
     } else if(login.lastChild.innerText === "↓"){
 
-        filtered.sort((a, b) => b.username.localeCompare(a.username))
+        filtered.sort((a, b) => a.username.localeCompare(b.username))
         login.lastChild.innerHTML = "↑"
     }
 
@@ -158,10 +158,10 @@ function idSort() {
     filtr()
 
     if(id.lastChild.innerHTML === "↑"){
-        filtered.sort((a, b) => a.userId - b.userId)
+        filtered.sort((a, b) => b.userId - a.userId)
         id.lastChild.innerHTML = "↓"
     } else if(id.lastChild.innerHTML === "↓"){
-        filtered.sort((a, b) => b.userId - a.userId)
+        filtered.sort((a, b) => a.userId - b.userId)
         id.lastChild.innerHTML = "↑"
     }
 

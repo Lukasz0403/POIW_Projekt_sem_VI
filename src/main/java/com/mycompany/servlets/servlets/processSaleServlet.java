@@ -20,15 +20,20 @@ import org.codehaus.jackson.type.TypeReference;
  */
 @WebServlet(name = "processSaleServlet", urlPatterns = {"/processSaleServlet"})
 public class processSaleServlet extends HttpServlet {
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendError(401);
+            return;
+        }
+        
         JPAController jpa = new JPAController();
         jpa.start();
 
         Users user = (Users) request.getSession().getAttribute("user");
-//        if(user == null) {
-//            user = jpa.getUsers().get(0);
-//        }
 
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> items = mapper.readValue(request.getReader(), new TypeReference<List<Map<String, Object>>>(){});
