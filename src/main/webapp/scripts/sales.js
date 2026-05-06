@@ -29,11 +29,14 @@ window.onload = async function() {
     const product = allProducts.find(p => `${p.name} - ${p.brand} (${p.price} PLN)` === inputVal);
 
     if (!product) {
-        alert("Wybierz poprawny produkt z listy!");
+//        alert("Wybierz poprawny produkt z listy!");
+        showToast("Wybierz poprawny produkt z listy!", "error", 5000);
+        
         return;
     }
     if (product.quantity < qty) {
-        alert(`Błąd! Brak towaru. Dostępne tylko: ${product.quantity} szt.`);
+//        alert(`Błąd! Brak towaru. Dostępne tylko: ${product.quantity} szt.`);
+        showToast(`Błąd! Brak towaru. Dostępne tylko: ${product.quantity} szt.`, "error", 5000);
         return;
     }
 
@@ -86,13 +89,15 @@ document.getElementById('finalize-sale-btn').onclick = async function() {
     });
 
     if(response.ok) {
-        alert("Sprzedaż zakończona pomyślnie! Raport został zaktualizowany.");
+//        alert("Sprzedaż zakończona pomyślnie! Raport został zaktualizowany.");
+        showToast("Sprzedaż zakończona pomyślnie! Raport został zaktualizowany.", "success", 5000);
         currentCart = [];
         renderCart();
         const res = await fetch("/MyParts/productListServlet");
         allProducts = await res.json();
     } else {
-        alert("Błąd podczas procesowania sprzedaży.");
+//        alert("Błąd podczas procesowania sprzedaży.");
+        showToast("Błąd podczas procesowania sprzedaży.", "error", 5000);
     }
 };
 

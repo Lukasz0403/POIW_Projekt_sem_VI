@@ -20,10 +20,11 @@ public class JPAController {
         SessionFactory sessionFactory;
     
     
-    public void start() {
+    public void start() { 
             
         Properties prop = new Properties();
         prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+//        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
