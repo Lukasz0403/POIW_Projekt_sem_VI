@@ -57,6 +57,9 @@ public class Sales implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private Users userId;
+    @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
+    @ManyToOne(optional = false)
+    private Transactions transactionId;
 
     public Sales() {
     }
@@ -109,6 +112,14 @@ public class Sales implements Serializable {
 
     public void setUserId(Users userId) {
         this.userId = userId;
+    }
+
+    public Transactions getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Transactions transactionId) {
+        this.transactionId = transactionId;
     }
 
     @Override

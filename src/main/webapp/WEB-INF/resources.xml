@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="mysql" type="javax.sql.DataSource">#Mon May 11 12:05:08 CEST 2026
+jdbcDriver=com.mysql.cj.jdbc.Driver
+jdbcUrl=jdbc\:mysql\://192.168.0.73\:3306/motorized_shop?zeroDateTimeBehavior\=CONVERT_TO_NULL
+password=1234
+userName=root
+</Resource>
+</resources>
