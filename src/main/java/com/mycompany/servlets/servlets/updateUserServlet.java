@@ -18,7 +18,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- *
+ * Servlet aktualizujący dane istniejącego użytkownika w bazie. Przyjmuje żądania HTTP POST.
+ * Przyjmuje dane uzytkownika z formularza jako parametry zakodowane w formacie
+ * {@code application/x-www-form-urlencoded}.
+ * 
+ * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika
+ * z uprawnieniami co najmniej kierownika (roleId >= 2).</p>
+ * 
  * @author Radosław
  */
 @WebServlet(name = "updateUserServlet", urlPatterns = {"/updateUserServlet"})
@@ -27,6 +33,30 @@ public class updateUserServlet extends HttpServlet {
 
 
 
+    /**
+     * Obsługuje żądanie HTTP POST aktualizacji uzytkownika. 
+     * Jeśli nowe hasło zostało podane przed aktualizacją użytkownika zostanie wykonane hashowanie hasła.
+     *
+     * <p>Oczekiwane parametry żądania:</p>
+     * <ul>
+     *   <li>{@code newlogin} — nowy login uzytkownika</li>
+     *   <li>{@code oldlogin} — stary login uzytkownika</li>
+     *   <li>{@code password} — nowe hasło użytkownika</li>
+     *   <li>{@code role} — stanowisko uzytkownika</li>
+     * </ul>
+     *
+     * <p>Kody odpowiedzi HTTP:</p>
+     * <ul>
+     *   <li>{@code 202} — użytkownik został pomyślnie zaktualizowany</li>
+     *   <li>{@code 401} — brak aktywnej sesji użytkownika</li>
+     *   <li>{@code 403} — użytkownik nie posiada wymaganych uprawnień</li>
+     * </ul>
+     *
+     * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
+     * @param response Obiekt {@link HttpServletResponse} używany do wysłania odpowiedzi HTTP.
+     * @throws IOException jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
+     * @throws ServletException jeśli wystąpi błąd po stronie servletu.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

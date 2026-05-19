@@ -19,7 +19,10 @@ public class JPAController {
     
         SessionFactory sessionFactory;
     
-    
+    /**
+     * Inicjalizuje hibernate w celu komunikacji z bazą danych.
+     * 
+     */
     public void start() { 
             
         Properties prop = new Properties();
@@ -42,7 +45,13 @@ public class JPAController {
      
         sessionFactory = configuration.buildSessionFactory();
     }
-    
+   
+    /**
+     * Pobiera listę uzytkowników z bazy danych.
+     * 
+     * 
+     * @return Lista obiektów {@Link Users} zawierająca wszystkich użytkowników  w bazie.
+     */
     public List<Users> getUsers() {
         Session session = sessionFactory.openSession();
         
@@ -60,6 +69,13 @@ public class JPAController {
         }
     }
     
+    /**
+     * Pobiera z bazy konkretnego użytkownika po jego loginie.
+     * 
+     * 
+     * @param name login użytkownika do znalezienia.
+     * @return Objekt {@Link Users} odpowiadający nazwie uzytkownika.
+     */
     public Users getUserByName(String name) {
         Session session = sessionFactory.openSession();
         
@@ -78,6 +94,11 @@ public class JPAController {
         }
     }
     
+    /**
+     * Pobiera wsystkich użytkowników z bazy, będacych na stanowisku pracownika,
+     * 
+     * @return Lista objektów {@Link Users} odpowiadająca uzytkownikom na stanowisku pracownika.
+     */
     public List<Users> getUserWorkers() {
         Session session = sessionFactory.openSession();
         
@@ -94,6 +115,11 @@ public class JPAController {
         }
     }
     
+    /**
+     * Zapisuje użytkownika do bazy danych.
+     * 
+     * @param u Objekt uzytkownika który ma zostać zapisany.
+     */
     public void saveUser(Users u) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -107,7 +133,11 @@ public class JPAController {
             session.close();
         }
     }
-    
+    /**
+     * Aktualizuje konkretnego użytkownika jeśli taki istnieje.
+     * 
+     * @param u Objekt użytkownika, który ma zostac zaktualizowany w bazie.
+     */
     public void updateUser(Users u) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -123,6 +153,11 @@ public class JPAController {
         }
     }
     
+    /**
+     * Usuwa konkretnego uzytkownika z bazy danych.
+     * 
+     * @param u Objekt użytkownika który ma zostać usunięty z bazy.
+     */
     public void removeUser(Users u) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -138,6 +173,12 @@ public class JPAController {
         }
     }
     
+    /**
+     * Zwraca konkretne stanowisko po jego identyfikatorze w bazie.
+     * 
+     * @param id identyfikator stanowiska.
+     * @return Objekt {@Link Roles} Stanowisko o wybranym identyfikatorze.
+     */
     public Roles getRoleById(int id) {
         Session session = sessionFactory.openSession();
         Roles r = null;

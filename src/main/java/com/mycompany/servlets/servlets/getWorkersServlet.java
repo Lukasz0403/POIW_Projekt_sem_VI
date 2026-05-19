@@ -18,7 +18,12 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- *
+ * Servlet zwracający listę uzytkowników będących pracownikami z bazy. Przyjmuje żądania HTTP GET.
+ * 
+ * Zwraca dane w formacie JSON.
+ * 
+ * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
+ * 
  * @author Radosław
  */
 @WebServlet(name = "getWorkersServlet", urlPatterns = {"/getWorkersServlet"})
@@ -26,14 +31,19 @@ public class getWorkersServlet extends HttpServlet {
 
 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Obsługuje żądanie HTTP GET pobrania listy uzytkowników na stanowisku pracownika. 
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * <p>Kody odpowiedzi HTTP:</p>
+     * <ul>
+     *   <li>{@code 202} — użytkownik został pomyślnie dodany lub zaktualizowany</li>
+     *   <li>{@code 401} — brak aktywnej sesji użytkownika</li>
+     * </ul>
+     *
+     * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
+     * @param response Obiekt {@link HttpServletResponse} używany do wysłania odpowiedzi HTTP.
+     * @throws IOException jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
+     * @throws ServletException jeśli wystąpi błąd po stronie servletu.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

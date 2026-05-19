@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
+ * Servlet usuwający sesję przy wylogowaniu uzytkownika.
+ * 
  * @author Radosław
  */
 @WebServlet(name = "destroySessionServlet", urlPatterns = {"/destroySession"})
@@ -22,7 +24,20 @@ public class destroySessionServlet extends HttpServlet {
 
 
 
-
+    /**
+     * Obsługuje żądanie HTTP POST usuwania sesji użytkownika. 
+     *
+     *
+     * <p>Kody odpowiedzi HTTP:</p>
+     * <ul>
+     *   <li>{@code 202} — Pomyślnie usunięto sesję.</li>
+     * </ul>
+     *
+     * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
+     * @param response Obiekt {@link HttpServletResponse} używany do wysłania odpowiedzi HTTP.
+     * @throws IOException jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
+     * @throws ServletException jeśli wystąpi błąd po stronie servletu.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
