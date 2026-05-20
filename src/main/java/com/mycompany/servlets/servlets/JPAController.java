@@ -26,8 +26,8 @@ public class JPAController {
     public void start() { 
             
         Properties prop = new Properties();
-        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
-//        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
+//        prop.setProperty("hibernate.connection.url", "jdbc:mysql://192.168.0.73:3306/motorized_shop");
+        prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/motorized_shop");
         prop.setProperty("hibernate.connection.username", "motor_access");
         prop.setProperty("hibernate.connection.password", "12345");
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -42,6 +42,7 @@ public class JPAController {
         configuration.addAnnotatedClass(Products.class);
         configuration.addAnnotatedClass(Categories.class);
         configuration.addAnnotatedClass(Roles.class);
+        configuration.addAnnotatedClass(Transactions.class);
      
         sessionFactory = configuration.buildSessionFactory();
     }
@@ -333,6 +334,15 @@ public class JPAController {
         }
     }
     
+    /**
+     * Pobiera listę wszystkich rekordów sprzedaży (pozycji koszyka) z bazy danych.
+     * Operacja jest realizowana przy użyciu zapytania HQL. W przypadku błędu
+     * aktywna transakcja sesji zostaje wycofana.
+     *
+     * @author Łukasz Motyka
+     * @return Lista obiektów {@link Sales} reprezentujących wszystkie pozycje sprzedaży,
+     *         lub {@code null} w przypadku wystąpienia wyjątku.
+     */
     public List<Sales> getSales() {
         Session session = sessionFactory.openSession();
         List<Sales> list = null;
@@ -346,6 +356,14 @@ public class JPAController {
         }
     }
     
+    /**
+     * Zapisuje nową pozycję sprzedaży w bazie danych.
+     * Operacja jest wykonywana w ramach transakcji Hibernate — w przypadku powodzenia
+     * zmiany są trwale zatwierdzane, a w razie błędu transakcja zostaje wycofana.
+     *
+     * @author Łukasz Motyka
+     * @param s Obiekt {@link Sales} zawierający dane pozycji sprzedaży do utrwalenia w bazie.
+     */
     public void saveSale(Sales s) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -358,6 +376,28 @@ public class JPAController {
             session.close();
         }
     }
+
+    /**
+     * Zapisuje nagłówek nowej transakcji finansowej w bazie danych.
+     * Metoda samodzielnie zarządza pełnym cyklem życia transakcji (rozpoczęcie, 
+     * zatwierdzenie), a w przypadku wystąpienia błędu bezpiecznie wycofuje zmiany (rollback).
+     *
+     * @author Łukasz Motyka
+     * @param transaction Obiekt {@link Transactions} reprezentujący transakcję do zapisania.
+     */    
+    public void saveTransaction(Transactions transaction) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.getTransaction().begin();
+            session.persist(transaction);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+    } 
     
     /**
      * Aktualizuje dane istniejącego produktu w bazie danych.
