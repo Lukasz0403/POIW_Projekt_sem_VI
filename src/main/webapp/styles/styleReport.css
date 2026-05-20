@@ -57,3 +57,40 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+th.sortable:hover {
+    background: #a30000;
+}
+
+thead th {
+    cursor: pointer;
+    user-select: none;
+}
+
+th#th_category:hover,
+th#th_name:hover,
+th#th_brand:hover,
+th#th_price:hover,
+th#th_quantity:hover,
+th#th_date:hover {
+    text-decoration: underline;
+}
+
+thead th span {
+    font-size: 12px;
+    margin-left: 5px;
+    color: #ccc;
+}
+
+.counter {
+    text-align: right;
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+    margin-right: 4px;
+}

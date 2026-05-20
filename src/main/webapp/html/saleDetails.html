@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyParts - Szczegóły transakcji</title>
+        <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/styleSaleDetails.css">
+    </head>
+    <body>
+        <main class="content">
+            <div class="details-header">
+                <h2>Szczegóły transakcji</h2>
+                <div class="header-actions">
+                        <button onclick="window.print()">Drukuj PDF</button>
+                        <button onclick="history.back()">← Powrót</button>
+                    </div>
+            </div>
+            <div class="details-card">
+                <div class="details-row"><span class="label">ID transakcji:</span> <span id="trans_id">-</span></div>
+                <div class="details-row"><span class="label">Data sprzedaży:</span> <span id="trans_date">-</span></div>
+                <div class="details-row"><span class="label">Sprzedawca:</span> <span id="trans_user">-</span></div>
+                
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th>Produkt</th>
+                            <th>Marka</th>
+                            <th>Cena</th>
+                            <th>Ilość</th>
+                            <th>Wartość</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receipt-body"></tbody>
+                </table>
+                
+                <div class="receipt-total" id="total-container">
+                    <strong>Łączna wartość: <span id="trans_total">-</span> zł</strong>
+                </div>
+            </div>
+        </main>
+        <script src="../scripts/script.js"></script>
+        <script src="../scripts/saleDetails.js"></script>
+    </body>
+</html>

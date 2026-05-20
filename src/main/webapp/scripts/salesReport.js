@@ -1,23 +1,21 @@
-let allSales = []; // Tutaj trzymamy dane z bazy
+let allSales = [];
+let currentSort = { column: null, asc: true };
 
 // Ładowanie danych i kategorii
 async function loadSales() {
     try {
         const res = await fetch("/MyParts/getSales");
         allSales = await res.json();
-        
-        populateCategories(allSales); // Automatyczne wypełnienie listy kategorii
+        populateCategories(allSales);
         renderSales(allSales);
     } catch (error) {
         console.error("Błąd ładowania:", error);
     }
 }
 
-// Funkcja pomocnicza do wypełnienia selecta kategoriami
 function populateCategories(sales) {
     const select = document.getElementById("kategoria");
     const categories = [...new Set(sales.map(s => s.productId.categoryId.name))];
-    
     categories.forEach(cat => {
         const opt = document.createElement("option");
         opt.value = cat;
@@ -26,44 +24,6 @@ function populateCategories(sales) {
     });
 }
 
-// Główna funkcja filtrująca i sortująca
-function filtr() {
-    const kategoria = document.getElementById("kategoria").value;
-    const nazwa = document.getElementById("search_name").value.toLowerCase();
-    const sort = document.getElementById("sort_select").value;
-
-    // FILTROWANIE
-    let filtered = allSales.filter(s => {
-        const product = s.productId;
-        
-        // Sprawdź kategorię (jeśli pusta, przepuść wszystko)
-        const matchCategory = !kategoria || product.categoryId.name === kategoria;
-        
-        // Sprawdź nazwę (jeśli pusta, przepuść wszystko)
-        const matchName = !nazwa || product.name.toLowerCase().includes(nazwa);
-
-        return matchCategory && matchName;
-    });
-
-    // SORTOWANIE
-    if (sort === "name_asc") {
-        filtered.sort((a, b) => a.productId.name.localeCompare(b.productId.name));
-    } else if (sort === "name_desc") {
-        filtered.sort((a, b) => b.productId.name.localeCompare(a.productId.name));
-    } else if (sort === "price_asc") {
-        filtered.sort((a, b) => a.productId.price - b.productId.price);
-    } else if (sort === "price_desc") {
-        filtered.sort((a, b) => b.productId.price - a.productId.price);
-    } else if (sort === "date_asc") {
-        filtered.sort((a, b) => new Date(a.saleDate) - new Date(b.saleDate));
-    } else if (sort === "date_desc") {
-        filtered.sort((a, b) => new Date(b.saleDate) - new Date(a.saleDate));
-    }
-
-    renderSales(filtered);
-}
-
-// Renderowanie tabeli
 function renderSales(sales) {
     const table = document.getElementById("products_table");
     table.innerHTML = "";
@@ -81,16 +41,79 @@ function renderSales(sales) {
                 <td>${s.productId.price.toFixed(2)} zł</td>
                 <td>${s.quantity}</td>
                 <td>${formattedDate}</td>
+                <td><a href="saleDetails.html?id=${s.transactionId.transactionId}">Szczegóły</a></td>
             </tr>
         `;
     });
+
+    document.getElementById("sales_counter").textContent =
+        `Wyświetlono ${sales.length} z ${allSales.length} transakcji`;
 }
 
-// Inicjalizacja zdarzeń
+function filtr() {
+    const kategoria = document.getElementById("kategoria").value;
+    const nazwa = document.getElementById("search_name").value.toLowerCase();
+
+    let filtered = allSales.filter(s => {
+        const matchCategory = !kategoria || s.productId.categoryId.name === kategoria;
+        const matchName = !nazwa || s.productId.name.toLowerCase().includes(nazwa);
+        return matchCategory && matchName;
+    });
+
+    if (currentSort.column) {
+        sortArray(filtered, currentSort.column, currentSort.asc);
+    }
+
+    renderSales(filtered);
+}
+
+function columnSort(column) {
+    if (currentSort.column === column) {
+        currentSort.asc = !currentSort.asc;
+    } else {
+        currentSort.column = column;
+        currentSort.asc = true;
+    }
+
+    // Resetuj wszystkie strzałki
+    document.querySelectorAll("thead th span").forEach(s => s.innerHTML = "↕");
+
+    // Ustaw strzałkę na klikniętej kolumnie
+    const thMap = {
+        category: "th_category",
+        name: "th_name",
+        brand: "th_brand",
+        price: "th_price",
+        quantity: "th_quantity",
+        date: "th_date"
+    };
+    document.getElementById(thMap[column]).querySelector("span").innerHTML =
+        currentSort.asc ? "↑" : "↓";
+
+    filtr();
+}
+
+function sortArray(arr, column, asc) {
+    arr.sort((a, b) => {
+        let valA, valB;
+        switch (column) {
+            case "category": valA = a.productId.categoryId.name; valB = b.productId.categoryId.name; break;
+            case "name":     valA = a.productId.name;            valB = b.productId.name;            break;
+            case "brand":    valA = a.productId.brand;           valB = b.productId.brand;           break;
+            case "price":    valA = a.productId.price;           valB = b.productId.price;           break;
+            case "quantity": valA = a.quantity;                  valB = b.quantity;                  break;
+            case "date":     valA = new Date(a.saleDate);        valB = new Date(b.saleDate);        break;
+        }
+        if (typeof valA === "string") {
+            return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        return asc ? valA - valB : valB - valA;
+    });
+}
+
 function initFilters() {
     document.getElementById("search_name").addEventListener("input", filtr);
     document.getElementById("kategoria").addEventListener("change", filtr);
-    document.getElementById("sort_select").addEventListener("change", filtr);
 }
 
 window.onload = async function() {

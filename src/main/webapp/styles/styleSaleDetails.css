@@ -1,0 +1,122 @@
+main {
+    padding-top: 90px !important; /* Nadpisuje 100px z style.css */
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    height: auto !important;     /* Naprawia problem z wysokością */
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+}
+
+.content {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    padding: 0;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.details-header button {
+    padding: 8px 16px;
+    background: #d00000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.details-header button:hover {
+    background: #a30000;
+}
+
+.details-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+}
+
+.details-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.error {
+    color: #d00000;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.receipt-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #cc0000; 
+    text-align: right;             
+    font-size: 18px;               
+    color: #333;
+}
+
+#trans_total {
+    color: #cc0000;                
+    font-weight: bold;
+}
+
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+
+.header-actions button:first-child {
+    background: #333; 
+}
+
+.header-actions button:first-child:hover {
+    background: #000;
+}
+
+/* UKRYCIE ELEMENTÓW PODCZAS DRUKOWANIA DO PDF */
+@media print {
+    nav, .nav-left, .nav-right, .header-actions {
+        display: none !important;
+    }
+
+    body {
+        padding-top: 0 !important;
+    }
+
+    .content {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .details-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+}
