@@ -106,7 +106,7 @@ public class processSaleServlet extends HttpServlet {
 
             response.setStatus(200);
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"ok\"}");
+            response.getWriter().write("{\"status\":\"ok\", \"transactionId\":" + transaction.getTransactionId() + "}");
 
         }catch (Exception e) {
             response.setStatus(500);

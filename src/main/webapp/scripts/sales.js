@@ -82,6 +82,9 @@ window.removeFromCart = function(index) {
 };
 
 document.getElementById('finalize-sale-btn').onclick = async function() {
+    const savedCart = [...currentCart];
+    const totalAmount = document.getElementById("total-price").innerText;
+
     const response = await fetch('/MyParts/processSaleServlet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,18 +92,58 @@ document.getElementById('finalize-sale-btn').onclick = async function() {
     });
 
     if(response.ok) {
-//        alert("Sprzedaż zakończona pomyślnie! Raport został zaktualizowany.");
         showToast("Sprzedaż zakończona pomyślnie! Raport został zaktualizowany.", "success", 5000);
+        
+        let transactionId = null;
+        try {
+            const resData = await response.json();
+            transactionId = resData.transactionId; 
+        } catch(e) {
+            console.warn("Error", e);
+        }
+
+        showSummaryModal(savedCart, totalAmount, transactionId);
+
         currentCart = [];
         renderCart();
         const res = await fetch("/MyParts/productListServlet");
         allProducts = await res.json();
     } else {
-//        alert("Błąd podczas procesowania sprzedaży.");
         showToast("Błąd podczas procesowania sprzedaży.", "error", 5000);
     }
 };
 
+function showSummaryModal(cart, total, transactionId) {
+    const modal = document.getElementById("sale-summary-modal");
+    const listContainer = document.getElementById("modal-items-list");
+    const totalContainer = document.getElementById("modal-total-price");
+    const detailsLink = document.getElementById("modal-details-link");
+
+    listContainer.innerHTML = "";
+    cart.forEach(item => {
+        listContainer.innerHTML += `
+            <li>
+                <span><b>${item.name}</b> x ${item.quantity} szt.</span>
+                <span>${(item.price * item.quantity).toFixed(2)} PLN</span>
+            </li>
+        `;
+    });
+
+    totalContainer.innerText = total;
+
+    if (transactionId) {
+        detailsLink.href = `/MyParts/html/saleDetails.html?id=${transactionId}`;
+        detailsLink.style.display = "block";
+    } else {
+        detailsLink.href = `/MyParts//html/salesReportMAIN.html`; 
+    }
+    modal.style.display = "flex";
+}
+
+    document.getElementById("modal-close-btn").onclick = function() {
+        document.getElementById("sale-summary-modal").style.display = "none";
+    };
+    
 async function loadCategories(){
     const res = await fetch("/MyParts/productListServlet");
     const products = await res.json();

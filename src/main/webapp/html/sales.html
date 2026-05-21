@@ -39,6 +39,23 @@
             <button id="add-to-cart-btn" class="ok-button">Dodaj do paragonu</button>
         </div>
     </div>
+    <div id="sale-summary-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Podsumowanie Sprzedaży</h2>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+            <ul id="modal-items-list"></ul>
+
+            <div class="modal-total">
+                Suma: <span id="modal-total-price">0.00</span> PLN
+            </div>
+
+            <div class="modal-actions">
+                <button id="modal-close-btn" class="secondary-button">Zamknij</button>
+                <a id="modal-details-link" href="#" class="ok-button">Szczegóły transakcji</a>
+            </div>
+        </div>
+    </div>
         <script src="../scripts/script.js"></script>
         <script src="../scripts/sales.js"></script>
     </body>
