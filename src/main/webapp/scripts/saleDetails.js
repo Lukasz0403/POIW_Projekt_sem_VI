@@ -8,7 +8,7 @@ async function loadTransactionDetails() {
     const transactionId = params.get("id");
 
     try {
-        const res = await fetch("/MyParts/getSales");
+        const res = await fetch(window.location.origin + "/MyParts/getSales");
         const allSales = await res.json();
         
         // Filtrujemy sprzedaże dla danej transakcji
@@ -50,6 +50,8 @@ async function loadTransactionDetails() {
 window.onload = async () => {
     if (await checkSession()) {
         drawNavbar();
+        const loginInfo = await getLoginInfo();
+        await checkRole(loginInfo);
         await loadTransactionDetails();
     }
 };

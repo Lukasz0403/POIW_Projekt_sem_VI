@@ -9,32 +9,57 @@
     <body>
         <aside class="sidebar">
             <h3>Filtry</h3>
-            <label for="kategoria">Kategoria:</label>
-            <select id="kategoria">
-                <option value="">-- wszystkie --</option>
-            </select><br><br>
-            <label for="search_name">Nazwa produktu:</label>
-            <input type="text" id="search_name"><br><br>
+
+            <!-- Filtry transakcji -->
+            <div id="filters_transactions">
+                <label for="search_user">Użytkownik:</label>
+                <input type="text" id="search_user"><br><br>
+            </div>
+
+            <!-- Filtry sprzedanych produktów -->
+            <div id="filters_sales" style="display:none">
+                <label for="search_name">Nazwa produktu:</label>
+                <input type="text" id="search_name"><br><br>
+                <label for="search_category">Kategoria:</label>
+                <select id="search_category">
+                    <option value="">-- wszystkie --</option>
+                </select><br><br>
+                <label for="search_brand">Marka:</label>
+                <input type="text" id="search_brand"><br><br>
+            </div>
         </aside>
 
         <main class="content">
             <div class="products-header">
                 <h2>Transakcje</h2>
             </div>
-
-            <table>
+            <button id="toggle_btn" class="toggle-btn" onclick="toggleView()">Pokaż sprzedane przedmioty</button>
+            <table id="table_transactions">
                 <thead>
                     <tr>
-                        <th id="th_category" onclick="columnSort('category')">Kategoria <span>↕</span></th>
-                        <th id="th_name" onclick="columnSort('name')">Nazwa <span>↕</span></th>
-                        <th id="th_brand" onclick="columnSort('brand')">Marka <span>↕</span></th>
-                        <th id="th_price" onclick="columnSort('price')">Cena <span>↕</span></th>
-                        <th id="th_quantity" onclick="columnSort('quantity')">Ilość <span>↕</span></th>
-                        <th id="th_date" onclick="columnSort('date')">Data Sprzedaży <span>↕</span></th>
+                        <th id="th_id" onclick="columnSort('id')">ID <span>↕</span></th>
+                        <th id="th_date" onclick="columnSort('date')">Data <span>↕</span></th>
+                        <th id="th_sum" onclick="columnSort('sum')">Suma (zł) <span>↕</span></th>
+                        <th id="th_items" onclick="columnSort('items')">Pozycji <span>↕</span></th>
+                        <th id="th_user" onclick="columnSort('user')">Użytkownik <span>↕</span></th>
                         <th>Szczegóły</th>
                     </tr>
                 </thead>
                 <tbody id="products_table"></tbody>
+            </table>
+            <table id="table_sales" style="display:none">
+                <thead>
+                    <tr>
+                        <th id="th_category" onclick="columnSortSales('category')">Kategoria <span>↕</span></th>
+                        <th id="th_name" onclick="columnSortSales('name')">Nazwa <span>↕</span></th>
+                        <th id="th_brand" onclick="columnSortSales('brand')">Marka <span>↕</span></th>
+                        <th id="th_price" onclick="columnSortSales('price')">Cena <span>↕</span></th>
+                        <th id="th_quantity" onclick="columnSortSales('quantity')">Ilość <span>↕</span></th>
+                        <th id="th_sale_date" onclick="columnSortSales('date')">Data Sprzedaży <span>↕</span></th>
+                        <th>Szczegóły</th>
+                    </tr>
+                </thead>
+                <tbody id="sales_table"></tbody>
             </table>
             <p id="sales_counter" class="counter"></p>
         </main>
