@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
- 
+
 /**
  * Servlet obsługujący import produktów z pliku CSV do bazy danych.
  * Przyjmuje żądania HTTP POST z plikiem przesłanym jako dane wieloczęściowe
@@ -23,11 +23,11 @@ import java.io.InputStreamReader;
  *
  * <p>Oczekiwany format pliku CSV (separator: średnik {@code ;}):</p>
  * <pre>
- *   nazwa;marka;kategoria;cena;ilosc
  *   Filtr oleju;Bosch;Filtry;45.50;30
  * </pre>
  *
- * <p>Pierwsza linia pliku jest traktowana jako nagłówek i pomijana.
+ * <p>Plik nie powinien zawierać wiersza nagłówkowego — każda linia
+ * traktowana jest jako dane produktu.
  * Jeśli produkt o podanej nazwie, marce i kategorii już istnieje,
  * jego ilość zostaje zwiększona, a cena zaktualizowana.
  * Wiersze z kategorią nieistniejącą w bazie są pomijane.</p>
@@ -40,7 +40,7 @@ import java.io.InputStreamReader;
 @WebServlet(name = "uploadCSVServlet", urlPatterns = {"/uploadCSVServlet"})
 @MultipartConfig
 public class uploadCSVServlet extends HttpServlet {
- 
+
     /**
      * Obsługuje żądanie HTTP POST importu produktów z przesłanego pliku CSV.
      *
@@ -64,7 +64,7 @@ public class uploadCSVServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             response.sendError(401);
@@ -82,9 +82,7 @@ public class uploadCSVServlet extends HttpServlet {
             new InputStreamReader(filePart.getInputStream(), "UTF-8")
         );
         String line;
-        boolean firstLine = true;
         while ((line = reader.readLine()) != null) {
-            if (firstLine) { firstLine = false; continue; }
             String[] cols = line.split(";");
             if (cols.length < 5) continue;
             String name     = cols[0].trim();
@@ -94,7 +92,7 @@ public class uploadCSVServlet extends HttpServlet {
             int quantity    = Integer.parseInt(cols[4].trim());
             Categories cat = jpa.findManyCategoriesByName(catName);
             if (cat == null) continue;
- 
+
             Products existing = jpa.findProduct(name, brand, catName);
             if (existing != null) {
                 existing.setPrice(price);
