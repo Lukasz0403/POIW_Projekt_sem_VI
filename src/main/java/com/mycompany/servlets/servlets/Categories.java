@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.servlets.servlets;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -19,8 +18,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
-import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -113,5 +111,4 @@ public class Categories implements Serializable {
     public String toString() {
         return "com.mycompany.servlets.servlets.Categories[ categoryId=" + categoryId + " ]";
     }
-    
 }

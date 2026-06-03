@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.servlets.servlets;
 
 import java.util.List;
 import java.util.Properties;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -239,9 +236,7 @@ public class JPAController {
     public void saveProduct(Products p) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
         session.persist(p);
-
         session.getTransaction().commit();
         session.close();
     }
@@ -266,7 +261,6 @@ public class JPAController {
                     "SELECT p FROM Products p WHERE p.name = :name AND p.brand = :brand AND p.categoryId.name = :cat",
                     Products.class
             );
-
             q.setParameter("name", name);
             q.setParameter("brand", brand);
             q.setParameter("cat", categoryName);
@@ -297,9 +291,7 @@ public class JPAController {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
         session.saveOrUpdate(product);
-
         session.getTransaction().commit();
         session.close();
     }
@@ -326,9 +318,8 @@ public class JPAController {
             );
 
             q.setParameter("name", name);
-
             return q.getSingleResult();
-
+            
         } finally {
             session.close();
         }
@@ -452,9 +443,7 @@ public class JPAController {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
         session.remove(p);
-
         session.getTransaction().commit();
         session.close();
     }
@@ -484,5 +473,4 @@ public class JPAController {
             session.close();
         }
     }
-    
 }

@@ -1,21 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.mycompany.servlets.servlets;
 
-import com.password4j.BcryptFunction;
-import com.password4j.Hash;
-import com.password4j.Password;
-import com.password4j.types.Bcrypt;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import com.password4j.BcryptFunction;
+import com.password4j.Hash;
+import com.password4j.Password;
+import com.password4j.types.Bcrypt;
 
 /**
  * Servlet aktualizujący dane istniejącego użytkownika w bazie. Przyjmuje żądania HTTP POST.
@@ -29,9 +27,6 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "updateUserServlet", urlPatterns = {"/updateUserServlet"})
 public class updateUserServlet extends HttpServlet {
-
-
-
 
     /**
      * Obsługuje żądanie HTTP POST aktualizacji uzytkownika. 
@@ -120,5 +115,4 @@ public class updateUserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

@@ -1,18 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.mycompany.servlets.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -28,8 +26,6 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @WebServlet(name = "getWorkersServlet", urlPatterns = {"/getWorkersServlet"})
 public class getWorkersServlet extends HttpServlet {
-
-
 
     /**
      * Obsługuje żądanie HTTP GET pobrania listy uzytkowników na stanowisku pracownika. 
@@ -77,7 +73,6 @@ public class getWorkersServlet extends HttpServlet {
         response.getWriter().write(a);  
     }
 
-
     /**
      * Returns a short description of the servlet.
      *
@@ -87,5 +82,4 @@ public class getWorkersServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

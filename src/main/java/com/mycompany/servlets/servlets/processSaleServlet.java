@@ -2,15 +2,17 @@ package com.mycompany.servlets.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import jakarta.servlet.ServletException;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -26,9 +28,7 @@ import org.codehaus.jackson.type.TypeReference;
 @WebServlet(name = "processSaleServlet", urlPatterns = {"/processSaleServlet"})
 public class processSaleServlet extends HttpServlet {
     
-    
-    
-/**
+    /**
      * Obsługuje żądanie HTTP POST rejestrujące sprzedaż, tworzące powiązaną transakcję,
      * aktualizujące stany magazynowe oraz zapisujące pojedyncze pozycje sprzedaży.
      *

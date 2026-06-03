@@ -163,4 +163,3 @@ async function loadSales(){
     allSales = await res.json();
     renderSales(allSales);
 }
-

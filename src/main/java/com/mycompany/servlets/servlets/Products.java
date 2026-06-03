@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.servlets.servlets;
 
 import jakarta.persistence.Basic;
@@ -169,5 +165,4 @@ public class Products implements Serializable {
     public String toString() {
         return "com.mycompany.servlets.servlets.Products[ productId=" + productId + " ]";
     }
-    
 }

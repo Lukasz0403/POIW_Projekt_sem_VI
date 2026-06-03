@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.servlets.servlets;
+
+import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -19,8 +18,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.Date;
+
 
 /**
  *
@@ -146,5 +144,4 @@ public class Sales implements Serializable {
     public String toString() {
         return "com.mycompany.servlets.servlets.Sales[ id=" + id + " ]";
     }
-    
 }
