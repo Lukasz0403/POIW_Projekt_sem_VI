@@ -1,58 +1,112 @@
-function displayCurrentMonth() {
-    const now = new Date();
-    const monthNames = [
-        "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
-        "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"
-    ];
-    const fullLabel = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
-    document.querySelector(".summary-header h3").textContent = `Dane sprzedażowe z miesiąca: ${fullLabel}`;
-    document.getElementById("month").textContent = fullLabel;
+/**
+ * @file salesReportMain.js
+ * @description Obsługa logiki generowania raportów sprzedażowych w aplikacji MyParts.
+ */
+
+/** @type {Array} Globalna tablica przechowująca wszystkie pobrane dane sprzedażowe. */
+let salesData = [];
+
+/**
+ * Inicjalizacja sesji, pobieranie danych z API oraz ustawianie widoku początkowego strony.
+ */
+window.onload = async function() {
+    let status = await checkSession();
+    if(status) {
+        let roleInfo = await getLoginInfo();
+        drawNavbar();
+        checkRole(roleInfo);
+        
+        const res = await fetch("/MyParts/getSales");
+        salesData = await res.json();
+        
+        initDateSelector();
+        updateReport(); 
+    }
 }
 
-function renderSalesMAIN(sales){
+/**
+ * Inicjalizacja selektora daty (input type="month") z ustawieniem na bieżący miesiąc.
+ */
+function initDateSelector() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    document.getElementById("monthPicker").value = `${year}-${month}`;
+}
 
+/**
+ * Główna aktualizacja zawartości strony na podstawie wybranego miesiąca.
+ * Czyszczenie i przeliczanie statystyk, odświeżanie tabeli oraz wykresu.
+ */
+async function updateReport() {
+    const picker = document.getElementById("monthPicker");
+    const val = picker.value;
+    
+    if (val && val < "2000-01") {
+        picker.value = "2000-01";
+        updateReport();
+        return;
+    }
+
+    if (!val) return;
+    
+    const [year, month] = val.split('-').map(Number);
+    const targetMonth = month - 1;
+    
+    const filteredSales = salesData.filter(s => {
+        const d = new Date(s.saleDate);
+        return d.getMonth() === targetMonth && d.getFullYear() === year;
+    });
+
+    computeSummary(filteredSales);
+    
+    if (document.getElementById("products_table")) {
+        renderSalesMAIN(filteredSales);
+    }
+    
+    buildChart(filteredSales, year, targetMonth);
+    
+    const monthName = new Date(year, targetMonth).toLocaleString('pl-PL', { month: 'long' });
+    const fullLabel = `${monthName} ${year}`;
+    
+    const header = document.querySelector(".summary-header h3");
+    if (header) header.textContent = `Dane sprzedażowe z miesiąca: ${fullLabel}`;
+    
+    const monthSpan = document.getElementById("month");
+    if (monthSpan) monthSpan.textContent = fullLabel;
+}
+
+/**
+ * Przeliczanie sumarycznych danych sprzedażowych dla wybranego zakresu.
+ * @param {Array} sales - Tablica obiektów sprzedaży do przetworzenia.
+ */
+function computeSummary(sales) {
+    const totalItems = sales.reduce((sum, s) => sum + s.quantity, 0);
+    const totalSales = sales.reduce((sum, s) => sum + (s.productId.price * s.quantity), 0);
+
+    const itemsEl = document.getElementById("total_items");
+    const salesEl = document.getElementById("total_sales");
+    
+    if (itemsEl) itemsEl.textContent = totalItems;
+    if (salesEl) salesEl.textContent = totalSales.toFixed(2) + " zł";
+}
+
+/**
+ * Renderowanie tabeli produktów w głównym panelu.
+ * @param {Array} sales - Lista transakcji do wyświetlenia w tabeli.
+ */
+function renderSalesMAIN(sales) {
     const table = document.getElementById("products_table");
+    if (!table) return;
+    
     table.innerHTML = "";
+    sales.forEach(p => {
+        const date = new Date(p.saleDate);
+        const d = String(date.getDate()).padStart(2, '0');
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const y = date.getFullYear();
+        const time = date.toLocaleTimeString('pl-PL');
 
-    sales.forEach((p, i) => {
-
-        let date = new Date(p.saleDate)
-
-        let hour
-        let minute
-        let second
-        let year
-        let month
-        let day
-
-        if(date.getHours() < 10) {
-            hour = "0" + date.getHours()
-        } else {
-            hour = date.getHours()
-        }
-        if(date.getMinutes() < 10) {
-            minute = "0" + date.getMinutes()
-        } else {
-            minute = date.getMinutes()
-        }
-        if(date.getSeconds() < 10) {
-            second = "0" + date.getSeconds()
-        } else {
-            second = date.getSeconds()
-        }
-        if(date.getMonth() < 10) {
-            month = "0" + date.getMonth()
-        } else {
-            month = date.getMonth()
-        }
-        if(date.getDay() < 10) {
-            day = "0" + date.getDay()
-        } else {
-            day = date.getDay()
-        }
-
-        year = date.getFullYear()
-        
         table.innerHTML += `
             <tr>
                 <td>${p.productId.categoryId.name}</td>
@@ -60,50 +114,37 @@ function renderSalesMAIN(sales){
                 <td>${p.productId.brand}</td>
                 <td>${p.productId.price} zł</td>
                 <td>${p.quantity}</td>
-                <td>${year}-${month}-${day} ${hour}:${minute}:${second}</td>
+                <td>${y}-${m}-${d} ${time}</td>
             </tr>
         `;
     });
 }
 
-function computeSummary(sales) {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+/**
+ * Generowanie i rysowanie wykresu słupkowego sprzedaży przy użyciu biblioteki Chart.js.
+ * @param {Array} sales - Lista transakcji.
+ * @param {number} year - Rok wyświetlanego raportu.
+ * @param {number} month - Miesiąc wyświetlanego raportu (0-11).
+ */
+function buildChart(sales, year, month) {
+    const ctx = document.getElementById('salesChart');
+    if (!ctx) return;
 
-    const thisMonth = sales.filter(s => {
-        const d = new Date(s.saleDate);
-        return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-    });
+    const existingChart = Chart.getChart("salesChart");
+    if (existingChart) existingChart.destroy();
 
-    const totalItems = thisMonth.reduce((sum, s) => sum + s.quantity, 0);
-    const totalSales = thisMonth.reduce((sum, s) => sum + (s.productId.price * s.quantity), 0);
-
-    document.getElementById("total_items").textContent = totalItems;
-    document.getElementById("total_sales").textContent = totalSales.toFixed(2) + " zł";
-
-    return thisMonth;
-}
-
-function buildChart(sales) {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     const dailyTotals = Array(daysInMonth).fill(0);
 
     sales.forEach(s => {
         const d = new Date(s.saleDate);
-        if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-            const day = d.getDate() - 1;
-            dailyTotals[day] += s.productId.price * s.quantity;
+        if (d.getMonth() === month && d.getFullYear() === year) {
+            dailyTotals[d.getDate() - 1] += s.productId.price * s.quantity;
         }
     });
 
     const labels = Array.from({length: daysInMonth}, (_, i) => i + 1);
 
-    const ctx = document.getElementById('salesChart');
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -111,45 +152,19 @@ function buildChart(sales) {
             datasets: [{
                 label: 'Sprzedaż (zł)',
                 data: dailyTotals,
-                backgroundColor: '#cc0000',
-                borderWidth: 1
+                backgroundColor: '#cc0000'
             }]
         },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
+        options: { responsive: true }
     });
 }
 
-function goHome() {
-    window.location.href = "index.html";
-}
+/**
+ * Przekierowywanie użytkownika do strony listy transakcji.
+ */
+function goReport() { window.location.href = "salesReport.html"; }
 
-function goReport() {
-    window.location.href = "salesReport.html";
-}
-
-function printPDF() {
-    window.print();
-}
-
-window.onload = async function() {
-    let status = await checkSession();
-    if(status) {
-        let roleInfo = await getLoginInfo();
-        drawNavbar();
-        checkRole(roleInfo);
-        displayCurrentMonth();
-
-        const res = await fetch("/MyParts/getSales");
-        const sales = await res.json();
-
-        computeSummary(sales);
-        buildChart(sales);
-    }
-}
+/**
+ * Wywoływanie standardowego okna drukowania przeglądarki.
+ */
+function printPDF() { window.print(); }

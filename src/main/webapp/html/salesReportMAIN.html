@@ -10,6 +10,10 @@
     <div class="container">
         <div class="left-panel">
             <div class="summary-box">
+                <div class="date-selector">
+                    <label for="monthPicker">Wybierz miesiąc:</label>
+                    <input type="month" id="monthPicker" onchange="updateReport()" min="2000-01">
+                </div>
                 <div class="summary-header">
                     <h3>Dane sprzedażowe z miesiąca: </h3>
                 </div>

@@ -1,3 +1,8 @@
+/**
+ * @file salesReport.js
+ * @description Obsługa list transakcji oraz sprzedaży produktów z funkcjami sortowania, filtrowania i przełączania widoków.
+ */
+
 let allTransactions = [];
 let allSales = [];
 let currentSort = { column: null, asc: true };
@@ -6,6 +11,9 @@ let showingSales = false;
 
 // ─── TRANSAKCJE ───────────────────────────────────────────
 
+/**
+ * Pobieranie listy transakcji z API oraz agregacja danych do formatu tabelarycznego.
+ */
 async function loadTransactions() {
     try {
         const res = await fetch(window.location.origin + "/MyParts/getSales");
@@ -16,10 +24,10 @@ async function loadTransactions() {
             const tid = s.transactionId.transactionId;
             if (!map.has(tid)) {
                 map.set(tid, {
-                    id:       tid,
-                    date:     new Date(s.transactionId.date),
-                    sum:      s.transactionId.transactionSum,
-                    items:    0,
+                    id:   tid,
+                    date: new Date(s.transactionId.date),
+                    sum:  s.transactionId.transactionSum,
+                    items: 0,
                     username: s.userId?.username || "Nieznany"
                 });
             }
@@ -33,6 +41,10 @@ async function loadTransactions() {
     }
 }
 
+/**
+ * Renderowanie listy transakcji w tabeli HTML.
+ * @param {Array} list - Lista transakcji do wyświetlenia.
+ */
 function renderTransactions(list) {
     const tbody = document.getElementById("products_table");
     tbody.innerHTML = "";
@@ -57,6 +69,9 @@ function renderTransactions(list) {
         `Wyświetlono ${list.length} z ${allTransactions.length} transakcji`;
 }
 
+/**
+ * Filtrowanie transakcji według nazwy użytkownika.
+ */
 function filtrTransactions() {
     const user = document.getElementById("search_user").value.toLowerCase();
     let filtered = allTransactions.filter(t =>
@@ -66,6 +81,10 @@ function filtrTransactions() {
     renderTransactions(filtered);
 }
 
+/**
+ * Obsługa sortowania kolumn w tabeli transakcji.
+ * @param {string} column - Nazwa kolumny, według której ma nastąpić sortowanie.
+ */
 function columnSort(column) {
     currentSort.asc = currentSort.column === column ? !currentSort.asc : true;
     currentSort.column = column;
@@ -76,6 +95,12 @@ function columnSort(column) {
     filtrTransactions();
 }
 
+/**
+ * Logika sortowania tablicy transakcji.
+ * @param {Array} arr - Tablica do posortowania.
+ * @param {string} column - Klucz sortowania.
+ * @param {boolean} asc - Kierunek sortowania (true - rosnąco, false - malejąco).
+ */
 function sortArray(arr, column, asc) {
     arr.sort((a, b) => {
         let valA, valB;
@@ -93,6 +118,9 @@ function sortArray(arr, column, asc) {
 
 // ─── SPRZEDANE PRODUKTY ───────────────────────────────────
 
+/**
+ * Pobieranie danych o wszystkich sprzedanych produktach.
+ */
 async function loadSalesTable() {
     try {
         const res = await fetch(window.location.origin + "/MyParts/getSales");
@@ -104,6 +132,10 @@ async function loadSalesTable() {
     }
 }
 
+/**
+ * Wypełnianie listy rozwijanej kategoriami produktów.
+ * @param {Array} sales - Lista sprzedaży używana do wyodrębnienia unikalnych kategorii.
+ */
 function populateCategories(sales) {
     const select = document.getElementById("search_category");
     select.innerHTML = '<option value="">-- wszystkie --</option>';
@@ -116,6 +148,10 @@ function populateCategories(sales) {
     });
 }
 
+/**
+ * Renderowanie tabeli sprzedanych produktów.
+ * @param {Array} sales - Lista sprzedaży do wyświetlenia.
+ */
 function renderSalesTable(sales) {
     const tbody = document.getElementById("sales_table");
     tbody.innerHTML = "";
@@ -141,15 +177,18 @@ function renderSalesTable(sales) {
         `Wyświetlono ${sales.length} z ${allSales.length} pozycji`;
 }
 
+/**
+ * Filtrowanie listy sprzedaży na podstawie nazwy, kategorii i marki.
+ */
 function filtrSales() {
     const nazwa    = document.getElementById("search_name").value.toLowerCase();
     const kategoria = document.getElementById("search_category").value;
     const marka    = document.getElementById("search_brand").value.toLowerCase();
 
     let filtered = allSales.filter(s => {
-        const matchName     = !nazwa     || s.productId.name.toLowerCase().includes(nazwa);
+        const matchName      = !nazwa      || s.productId.name.toLowerCase().includes(nazwa);
         const matchCategory = !kategoria || s.productId.categoryId.name === kategoria;
-        const matchBrand    = !marka     || s.productId.brand.toLowerCase().includes(marka);
+        const matchBrand    = !marka      || s.productId.brand.toLowerCase().includes(marka);
         return matchName && matchCategory && matchBrand;
     });
 
@@ -157,6 +196,10 @@ function filtrSales() {
     renderSalesTable(filtered);
 }
 
+/**
+ * Obsługa sortowania kolumn w tabeli sprzedaży.
+ * @param {string} column - Nazwa kolumny.
+ */
 function columnSortSales(column) {
     currentSortSales.asc = currentSortSales.column === column ? !currentSortSales.asc : true;
     currentSortSales.column = column;
@@ -170,6 +213,12 @@ function columnSortSales(column) {
     filtrSales();
 }
 
+/**
+ * Logika sortowania tablicy sprzedaży.
+ * @param {Array} arr - Tablica do posortowania.
+ * @param {string} column - Klucz sortowania.
+ * @param {boolean} asc - Kierunek sortowania.
+ */
 function sortArraySales(arr, column, asc) {
     arr.sort((a, b) => {
         let valA, valB;
@@ -188,6 +237,9 @@ function sortArraySales(arr, column, asc) {
 
 // ─── PRZEŁĄCZNIK ──────────────────────────────────────────
 
+/**
+ * Przełączanie widoku między tabelą transakcji a tabelą sprzedanych przedmiotów.
+ */
 function toggleView() {
     showingSales = !showingSales;
 
@@ -209,6 +261,9 @@ function toggleView() {
 
 // ─── INIT ─────────────────────────────────────────────────
 
+/**
+ * Inicjalizacja nasłuchiwaczy zdarzeń dla filtrów wyszukiwania.
+ */
 function initFilters() {
     document.getElementById("search_user").addEventListener("input", filtrTransactions);
     document.getElementById("search_name").addEventListener("input", filtrSales);
@@ -216,6 +271,9 @@ function initFilters() {
     document.getElementById("search_brand").addEventListener("input", filtrSales);
 }
 
+/**
+ * Uruchomienie skryptów po załadowaniu treści strony (sprawdzenie sesji i ról).
+ */
 window.addEventListener("DOMContentLoaded", async function () {
     if (await checkSession()) {
         drawNavbar();
