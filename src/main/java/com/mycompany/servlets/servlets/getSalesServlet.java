@@ -14,12 +14,27 @@ import jakarta.servlet.http.HttpSession;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- *
- * @author Radosław
+ * Servlet realizujący pobieranie listy transakcji sprzedaży z bazy danych.
+ * Przyjmuje żądania HTTP GET i zwraca dane w formacie JSON.
+ * * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
+ * * @author Ida
  */
 @WebServlet(name = "getSalesServlet", urlPatterns = {"/getSales"})
 public class getSalesServlet extends HttpServlet {
 
+    /**
+     * Obsługuje żądanie HTTP GET w celu pobrania listy sprzedaży.
+     * * <p>Kody odpowiedzi HTTP:</p>
+     * <ul>
+     * <li>{@code 200} — dane zostały pomyślnie zwrócone</li>
+     * <li>{@code 401} — brak aktywnej sesji użytkownika</li>
+     * </ul>
+     *
+     * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
+     * @param response Obiekt {@link HttpServletResponse} używany do wysłania odpowiedzi HTTP.
+     * @throws IOException      jeśli wystąpi błąd wejścia/wyjścia podczas przetwarzania żądania.
+     * @throws ServletException jeśli wystąpi błąd po stronie servletu.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,6 +60,11 @@ public class getSalesServlet extends HttpServlet {
     
     }
 
+    /**
+     * Zwraca krótki opis servletu.
+     *
+     * @return a String zawierający opis funkcjonalności servletu
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
