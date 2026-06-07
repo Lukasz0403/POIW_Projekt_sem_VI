@@ -1,5 +1,7 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Products;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

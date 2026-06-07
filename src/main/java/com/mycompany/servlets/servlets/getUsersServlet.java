@@ -1,5 +1,7 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,7 +24,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika
  * z uprawnieniami co najmniej kierownika (roleId >= 2).</p>
  * 
- * @author Radosław
+ * @author Radosław Kruczek
  */
 @WebServlet(name = "getUsersServlet", urlPatterns = {"/getUsersServlet"})
 public class getUsersServlet extends HttpServlet {

@@ -1,9 +1,4 @@
-/**
- * Funkcja JavaScript wywoływana jest po kliknięciu przycisku "wyloguj sie" w oknie głównym, powoduje przełączenia okna
- * na ekran logowania zawarty w index.html
- * @author Mateusz Gojny
- * @returns {undefined}
- */
+
 async function logout() {
 
     fetch("/MyParts/destroySession", {

@@ -1,5 +1,7 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,7 +25,7 @@ import com.password4j.types.Bcrypt;
  * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika
  * z uprawnieniami co najmniej kierownika (roleId >= 2).</p>
  * 
- * @author Radosław
+ * @author Radosław Kruczek
  */
 @WebServlet(name = "updateUserServlet", urlPatterns = {"/updateUserServlet"})
 public class updateUserServlet extends HttpServlet {
@@ -34,17 +36,17 @@ public class updateUserServlet extends HttpServlet {
      *
      * <p>Oczekiwane parametry żądania:</p>
      * <ul>
-     *   <li>{@code newlogin} — nowy login uzytkownika</li>
-     *   <li>{@code oldlogin} — stary login uzytkownika</li>
-     *   <li>{@code password} — nowe hasło użytkownika</li>
+     *   <li>{@code newlogin} - nowy login uzytkownika</li>
+     *   <li>{@code oldlogin} - stary login uzytkownika</li>
+     *   <li>{@code password} - nowe hasło użytkownika</li>
      *   <li>{@code role} — stanowisko uzytkownika</li>
      * </ul>
      *
      * <p>Kody odpowiedzi HTTP:</p>
      * <ul>
-     *   <li>{@code 202} — użytkownik został pomyślnie zaktualizowany</li>
-     *   <li>{@code 401} — brak aktywnej sesji użytkownika</li>
-     *   <li>{@code 403} — użytkownik nie posiada wymaganych uprawnień</li>
+     *   <li>{@code 202} - użytkownik został pomyślnie zaktualizowany</li>
+     *   <li>{@code 401} - brak aktywnej sesji użytkownika</li>
+     *   <li>{@code 403} - użytkownik nie posiada wymaganych uprawnień</li>
      * </ul>
      *
      * @param request  Obiekt {@link HttpServletRequest} zawierający dane żądania HTTP.
@@ -107,9 +109,9 @@ public class updateUserServlet extends HttpServlet {
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Zwraca opis serwletu
      *
-     * @return a String containing servlet description
+     * @return Zwraca Stringa z opisem
      */
     @Override
     public String getServletInfo() {

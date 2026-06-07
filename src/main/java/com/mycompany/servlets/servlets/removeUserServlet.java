@@ -1,5 +1,7 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -17,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  * 
  * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
  * 
- * @author Radosław
+ * @author Radosław Kruczek
  */
 @WebServlet(name = "removeUserServlet", urlPatterns = {"/removeUserServlet"})
 public class removeUserServlet extends HttpServlet {

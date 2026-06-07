@@ -2,7 +2,7 @@ function login() {
     const loginVal = document.getElementById('login').value;
     const passVal = document.getElementById('password').value;
 
-    // pokaż spinner i zablokuj przycisk
+    
     document.getElementById("spinner").classList.remove("hidden");
     document.querySelector("button").disabled = true;
 
@@ -17,7 +17,7 @@ function login() {
                 if (data.status == 202) {
                     window.location.href = "/MyParts/";
                 } else {
-                    // ukryj spinner i odblokuj przycisk przy błędzie
+                    
                     document.getElementById("spinner").classList.add("hidden");
                     document.querySelector("button").disabled = false;
                     alert("Błędny login lub hasło");

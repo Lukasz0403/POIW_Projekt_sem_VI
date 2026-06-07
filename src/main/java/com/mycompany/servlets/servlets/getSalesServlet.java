@@ -1,5 +1,7 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Sales;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,9 +17,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Servlet realizujący pobieranie listy transakcji sprzedaży z bazy danych.
+ * 
  * Przyjmuje żądania HTTP GET i zwraca dane w formacie JSON.
- * * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
- * * @author Ida
+ * 
+ * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika.</p>
+ * @author Ida Wszoła
  */
 @WebServlet(name = "getSalesServlet", urlPatterns = {"/getSales"})
 public class getSalesServlet extends HttpServlet {

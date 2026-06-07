@@ -1,5 +1,8 @@
 package com.mycompany.servlets.servlets;
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Users;
+import com.mycompany.model.Products;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -16,7 +19,8 @@ import jakarta.servlet.http.HttpSession;
  * do usunięcia jako parametr żądania.
  *
  * <p>Dostęp do tego servletu wymaga aktywnej sesji użytkownika
- * z uprawnieniami co najmniej kierownika (roleId >= 2).</p>
+ * z uprawnieniami co najmniej kierownika (roleId >= 2).
+ * </p>
  *
  * @author Mateusz Gojny
  */

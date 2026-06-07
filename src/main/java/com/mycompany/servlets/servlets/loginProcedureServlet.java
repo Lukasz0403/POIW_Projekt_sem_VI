@@ -1,6 +1,8 @@
 package com.mycompany.servlets.servlets;
 
 
+import com.mycompany.model.JPAController;
+import com.mycompany.model.Users;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import com.password4j.Password;
  * <p>Hasła są przechowywane w bazie jako skróty BCrypt z dodatkowym
  * zabezpieczeniem w postaci współdzielonego "pepper".</p>
  *
- * @author Mateusz Gojny i Radosław Kruczek
+ * @author Mateusz Gojny, Radosław Kruczek
  */
 @WebServlet(name = "loginProcedureServlet", urlPatterns = {"/loginProcedureServlet"})
 public class loginProcedureServlet extends HttpServlet {
